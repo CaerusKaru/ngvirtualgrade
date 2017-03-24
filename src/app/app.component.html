@@ -1,3 +1,60 @@
-<h1>
-  {{title}}
-</h1>
+<div fxFill class="mat-app-background" fxLayout="column">
+  <div class="nav-bar" fxLayout="row">
+    <nav md-tab-nav-bar fxFlex>
+      <span fxLayoutAlign="space-around center" fxFlexOffset="30px">
+        <a routerLink=""
+           (click)="activeLinkIndex = 0">
+          <img src="../assets/logo.png"
+               height="13"
+               width="93.5"
+               fxLayoutAlign="center center" />
+        </a>
+      </span>
+      <span fxFlex="30px"></span>
+      <div fxLayoutAlign="center center">
+        <a md-tab-link
+           *ngFor="let link of navLinks; let i = index"
+           [routerLink]="link.route"
+           [active]="activeLinkIndex === i"
+           (click)="activeLinkIndex = i">
+          <span fxFill fxLayoutAlign="center center">{{link.label}}</span>
+        </a>
+      </div>
+      <span fxFlex></span>
+      <md-menu #appMenu="mdMenu" y-position="below" [overlapTrigger]="false">
+        <button md-menu-item (click)="logOut()"> Log Out </button>
+      </md-menu>
+
+      <button md-button [mdMenuTriggerFor]="appMenu">
+        {{utln}}
+      </button>
+    </nav>
+  </div>
+  <md-sidenav-container fxFlex class="dark-theme">
+    <md-sidenav class="site-sidenav md-whiteframe-z2 hide-print"
+                #sidenav
+                mode="side"
+                fxFlex fxLayout="column"
+                [opened]="isOpen()" fxFill>
+      <div fxFlex role="navigation">
+        <ul class="course-menu">
+          <li *ngFor="let section of getSections()" class="parent-list-item {{section.className || ''}}" [ngClass]="{'parentActive' : isSectionSelected(section)}">
+            <h2 class="menu-heading md-subhead" *ngIf="isHeading(section)" id="heading_{{ section.name | nospace }}">
+            {{section.name}}
+            </h2>
+            <menu-link [section]="section" *ngIf="isLink(section) && !section.hidden"></menu-link>
+            <menu-toggle [section]="section" *ngIf="isToggle(section) && !section.hidden"></menu-toggle>
+            <ul *ngIf="section.children" class="menu-nested-list">
+              <li *ngFor="let child of section.children | sortBy: 'name'" [ngClass]="{'childActive' : isSectionSelected(child)}">
+              <menu-link [section]="child" *ngIf="isLink(child)"></menu-link>
+              <menu-toggle [section]="child" *ngIf="isToggle(child)"></menu-toggle>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </div>
+    </md-sidenav>
+    <router-outlet></router-outlet>
+  </md-sidenav-container>
+</div>
+

@@ -1,0 +1,24 @@
+<button md-button class="md-button-toggle"
+           (click)="toggle()">
+  <div fxFlex fxLayout="row" fxLayoutAlign="center center">
+    {{section.name}}
+    <span fxFlex></span>
+    <span class="md-toggle-icon"
+          fxLayoutAlign="center center"
+          [ngClass]="{'toggled' : isOpen()}">
+      <md-icon>chevron_left</md-icon>
+    </span>
+  </div>
+  <span class="md-visually-hidden">
+    Toggle {{isOpen() ? 'expanded' : 'collapsed'}}
+  </span>
+</button>
+
+<ul id="course-menu-{{section.name | nospace}}"
+    class="menu-toggle-list"
+    [ngStyle]="{ visibility: renderContent ? 'visible' : 'hidden' }">
+
+  <li *ngFor="let page of section.pages">
+    <menu-link [section]="page"></menu-link>
+  </li>
+</ul>

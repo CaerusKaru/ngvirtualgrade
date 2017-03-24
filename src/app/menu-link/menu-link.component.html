@@ -1,0 +1,9 @@
+<button md-button
+  [ngClass]="{'active' : isSelected()}"
+  (click)="navigate(section.url)">
+  {{section.name}}
+  <span class="md-visually-hidden"
+        *ngIf="isSelected()">
+        current page
+      </span>
+</button>

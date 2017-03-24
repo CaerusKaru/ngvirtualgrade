@@ -1,0 +1,64 @@
+<div fxFlex fxLayout="row" class="md-padding default-theme" fxFill>
+  <div fxLayout="column" fxFlex="50">
+    <div>
+      <h4>Select a problem: </h4>
+      <div fxLayout="row">
+        <md-button-toggle-group #group="mdButtonToggleGroup" [(ngModel)]="currentProblem" class="toggle-white">
+          <md-button-toggle *ngFor="let problem of problems" [value]="problem.name">
+            {{problem.name}}
+          </md-button-toggle>
+        </md-button-toggle-group>
+        <span fxFlex="40px"></span>
+        <button md-raised-button (click)="grade()" *ngIf="currentProblem">GRADE</button>
+      </div>
+    </div>
+  </div>
+  <div fxLayout="column" fxFlex="50" fxFlexOffset="10px">
+    <h2>Progress</h2>
+    <div fxLayout="column">
+      <span>Assignment</span>
+      <span fxFlex="10px"></span>
+      <md-progress-bar
+        color="primary"
+        mode="determinate"
+        value="67">
+      </md-progress-bar>
+    </div>
+    <span fxFlex="15px"></span>
+    <div fxLayout="column" *ngIf="currentProblem">
+      <span>Problem</span>
+      <span fxFlex="10px"></span>
+      <md-progress-bar
+        color="accent"
+        mode="determinate"
+        value="89">
+      </md-progress-bar>
+    </div>
+    <h2>Statistics</h2>
+    <div fxLayout="row">
+      <!--[view]="view"-->
+      <ngx-charts-area-chart
+        [scheme]="colorScheme"
+        [results]="problems"
+        [gradient]="gradient"
+        [xAxis]="showXAxis"
+        [yAxis]="showYAxis"
+        [legend]="showLegend"
+        [showXAxisLabel]="showXAxisLabel"
+        [showYAxisLabel]="showYAxisLabel"
+        [xAxisLabel]="xAxisLabel"
+        [yAxisLabel]="yAxisLabel"
+        [autoScale]="autoScale"
+        (select)="onSelect($event)">
+      </ngx-charts-area-chart>
+    </div>
+    <div *ngIf="currentProblem">
+      <h4>Problem-by-problem statistics</h4>
+      <p>Mean for problem {{currentProblem}}: x1</p>
+      <p>Median for problem {{currentProblem}}: x2</p>
+      <p>Mode for problem {{currentProblem}}: x3</p>
+      <p>Range for problem {{currentProblem}}: x4</p>
+      <p>Std. deviation for problem {{currentProblem}}: x5</p>
+    </div>
+  </div>
+</div>
