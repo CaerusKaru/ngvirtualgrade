@@ -54,7 +54,7 @@ export class SvgWrapperDirective implements OnInit {
     if (this.currentPage.undoStack.length !== 0) {
       let addEl = this.currentPage.undoStack.pop();
       this.currentPage.addedStack.push(addEl);
-      // angular.element(this.element[0].querySelector('svg')).append(addEl);
+      this.board.append(addEl);
       // $compile(angular.element(addEl))(scope);
     }
   }
@@ -282,11 +282,4 @@ export class SvgWrapperDirective implements OnInit {
     this.offsetY = svgHeight / parseFloat(height);
     this.offsetX = svgWidth / parseFloat(width);
   }
-
-  // $watch('mode', function (oldMode, newMode) {
-  //   if (oldMode === 'draw') {
-  //     removeDots();
-  //   }
-  // });
-
 }
