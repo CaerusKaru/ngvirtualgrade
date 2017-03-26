@@ -181,6 +181,9 @@ export class SvgWrapperDirective implements OnInit {
   }
 
   drawEnd (evt) {
+    if (!this.gesture) {
+      return;
+    }
     this.removeDots();
     let color = this.currentColor;
     let size = this.currentSize;
@@ -192,7 +195,6 @@ export class SvgWrapperDirective implements OnInit {
     path.setAttributeNS(null, 'stroke-linecap', 'round');
     path.setAttributeNS(null, 'stroke', color);
     path.setAttributeNS(null, 'stroke-width', size);
-    path.setAttributeNS(null, 'ng-mousedown', 'drawClick($event)');
     path.setAttribute('svg-drag', '');
     path.setAttribute('svg-select', '');
 
@@ -226,6 +228,10 @@ export class SvgWrapperDirective implements OnInit {
     dot.style.background = color;
     dot.style.width = size / this.offsetX + 'px';
     dot.style.height = size / this.offsetY + 'px';
+    dot.style.borderRadius = "100%";
+    dot.style.display = "block";
+    dot.style.opacity = "1.0";
+    dot.style.pointerEvents = "none";
     document.getElementById('cursor').appendChild(dot);
   }
 

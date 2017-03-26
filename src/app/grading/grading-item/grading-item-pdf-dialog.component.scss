@@ -66,12 +66,3 @@ input[type=number]::-webkit-outer-spin-button {
 .full-sidenav {
   height: 100%;
 }
-
-div.dot {
-  display: block;
-  border-radius: 100%;
-  background: black;
-  position: absolute;
-  opacity: 1.0;
-  pointer-events: none;
-}
