@@ -154,11 +154,8 @@ export class GradingItemPDFDialog {
     return new Array(this.numPages);
   }
 
-  remove (item, list) {
-    let idx = list.indexOf(item);
-    if (idx > -1) {
-      list.splice(idx, 1);
-    }
+  edit (item) {
+    console.log(item);
   }
 
   score () {

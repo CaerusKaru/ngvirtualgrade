@@ -18,7 +18,6 @@ export class SvgWrapperDirective implements OnInit {
     //   $mdDialog.close();
     // });
     this.board = this.element.nativeElement.querySelector('svg');
-    console.log(this.board);
   }
 
   @Input () currentColor : string;
@@ -30,6 +29,8 @@ export class SvgWrapperDirective implements OnInit {
   line = '';
   gesture = false;
   board;
+  absPosX;
+  absPosY;
   offsetX = 1.0;
   offsetY = 1.0;
   posX;
@@ -88,7 +89,7 @@ export class SvgWrapperDirective implements OnInit {
   @HostListener ('touchmove', ['$event'])
   @HostListener ('mousemove', ['$event'])
   clickMove (evt) {
-    if (this.currentMode === 'draw' && this.gesture) {
+    if (this.currentMode === 'draw') {
       evt.preventDefault();
       this.drawMove(evt);
     } else {
@@ -98,8 +99,9 @@ export class SvgWrapperDirective implements OnInit {
     }
   };
 
-  @HostListener ('mouseup', ['$event'])
-  @HostListener ('touchend', ['$event'])
+  // must be document, because mouseup technically happens on the div.dot
+  @HostListener ('document:mouseup', ['$event'])
+  @HostListener ('document:touchend', ['$event'])
   clickUp (evt) {
     if (this.currentMode === 'draw') {
       evt.preventDefault();
@@ -209,8 +211,10 @@ export class SvgWrapperDirective implements OnInit {
   }
 
   trace (evt) {
-    let x = evt.clientX || (evt.originalEvent.touches[0].clientX - evt.originalEvent.touches[0].clientX);
-    let y = evt.clientY || (evt.originalEvent.touches[0].clientY - evt.originalEvent.touches[0].clientY);
+    let x = (evt.clientX - this.absPosX) ||
+      (evt.originalEvent.touches[0].clientX - evt.originalEvent.touches[0].clientX - this.absPosX);
+    let y = (evt.clientY - this.absPosY) ||
+      (evt.originalEvent.touches[0].clientY - evt.originalEvent.touches[0].clientY - this.absPosY);
 
     let size = parseFloat(this.currentSize);
     let color = this.currentColor;
@@ -268,6 +272,10 @@ export class SvgWrapperDirective implements OnInit {
   // $on('nextPage', nextPage);
 
   updateBoundingRect () {
+    let bRect = this.element.nativeElement.getBoundingClientRect();
+    this.absPosX = bRect.left;
+    this.absPosY = bRect.top;
+
     if (!this.board) {
       return;
     }

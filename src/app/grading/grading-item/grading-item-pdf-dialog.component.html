@@ -1104,13 +1104,13 @@ LIOHYQAAABR0RVh0cGRmOlZlcnNpb24AUERGLTEuNSAFXAs5AAAAAElFTkSuQmCC" />
               <md-icon>arrow_drop_down</md-icon>
             </button>
             <md-menu #studentMenu="mdMenu" md-offset="0 -7">
-              <button>Help!</button>
+              <!--<button md-menu-item>Help!</button>-->
               <!--<md-menu-content width="1" class="md-padding">-->
                 <!--<md-menu-item fxLayout="row">-->
-                  <!--<md-input-container>-->
-                    <!--<label>Student #</label>-->
-                    <!--<input mdInput [(ngModel)]="numStudent">-->
-                  <!--</md-input-container>-->
+                  <md-input-container>
+                    <label>Student #</label>
+                    <input mdInput>
+                  </md-input-container>
                   <!--&lt;!&ndash;<md-button>Go</md-button>&ndash;&gt;-->
                 <!--</md-menu-item>-->
               <!--</md-menu-content>-->
@@ -1133,11 +1133,8 @@ LIOHYQAAABR0RVh0cGRmOlZlcnNpb24AUERGLTEuNSAFXAs5AAAAAElFTkSuQmCC" />
             <md-checkbox md-list-icon [(ngModel)]="item.selected" color="primary"></md-checkbox>
             <h5 md-line style="white-space: pre-wrap;">{{item.comment}}</h5>
             <p md-line>{{item.score}} pts</p>
-            <button md-icon-button (click)="console.log('Hello')">
+            <button md-icon-button (click)="edit(item)">
               <md-icon>mode_edit</md-icon>
-            </button>
-            <button md-icon-button (click)="remove(item, scores)">
-              <md-icon>delete</md-icon>
             </button>
           </md-list-item>
         </md-list>
