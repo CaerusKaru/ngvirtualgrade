@@ -16,7 +16,7 @@
 
 <ul id="course-menu-{{section.name | nospace}}"
     class="menu-toggle-list"
-    [ngStyle]="{ visibility: renderContent ? 'visible' : 'hidden' }">
+    [@openMenu]="isOpen()">
 
   <li *ngFor="let page of section.pages">
     <menu-link [section]="page"></menu-link>

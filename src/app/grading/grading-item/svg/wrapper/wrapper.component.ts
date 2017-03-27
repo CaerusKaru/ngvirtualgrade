@@ -1,14 +1,21 @@
-import {Directive, ElementRef, Input, HostListener, OnInit, Renderer, ViewChild} from '@angular/core';
+import {
+  ElementRef, Input, HostListener, Renderer, ViewChild, AfterViewInit,
+  Component
+} from '@angular/core';
 
-@Directive({
-  selector: '[svgWrapper]'
+@Component({
+  selector: 'svg-wrapper',
+  templateUrl: './test.html',
+  styleUrls: ['./wrapper.component.scss']
 })
-export class SvgWrapperDirective implements OnInit {
+export class WrapperComponent implements AfterViewInit{
 
   constructor(
     private element: ElementRef,
     private renderer : Renderer
   ) { }
+
+  @ViewChild('board') svg : ElementRef;
 
   ngOnInit () {
     // PDFService.initPDF().then(function () {
@@ -17,7 +24,12 @@ export class SvgWrapperDirective implements OnInit {
     // }).catch (function () {
     //   $mdDialog.close();
     // });
-    this.board = this.element.nativeElement.querySelector('svg');
+
+    // this.board = this.element.nativeElement.querySelector('svg');
+  }
+
+  ngAfterViewInit () {
+    this.board = this.svg.nativeElement;
   }
 
   @Input () currentColor : string;
@@ -152,7 +164,7 @@ export class SvgWrapperDirective implements OnInit {
     textNode.setAttribute('svg-select', '');
     textNode.setAttribute('svg-drag', '');
     textNode.setAttribute('init', 'true');
-    // angular.element(this.element[0].querySelector('svg')).append(textNode);
+    this.board.append(textNode);
     // this.currentPage.addedStack.push(textNode);
     // $compile(angular.element(textNode))(scope);
   }
@@ -195,8 +207,8 @@ export class SvgWrapperDirective implements OnInit {
     path.setAttributeNS(null, 'stroke-linecap', 'round');
     path.setAttributeNS(null, 'stroke', color);
     path.setAttributeNS(null, 'stroke-width', size);
-    path.setAttribute('svg-drag', '');
-    path.setAttribute('svg-select', '');
+    path.setAttribute('svgdrag', '');
+    path.setAttribute('svgSelect', '');
 
     this.board.append(path);
     // this.currentPage.addedStack.push(path);
@@ -238,19 +250,20 @@ export class SvgWrapperDirective implements OnInit {
   attachPage (i, removeOld) {
     if (this.board) {
       this.currentPage.page = this.board;
-      // angular.element(this.board).remove();
+      // TODO maybe not do this
+      this.board.remove();
     }
     // this.currentPage = PDFService.changePage(this.currentPage, i, removeOld);
     // let svg = $compile(this.currentPage.page)(scope);
     // this.element.append(svg);
-    this.board = document.getElementById('Layer_1');
+    // this.board = document.getElementById('Layer_1');
     // fix for Safari SVG sizing issues
-    if (this.board.hasAttribute('width')) {
+    // if (this.board.hasAttribute('width')) {
       // angular.element(this.board).removeAttr('width');
-    }
-    if (this.board.hasAttribute('height')) {
+    // }
+    // if (this.board.hasAttribute('height')) {
       // angular.element(this.board).removeAttr('height');
-    }
+    // }
     // angular.element(this.board).addClass('md-whiteframe-20dp');
   }
 

@@ -51,16 +51,11 @@ input[type=number]::-webkit-outer-spin-button {
   margin: 0;
 }
 
-[svgWrapper] {
+svg-wrapper {
   background-color: rgb(82, 86, 89);
   padding: 10px 35px 0 35px;
   overflow-y: auto;
   width: 100%;  // fix for Safari not scaling correctly
-  svg {
-    background-color: white;
-    height: auto;
-    width: 100%;
-  }
 }
 
 .full-sidenav {

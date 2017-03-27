@@ -1,6 +1,6 @@
 import {
-  Component, OnInit, Input, ElementRef, Renderer, AnimationStyles, AnimationKeyframe,
-  AnimationPlayer
+  Component, Input, AfterViewInit, trigger, state,
+  style, animate, transition
 } from '@angular/core';
 import {MenuService} from "../menu.service";
 import {MenuToggle} from "../menu-toggle";
@@ -8,38 +8,34 @@ import {MenuToggle} from "../menu-toggle";
 @Component({
   selector: 'menu-toggle',
   templateUrl: './menu-toggle.component.html',
-  styleUrls: ['./menu-toggle.component.scss']
+  styleUrls: ['./menu-toggle.component.scss'],
+  animations: [
+    trigger('openMenu', [
+      state('false', style({
+        visibility: 'hidden',
+        height: 0
+      })),
+      state('true',  style({
+        visibility: 'visible'
+      })),
+      transition('void => *', animate(0, style({ height: 0 }))),
+      transition('* => *', animate('750ms cubic-bezier(0.35, 0, 0.25, 1)'))
+    ])
+  ]
 })
-export class MenuToggleComponent implements OnInit {
+export class MenuToggleComponent implements AfterViewInit {
 
   @Input () section : MenuToggle;
 
   ul : Element;
 
   constructor(
-    private menuService: MenuService,
-    private element: ElementRef,
-    private renderer: Renderer
+    private menuService: MenuService
   ) { }
 
-  ngOnInit() {
-    this.ul = this.element.nativeElement.querySelector('ul');
+  ngAfterViewInit() {
     if (this.isOpen()) {
       this.renderContent = true;
-
-      // this makes sure that the <ul> element will be rendered when we access its
-      // scrollHeight (i.e. wait until the next render cycle in the browser)
-      // WARNING: this method works bc we don't overly rely on rAF. If that were
-      //          the case, we would need to work outside the Angular Zone
-      let initSelect = () => {
-        if (!this.ul.scrollHeight) {
-          requestAnimationFrame(initSelect);
-        } else {
-          this.renderer.setElementStyle(this.ul, 'height', this.ul.scrollHeight + 'px');
-        }
-      };
-
-      initSelect();
     }
   }
 
@@ -53,58 +49,7 @@ export class MenuToggleComponent implements OnInit {
   }
 
   toggle ()  {
-
-    let startingStyles : AnimationStyles = {
-      styles: [{}]
-    };
-
-    let keyframesTo : AnimationKeyframe[] = [
-      {
-        offset: 0,
-        styles: {
-          styles: [{
-            height: '0'
-          }]
-        }
-      },
-      {
-        offset: 1,
-        styles: {
-          styles: [{
-            height: this.ul.scrollHeight + 'px',
-          }]
-        }
-      }
-    ];
-
-    let keyframesFrom : AnimationKeyframe[] = [
-      {
-        offset: 0,
-        styles: {
-          styles: [{
-            height: this.ul.scrollHeight + 'px'
-          }]
-        }
-      },
-      {
-        offset: 1,
-        styles: {
-          styles: [{
-            height: '0'
-          }]
-        }
-      }
-    ];
-
     this.menuService.toggleSelectSection(this.section);
-    let open = this.renderContent;
-    if (!open) {
-      this.renderContent = true;
-    }
-    let animate : AnimationPlayer = this.renderer.animate(this.ul, startingStyles, open ? keyframesFrom : keyframesTo,
-      750, 0, 'cubic-bezier(0.35, 0, 0.25, 1)');
-    animate.play();
-    animate.onDone(() => {if (open) this.renderContent = false});
   }
 
   // $rootScope.$on('openMenu', openMenu);
