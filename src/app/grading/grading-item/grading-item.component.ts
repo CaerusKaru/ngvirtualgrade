@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {UniqueSelectionDispatcher, MdDialog} from "@angular/material";
+import {SvgService} from "./svg/shared/svg.service";
 
 @Component({
   selector: 'app-grading-item',
@@ -101,16 +102,22 @@ export class GradingItemComponent implements OnInit {
 @Component({
   selector: 'app-grading-item-pdf-dialog',
   templateUrl: './grading-item-pdf-dialog.component.html',
-  styleUrls: ['./grading-item-pdf-dialog.component.scss'],
+  styleUrls: ['./grading-item-pdf-dialog.component.scss']
 })
-export class GradingItemPDFDialog {
-  constructor () {
+export class GradingItemPDFDialog implements OnInit {
+  constructor (
+    private svgService : SvgService
+  ) {
 
+  }
+
+  ngOnInit () {
+    this.svgService.mode.subscribe((newMode) => this.currentMode = newMode);
   }
 
   currentColor : string = '#000000';
   currentSize : number = 5;
-  currentMode : string = 'draw';
+  currentMode : string;
 
   doneStudents : number = 4;
   totalStudents : number = 6;
@@ -188,7 +195,7 @@ export class GradingItemPDFDialog {
   ];
 
   setMode (mode : string) {
-    this.currentMode = mode;
+    this.svgService.setMode(mode);
   }
 
   backPage () {

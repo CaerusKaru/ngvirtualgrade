@@ -155,10 +155,10 @@ export class SvgTextDirective implements OnInit {
     let curX = this.element.nativeElement.getAttribute('x');
     let innerDivText = this.element.nativeElement.querySelector('.insideforeign').innerHTML;
     let encodedString = encodeURI(innerDivText);
-    let replaceText = '</tspan><tspan x="'+curX+'" dy="1.5em">';
+    let replaceText = '</tspan><tspan x="${curX}" dy="1.5em">';
     let filteredText = encodedString.split('%0A').map(this.removeBlanks).join(replaceText);
     let doubleFiltered = filteredText.split('%3Cbr%3E').map(this.removeBlanks).join(replaceText);
-    let newString = '<tspan x="'+curX+'" dy="1.5em">' + doubleFiltered + '</tspan>';
+    let newString = '<tspan x="{curX}" dy="1.5em">' + doubleFiltered + '</tspan>';
 
     return decodeURI(newString);
   }

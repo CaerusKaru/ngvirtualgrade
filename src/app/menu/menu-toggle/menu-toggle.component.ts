@@ -2,8 +2,8 @@ import {
   Component, Input, AfterViewInit, trigger, state,
   style, animate, transition
 } from '@angular/core';
-import {MenuService} from "../menu.service";
-import {MenuToggle} from "../menu-toggle";
+import {MenuService} from "../shared/menu.service";
+import {MenuToggle} from "../shared/menu-toggle";
 
 @Component({
   selector: 'menu-toggle',

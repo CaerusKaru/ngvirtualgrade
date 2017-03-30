@@ -11,6 +11,9 @@ import { SvgTextDirective } from './grading-item/svg/svg-text.directive';
 import { SvgSelectDirective } from './grading-item/svg/svg-select.directive';
 import { SvgDragDirective } from './grading-item/svg/svg-drag.directive';
 import { WrapperComponent } from './grading-item/svg/wrapper/wrapper.component';
+import { TextComponent } from './grading-item/svg/text/text.component';
+import { LineComponent } from './grading-item/svg/line/line.component';
+import {SvgService} from "./grading-item/svg/shared/svg.service";
 
 @NgModule({
   imports: [
@@ -28,10 +31,19 @@ import { WrapperComponent } from './grading-item/svg/wrapper/wrapper.component';
     SvgTextDirective,
     SvgSelectDirective,
     SvgDragDirective,
-    WrapperComponent
+    WrapperComponent,
+    TextComponent,
+    LineComponent
+  ],
+  providers: [
+    SvgService
   ],
   entryComponents: [
+    LineComponent,
+    TextComponent,
     GradingItemPDFDialog
+  ],
+  bootstrap: [
   ]
 })
 export class GradingModule { }

@@ -1,35 +1,42 @@
 import {
   ElementRef, Input, HostListener, Renderer, ViewChild, AfterViewInit,
-  Component
+  Component, OnInit, ComponentFactoryResolver, ViewContainerRef
 } from '@angular/core';
+import {LineComponent} from "../line/line.component";
+import {SvgService} from "../shared/svg.service";
 
 @Component({
   selector: 'svg-wrapper',
   templateUrl: './test.html',
   styleUrls: ['./wrapper.component.scss']
 })
-export class WrapperComponent implements AfterViewInit{
+export class WrapperComponent implements OnInit, AfterViewInit{
 
   constructor(
     private element: ElementRef,
-    private renderer : Renderer
+    private renderer: Renderer,
+    private svgService : SvgService,
+    private _componentFactoryResolver: ComponentFactoryResolver
   ) { }
 
-  @ViewChild('board') svg : ElementRef;
+  @ViewChild('board', {read: ViewContainerRef}) boardRef: ViewContainerRef;
+  @ViewChild('container', {read: ViewContainerRef}) container : ViewContainerRef;
+  @ViewChild('cursor') cursor : ElementRef;
 
   ngOnInit () {
+    this.svgService.offsetX.subscribe((val) => this.offsetX = val);
+    this.svgService.offsetY.subscribe((val) => this.offsetY = val);
+    // TODO fetch the pdf annotations while the view is rendering
     // PDFService.initPDF().then(function () {
     //   currentPage = PDFService.getPage(0);
     //   attachPage(0, false);
     // }).catch (function () {
     //   $mdDialog.close();
     // });
-
-    // this.board = this.element.nativeElement.querySelector('svg');
   }
 
   ngAfterViewInit () {
-    this.board = this.svg.nativeElement;
+    this.board = this.boardRef.element.nativeElement;
   }
 
   @Input () currentColor : string;
@@ -43,8 +50,8 @@ export class WrapperComponent implements AfterViewInit{
   board;
   absPosX;
   absPosY;
-  offsetX = 1.0;
-  offsetY = 1.0;
+  offsetX : number;
+  offsetY : number;
   posX;
   posY;
   editingText = false;
@@ -68,7 +75,6 @@ export class WrapperComponent implements AfterViewInit{
       let addEl = this.currentPage.undoStack.pop();
       this.currentPage.addedStack.push(addEl);
       this.board.append(addEl);
-      // $compile(angular.element(addEl))(scope);
     }
   }
 
@@ -141,6 +147,21 @@ export class WrapperComponent implements AfterViewInit{
     }
     evt.preventDefault();
     let localpoint = this.getLocalMouse(evt);
+
+    // let textNode = this.renderer.createElement(this.board.nativeElement, 'svg:text');
+    // this.renderer.setElementAttribute(textNode, 'font-family', this.fontType);
+    // this.renderer.setElementAttribute(textNode, 'font-size', parseFloat(this.currentSize) * 5 + '');
+    // this.renderer.setElementAttribute(textNode, 'font-weight', 'bold');
+    // this.renderer.setElementAttribute(textNode, 'fill', this.currentColor);
+    // this.renderer.setElementAttribute(textNode, 'x', localpoint.x);
+    // this.renderer.setElementAttribute(textNode, 'y', localpoint.y);
+    // this.renderer.setElementAttribute(textNode, 'dy', '1.0em');
+    // this.renderer.setElementAttribute(textNode, 'xml:space', 'preserve');
+    //
+    // let initSpan = this.renderer.createElement(textNode, 'svg:tspan');
+    // this.renderer.setElementAttribute(initSpan, 'x', localpoint.x);
+    // this.renderer.createText(initSpan, '');
+
     let textNode = document.createElementNS(this.ns, 'text');
     textNode.setAttributeNS(null, 'font-family', this.fontType);
     textNode.setAttributeNS(null, 'font-size', parseFloat(this.currentSize) * 5 + '');
@@ -164,9 +185,16 @@ export class WrapperComponent implements AfterViewInit{
     textNode.setAttribute('svg-select', '');
     textNode.setAttribute('svg-drag', '');
     textNode.setAttribute('init', 'true');
-    this.board.append(textNode);
+
+    let componentFactory = this._componentFactoryResolver.resolveComponentFactory(LineComponent);
+    let viewContainerRef = this.board.viewContainerRef;
+    let componentRef = viewContainerRef.createComponent(componentFactory);
+    (<LineComponent>componentRef.instance).data = {
+      text: textNode
+    };
+
+    // this.board.append(textNode);
     // this.currentPage.addedStack.push(textNode);
-    // $compile(angular.element(textNode))(scope);
   }
 
   @HostListener ('click', ['$event'])
@@ -201,26 +229,24 @@ export class WrapperComponent implements AfterViewInit{
     let size = this.currentSize;
     this.line += 'L' + ((evt.clientX || evt.originalEvent.changedTouches[0].clientX) - this.posX) * this.offsetX + ', ' +
       ((evt.clientY || evt.originalEvent.changedTouches[0].clientY) - this.posY) * this.offsetY;
-    let path = document.createElementNS(this.ns, 'path');
-    path.setAttributeNS(null, 'd', this.line);
-    path.setAttributeNS(null, 'fill', 'none');
-    path.setAttributeNS(null, 'stroke-linecap', 'round');
-    path.setAttributeNS(null, 'stroke', color);
-    path.setAttributeNS(null, 'stroke-width', size);
-    path.setAttribute('svgdrag', '');
-    path.setAttribute('svgSelect', '');
 
-    this.board.append(path);
+    let componentFactory = this._componentFactoryResolver.resolveComponentFactory(LineComponent);
+    let viewContainerRef = this.container;
+    let componentRef = viewContainerRef.createComponent(componentFactory);
+    (<LineComponent>componentRef.instance).data = {
+      line: this.line,
+      size: size,
+      color: color
+    };
+
     // this.currentPage.addedStack.push(path);
-    // $compile(angular.element(path))(scope);
 
     this.gesture = false;
   }
 
   removeDots () {
-    let dots = document.getElementsByClassName('dot');
-    while (dots[0]) {
-      dots[0].parentNode.removeChild(dots[0]);
+    while (this.cursor.nativeElement.firstChild) {
+      this.cursor.nativeElement.removeChild(this.cursor.nativeElement.firstChild);
     }
   }
 
@@ -232,19 +258,20 @@ export class WrapperComponent implements AfterViewInit{
 
     let size = parseFloat(this.currentSize);
     let color = this.currentColor;
-    let dot = document.createElement('div');
-    dot.className = 'dot';
-    dot.style.position = 'fixed';
-    dot.style.top = (y - (size / (this.offsetY * 2))) + 'px';
-    dot.style.left = (x - (size / (this.offsetX * 2))) + 'px';
-    dot.style.background = color;
-    dot.style.width = size / this.offsetX + 'px';
-    dot.style.height = size / this.offsetY + 'px';
-    dot.style.borderRadius = "100%";
-    dot.style.display = "block";
-    dot.style.opacity = "1.0";
-    dot.style.pointerEvents = "none";
-    document.getElementById('cursor').appendChild(dot);
+
+    let dot = this.renderer.createElement(this.cursor.nativeElement, 'div');
+    this.renderer.setElementClass(dot, 'dot', true);
+    this.renderer.setElementStyle(dot, 'position', 'fixed');
+    this.renderer.setElementStyle(dot, 'top', (y - (size / (this.offsetY * 2))) + 'px');
+    this.renderer.setElementStyle(dot, 'left', (x - (size / (this.offsetX * 2))) + 'px');
+    this.renderer.setElementStyle(dot, 'background', color);
+    this.renderer.setElementStyle(dot, 'width', size / this.offsetX + 'px');
+    this.renderer.setElementStyle(dot, 'height', size / this.offsetY + 'px');
+    this.renderer.setElementStyle(dot, 'borderRadius', '100%');
+    this.renderer.setElementStyle(dot, 'display', 'block');
+    this.renderer.setElementStyle(dot, 'opacity', '1.0');
+    this.renderer.setElementStyle(dot, 'pointerEvents', 'none');
+    this.renderer.projectNodes(this.cursor.nativeElement, [dot]);
   }
 
   attachPage (i, removeOld) {
@@ -254,17 +281,7 @@ export class WrapperComponent implements AfterViewInit{
       this.board.remove();
     }
     // this.currentPage = PDFService.changePage(this.currentPage, i, removeOld);
-    // let svg = $compile(this.currentPage.page)(scope);
     // this.element.append(svg);
-    // this.board = document.getElementById('Layer_1');
-    // fix for Safari SVG sizing issues
-    // if (this.board.hasAttribute('width')) {
-      // angular.element(this.board).removeAttr('width');
-    // }
-    // if (this.board.hasAttribute('height')) {
-      // angular.element(this.board).removeAttr('height');
-    // }
-    // angular.element(this.board).addClass('md-whiteframe-20dp');
   }
 
   removePage () {
@@ -306,7 +323,7 @@ export class WrapperComponent implements AfterViewInit{
     let width = boundingClientRect.width;
     let svgHeight = parseFloat(viewBox.split(' ')[3]);
     let svgWidth = parseFloat(viewBox.split(' ')[2]);
-    this.offsetY = svgHeight / parseFloat(height);
-    this.offsetX = svgWidth / parseFloat(width);
+    this.svgService.setOffsetX(svgWidth / parseFloat(width));
+    this.svgService.setOffsetY(svgHeight / parseFloat(height));
   }
 }

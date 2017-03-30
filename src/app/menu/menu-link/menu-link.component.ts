@@ -1,6 +1,6 @@
 import {Component, OnInit, Input, ViewEncapsulation} from '@angular/core';
-import {MenuService} from "../menu.service";
-import {MenuLink} from "../menu-link";
+import {MenuService} from "../shared/menu.service";
+import {MenuLink} from "../shared/menu-link";
 import {Router, ActivatedRoute} from "@angular/router";
 
 @Component({

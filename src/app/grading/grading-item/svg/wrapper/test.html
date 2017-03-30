@@ -1,5 +1,20 @@
-<svg #board version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 1275 1650" enable-background="new 0 0 1275 1650" xml:space="preserve">
-  <image id="image0" width="1275" height="1650" x="0" y="0" xlink:href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAABPsAAAZyCAQAAADszSmFAAAABGdBTUEAALGPC/xhBQAAACBjSFJN
+<div id="cursor" #cursor></div>
+<svg:svg #board version="1.1" class="md-whiteframe-20dp" xmlns:svg="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 1275 1650" enable-background="new 0 0 1275 1650" xml:space="preserve">
+  <!--
+
+  working thoughts:
+
+  - need to set the viewBox and the height/width of the image on startup, but
+    these are the same value -> can be [viewHeight] and [viewWidth]?
+
+  - then we need to add in the png and any annotations
+  - png is easy, just b64 append it as a string, maybe [imgData]
+  - then the annotations need to be in some sort of ordering
+  - first idea: get a list of components and then dynamically load them, then
+                bootstrap the components as well? requires further thought...
+
+  -->
+  <svg:image id="image0" width="1275" height="1650" x="0" y="0" xlink:href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAABPsAAAZyCAQAAADszSmFAAAABGdBTUEAALGPC/xhBQAAACBjSFJN
   AAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAAAAmJLR0QA/4ePzL8AAAAJcEhZ
   cwAAAJYAAACWAHFG/vAAAAAHdElNRQfgDAYCOgQbS83xAACAAElEQVR42uzde7wd493//9dOom7S
   hlQETahDQpAEiVNuoVGVRg4kUURSlLSqWvoTSg9UixCHUipIGhHHqDpEckvJgUSiCRFUHCr43tw0
@@ -938,4 +953,6 @@
   AAAAAAAAAACsUP5/iFadmymXJVMAAAAldEVYdGRhdGU6Y3JlYXRlADIwMTYtMTItMDZUMDI6NTg6
   MDQtMDU6MDBd3j/dAAAAJXRFWHRkYXRlOm1vZGlmeQAyMDE2LTEyLTA2VDAyOjU4OjA0LTA1OjAw
   LIOHYQAAABR0RVh0cGRmOlZlcnNpb24AUERGLTEuNSAFXAs5AAAAAElFTkSuQmCC" />
-  </svg>
+  <svg:g #container>
+  </svg:g>
+</svg:svg>

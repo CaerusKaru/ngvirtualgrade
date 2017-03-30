@@ -1,24 +1,27 @@
 import {Directive, ElementRef, HostBinding, HostListener, OnInit} from '@angular/core';
+import {SvgService} from "./shared/svg.service";
 
 @Directive({
   selector: '[svgSelect]'
 })
 export class SvgSelectDirective implements OnInit {
 
+  @HostBinding('style.stroke')
+  currentColor : string;
+
   constructor(
+    private svgService : SvgService,
     private element: ElementRef
   ) { }
 
   ngOnInit () {
-    this.originalColor = this.element.nativeElement.style.stroke;
+    this.svgService.mode.subscribe((newMode) => this.currentMode = newMode);
+    this.originalColor = this.currentColor;
   }
 
   currentMode : string;
   originalColor : string;
   selected : boolean = false;
-
-  @HostBinding('style.stroke')
-  currentColor : string;
 
   @HostListener('mouseover')
   hoverStart() {

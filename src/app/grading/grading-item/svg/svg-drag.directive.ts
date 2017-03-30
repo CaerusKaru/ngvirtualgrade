@@ -1,4 +1,5 @@
 import {Directive, ElementRef, HostBinding, HostListener, OnInit} from '@angular/core';
+import {SvgService} from "./shared/svg.service";
 
 @Directive({
   selector: '[svgDrag]'
@@ -21,27 +22,37 @@ export class SvgDragDirective implements OnInit {
   dragY : number;
 
   constructor(
-    private element: ElementRef
+    private element: ElementRef,
+    private svgService : SvgService
   ) { }
 
   ngOnInit () {
-    console.log("init");
+    this.svgService.mode.subscribe((newMode) => this.currentMode = newMode);
+    this.svgService.offsetX.subscribe((val) => this.offsetX = val);
+    this.svgService.offsetY.subscribe((val) => this.offsetY = val);
     this.originalColor = this.element.nativeElement.style.stroke;
     if (this.transform) {
       let currentPos = this.transform.split('(')[1].split(')')[0].split(',');
       this.currentX = parseFloat(currentPos[0]);
       this.currentY = parseFloat(currentPos[1]);
     }
+    if (!this.dragX) {
+      this.dragX = 0.0;
+    }
+    if (!this.dragY) {
+      this.dragY = 0.0;
+    }
   }
 
+  currentMode : string;
   originalColor : string;
   selected : boolean = false;
   currentX : number = 0;
   currentY : number = 0;
-  // TODO need to link this
-  currentMode : string;
-  offsetX;
-  offsetY;
+  offsetX : number;
+  offsetY : number;
+  touchX;
+  touchY;
 
   @HostListener ('mouseover')
   hoverStart() {
@@ -68,18 +79,13 @@ export class SvgDragDirective implements OnInit {
     }
     evt.preventDefault();
     this.selected = true;
-    let touchX = evt.pageX || evt.originalEvent.touches[0].pageX;
-    let touchY = evt.pageY || evt.originalEvent.touches[0].pageY;
-
-    // $document.bind('mousemove', {touchX: touchX, touchY: touchY}, dragMove);
-    // $document.bind('mouseup', {touchX: touchX, touchY: touchY}, dragEnd);
-    // $document.bind('touchmove', {touchX: touchX, touchY: touchY}, dragMove);
-    // $document.bind('touchend', {touchX: touchX, touchY: touchY}, dragEnd);
+    this.touchX = evt.pageX || evt.originalEvent.touches[0].pageX;
+    this.touchY = evt.pageY || evt.originalEvent.touches[0].pageY;
     this.cursor = 'move';
   }
 
-  @HostListener('mousemove', ['$event'])
-  @HostListener('touchmove', ['$event'])
+  @HostListener('document:mousemove', ['$event'])
+  @HostListener('document:touchmove', ['$event'])
   dragMove(evt) {
     if (this.currentMode !== 'drag') {
       return;
@@ -89,28 +95,29 @@ export class SvgDragDirective implements OnInit {
     }
     evt.preventDefault();
     // TODO needs further investigation for passing data
-    let startX = evt.data.touchX || evt.originalEvent.touches[0].touchX;
-    let startY = evt.data.touchY || evt.originalEvent.touches[0].touchY;
+    let startX = this.touchX || evt.originalEvent.touches[0].touchX;
+    let startY = this.touchY || evt.originalEvent.touches[0].touchY;
     let pageX = evt.pageX || evt.originalEvent.touches[0].pageX;
     let pageY = evt.pageY || evt.originalEvent.touches[0].pageY;
     let deltaX = Number(((pageX - startX) * this.offsetX)) + this.dragX;
     let deltaY = Number(((pageY - startY) * this.offsetY)) + this.dragY;
 
-    let newTransform = 'translate(' + deltaX + ', ' + deltaY + ')';
-
-    this.transform = newTransform;
+    this.transform = 'translate(' + deltaX + ', '+ deltaY + ')';
   }
 
-  @HostListener('mousemove', ['$event'])
-  @HostListener('touchmove', ['$event'])
+  @HostListener('mouseup', ['$event'])
+  @HostListener('touchend', ['$event'])
   dragEnd(evt) {
     if (this.currentMode !== 'drag') {
       return;
     }
+    if (!this.selected) {
+      return;
+    }
 
     this.selected = false;
-    let startX = evt.data.touchX || evt.originalEvent.changedTouches[0].touchX;
-    let startY = evt.data.touchY || evt.originalEvent.changedTouches[0].touchY;
+    let startX = this.touchX || evt.originalEvent.changedTouches[0].touchX;
+    let startY = this.touchY || evt.originalEvent.changedTouches[0].touchY;
     let pageX = evt.pageX || evt.originalEvent.changedTouches[0].pageX;
     let pageY = evt.pageY || evt.originalEvent.changedTouches[0].pageY;
     let deltaX = Number(((pageX - startX) * this.offsetX)) + this.dragX;

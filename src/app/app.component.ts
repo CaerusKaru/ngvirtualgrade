@@ -1,7 +1,7 @@
 import {Component, ViewEncapsulation, OnInit} from '@angular/core';
 import {ActivatedRoute, Router, NavigationEnd} from "@angular/router";
 import {UserService} from "./user.service";
-import {MenuService} from "./menu.service";
+import {MenuService} from "./menu/shared/menu.service";
 import {Location} from "@angular/common";
 
 @Component({
