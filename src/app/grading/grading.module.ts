@@ -7,9 +7,8 @@ import {MaterialModule} from "@angular/material";
 import {FlexLayoutModule} from "@angular/flex-layout";
 import {NgxChartsModule} from "@swimlane/ngx-charts";
 import {FormsModule} from "@angular/forms";
-import { SvgTextDirective } from './grading-item/svg/svg-text.directive';
-import { SvgSelectDirective } from './grading-item/svg/svg-select.directive';
-import { SvgDragDirective } from './grading-item/svg/svg-drag.directive';
+import { SvgSelectDirective } from './grading-item/svg/shared/svg-select.directive';
+import { SvgDragDirective } from './grading-item/svg/shared/svg-drag.directive';
 import { WrapperComponent } from './grading-item/svg/wrapper/wrapper.component';
 import { TextComponent } from './grading-item/svg/text/text.component';
 import { LineComponent } from './grading-item/svg/line/line.component';
@@ -28,7 +27,6 @@ import {SvgService} from "./grading-item/svg/shared/svg.service";
     GradingItemPDFDialog,
     GradingHomeComponent,
     GradingItemComponent,
-    SvgTextDirective,
     SvgSelectDirective,
     SvgDragDirective,
     WrapperComponent,

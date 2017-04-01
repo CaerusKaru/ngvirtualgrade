@@ -1,5 +1,5 @@
 import {Directive, ElementRef, HostBinding, HostListener, OnInit} from '@angular/core';
-import {SvgService} from "./shared/svg.service";
+import {SvgService} from "./svg.service";
 
 @Directive({
   selector: '[svgSelect]'

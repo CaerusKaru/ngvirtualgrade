@@ -4,10 +4,11 @@ import {
 } from '@angular/core';
 import {LineComponent} from "../line/line.component";
 import {SvgService} from "../shared/svg.service";
+import {TextComponent} from "../text/text.component";
 
 @Component({
   selector: 'svg-wrapper',
-  templateUrl: './test.html',
+  templateUrl: './wrapper.component.html',
   styleUrls: ['./wrapper.component.scss']
 })
 export class WrapperComponent implements OnInit, AfterViewInit{
@@ -26,6 +27,7 @@ export class WrapperComponent implements OnInit, AfterViewInit{
   ngOnInit () {
     this.svgService.offsetX.subscribe((val) => this.offsetX = val);
     this.svgService.offsetY.subscribe((val) => this.offsetY = val);
+    this.svgService.textEditing.subscribe((val) => this.textEditing = val);
     // TODO fetch the pdf annotations while the view is rendering
     // PDFService.initPDF().then(function () {
     //   currentPage = PDFService.getPage(0);
@@ -43,8 +45,6 @@ export class WrapperComponent implements OnInit, AfterViewInit{
   @Input () currentSize : string;
   @Input () currentMode : string;
 
-  ns = 'http://www.w3.org/2000/svg';
-  xmlNS = 'http://www.w3.org/XML/1998/namespace';
   line = '';
   gesture = false;
   board;
@@ -54,8 +54,7 @@ export class WrapperComponent implements OnInit, AfterViewInit{
   offsetY : number;
   posX;
   posY;
-  editingText = false;
-  fontType = 'Helvetica';
+  textEditing : boolean;
   defaultText = '';
   currentPage = null;
 
@@ -136,64 +135,25 @@ export class WrapperComponent implements OnInit, AfterViewInit{
   }
 
   textCreate (evt) {
-    let altTargetName = evt.target.nodeName;
-    let targetName = evt.target.className;
-    if (targetName === 'insideforeign' || altTargetName.toLowerCase() === 'tspan') {
-      return;
-    }
-    if (this.editingText) {
-      this.editingText = false;
+    // let altTargetName = evt.target.nodeName;
+    // let targetName = evt.target.className;
+    if (this.textEditing) {
       return;
     }
     evt.preventDefault();
     let localpoint = this.getLocalMouse(evt);
 
-    // let textNode = this.renderer.createElement(this.board.nativeElement, 'svg:text');
-    // this.renderer.setElementAttribute(textNode, 'font-family', this.fontType);
-    // this.renderer.setElementAttribute(textNode, 'font-size', parseFloat(this.currentSize) * 5 + '');
-    // this.renderer.setElementAttribute(textNode, 'font-weight', 'bold');
-    // this.renderer.setElementAttribute(textNode, 'fill', this.currentColor);
-    // this.renderer.setElementAttribute(textNode, 'x', localpoint.x);
-    // this.renderer.setElementAttribute(textNode, 'y', localpoint.y);
-    // this.renderer.setElementAttribute(textNode, 'dy', '1.0em');
-    // this.renderer.setElementAttribute(textNode, 'xml:space', 'preserve');
-    //
-    // let initSpan = this.renderer.createElement(textNode, 'svg:tspan');
-    // this.renderer.setElementAttribute(initSpan, 'x', localpoint.x);
-    // this.renderer.createText(initSpan, '');
-
-    let textNode = document.createElementNS(this.ns, 'text');
-    textNode.setAttributeNS(null, 'font-family', this.fontType);
-    textNode.setAttributeNS(null, 'font-size', parseFloat(this.currentSize) * 5 + '');
-    textNode.setAttributeNS(null, 'font-weight', 'bold');
-    textNode.setAttributeNS(null, 'fill', this.currentColor);
-
-    textNode.setAttributeNS(null, 'x', localpoint.x);
-    textNode.setAttributeNS(null, 'y', localpoint.y);
-    textNode.setAttributeNS(null, 'dy', '1.0em');
-    textNode.setAttributeNS(this.xmlNS, 'xml:space', 'preserve');
-
-    let initSpan = document.createElementNS(this.ns, 'tspan');
-    initSpan.setAttributeNS(null, 'x', localpoint.x);
-
-    let textSpan = document.createTextNode(this.defaultText);
-
-    initSpan.appendChild(textSpan);
-    textNode.appendChild(initSpan);
-
-    textNode.setAttribute('svg-text', '');
-    textNode.setAttribute('svg-select', '');
-    textNode.setAttribute('svg-drag', '');
-    textNode.setAttribute('init', 'true');
-
-    let componentFactory = this._componentFactoryResolver.resolveComponentFactory(LineComponent);
-    let viewContainerRef = this.board.viewContainerRef;
+    let componentFactory = this._componentFactoryResolver.resolveComponentFactory(TextComponent);
+    let viewContainerRef = this.container;
     let componentRef = viewContainerRef.createComponent(componentFactory);
-    (<LineComponent>componentRef.instance).data = {
-      text: textNode
+    (<TextComponent>componentRef.instance).data = {
+      init: true,
+      currentColor: this.currentColor,
+      currentSize: this.currentSize,
+      lines: [' '],
+      x: localpoint.x,
+      y: localpoint.y - (parseFloat(this.currentSize) * 2)
     };
-
-    // this.board.append(textNode);
     // this.currentPage.addedStack.push(textNode);
   }
 
@@ -271,7 +231,6 @@ export class WrapperComponent implements OnInit, AfterViewInit{
     this.renderer.setElementStyle(dot, 'display', 'block');
     this.renderer.setElementStyle(dot, 'opacity', '1.0');
     this.renderer.setElementStyle(dot, 'pointerEvents', 'none');
-    this.renderer.projectNodes(this.cursor.nativeElement, [dot]);
   }
 
   attachPage (i, removeOld) {
