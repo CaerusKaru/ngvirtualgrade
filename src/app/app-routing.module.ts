@@ -7,6 +7,18 @@ import {GradesModule} from "./grades/grades.module";
 import {GradingModule} from "./grading/grading.module";
 import {ArchonModule} from "./archon/archon.module";
 
+export function gradesModule () {
+  return GradesModule;
+}
+
+export function gradingModule () {
+  return GradingModule;
+}
+
+export function archonModule () {
+  return ArchonModule;
+}
+
 export const appRoutes: Routes = [
   { path: 'signin', component: SigninComponent},
   {
@@ -15,13 +27,13 @@ export const appRoutes: Routes = [
     canActivate: [AuthGuard],
     children: [
       {
-        path: 'grades', loadChildren: () => GradesModule
+        path: 'grades', loadChildren: gradesModule
       },
       {
-        path: 'grading', loadChildren: () => GradingModule
+        path: 'grading', loadChildren: gradingModule
       },
       {
-        path: 'archon', loadChildren: () => ArchonModule
+        path: 'archon', loadChildren: archonModule
       },
       {
         path: '**', redirectTo: 'grades', pathMatch: 'full'
