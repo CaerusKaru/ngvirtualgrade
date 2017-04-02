@@ -5,21 +5,25 @@ import { HttpModule } from '@angular/http';
 import { CovalentCoreModule } from '@covalent/core';
 
 import { AppComponent } from './app.component';
-import {GradesModule} from "./grades/grades.module";
-import {GradingModule} from "./grading/grading.module";
-import {ArchonModule} from "./archon/archon.module";
 import {AppRoutingModule} from "./app-routing.module";
-import { MenuToggleComponent } from './menu/menu-toggle/menu-toggle.component';
-import { NospacePipe } from './menu/shared/nospace.pipe';
-import { MenuLinkComponent } from './menu/menu-link/menu-link.component';
-import { SortByPipe } from './menu/shared/sort-by.pipe';
 import {MenuService} from "./menu/shared/menu.service";
-import {UserService} from "./user.service";
+import {UserService} from "./shared/user.service";
 import {MaterialModule} from "@angular/material";
 import {FlexLayoutModule} from "@angular/flex-layout";
 import "hammerjs";
 import "d3";
 import {NgxChartsModule} from "@swimlane/ngx-charts";
+import { SigninComponent } from './signin/signin.component';
+import {AuthService} from "./shared/auth.service";
+import {AuthGuard} from "./shared/auth.guard";
+import {HomeComponent} from "./home/home.component";
+import {MenuToggleComponent} from "./menu/menu-toggle/menu-toggle.component";
+import {NospacePipe} from "./menu/shared/nospace.pipe";
+import {SortByPipe} from "./menu/shared/sort-by.pipe";
+import {MenuLinkComponent} from "./menu/menu-link/menu-link.component";
+import {ArchonModule} from "./archon/archon.module";
+import {GradingModule} from "./grading/grading.module";
+import {GradesModule} from "./grades/grades.module";
 
 @NgModule({
   declarations: [
@@ -27,7 +31,9 @@ import {NgxChartsModule} from "@swimlane/ngx-charts";
     NospacePipe,
     MenuLinkComponent,
     MenuToggleComponent,
-    AppComponent
+    AppComponent,
+    SigninComponent,
+    HomeComponent
   ],
   imports: [
     NgxChartsModule,
@@ -37,12 +43,12 @@ import {NgxChartsModule} from "@swimlane/ngx-charts";
     HttpModule,
     FlexLayoutModule,
     MaterialModule,
+    AppRoutingModule,
     GradesModule,
     GradingModule,
-    ArchonModule,
-    AppRoutingModule
+    ArchonModule
   ],
-  providers: [UserService, MenuService],
+  providers: [UserService, MenuService, AuthService, AuthGuard],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

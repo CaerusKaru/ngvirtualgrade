@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import {MenuLink} from "./menu-link";
 import {MenuToggle} from "./menu-toggle";
 import {MenuHeading} from "./menu-heading";
-import {ActivatedRoute, Router, NavigationEnd} from "@angular/router";
+import {Router, NavigationEnd} from "@angular/router";
 import {Location} from "@angular/common";
 
 @Injectable()
@@ -23,36 +23,62 @@ export class MenuService {
   // Angular Material gets its act together and builds one of their
   // own like they said they would for two years now
 
-  sections : any[];
-
-  openedSection : MenuToggle;
-  currentPage : MenuLink;
-  mode : string;
-
   constructor(
     private router : Router,
-    private route : ActivatedRoute,
     private location : Location
   ) {
     this.initRouter();
   }
 
-  initRouter () {
+  get sections () {
+    return this._sections;
+  }
+
+  public selectSection (section) {
+    this.openedSection = section;
+  }
+
+  public toggleSelectSection (section) {
+    this.openedSection = (this.openedSection === section ? null : section);
+  }
+
+  public isSectionSelected (section) {
+    return this.openedSection === section;
+  }
+
+  public selectPage (section, page) {
+    this.openedSection = section;
+    this.currentPage = page;
+  }
+
+  public isPageSelected (page) {
+    return this.currentPage === page;
+  }
+
+  private _sections : any[];
+  private openedSection : MenuToggle;
+  private currentPage : MenuLink;
+  private mode : string;
+
+  private initRouter () {
     this.router.events
       .filter(event => event instanceof NavigationEnd)
       .subscribe((event) => this.updateSelection(this.location.path()));
   }
 
-  matchPage (section, page) {
+  private matchPage (section, page) {
     if (this.location.path().indexOf(page.url) !== -1) {
       this.selectSection(section);
       this.selectPage(section, page);
     }
   };
 
-  updateSelection (url : string) {
+  private updateSelection (url : string) {
     let realUrl = url.split('/').slice(1);
     let newMode = realUrl[0];
+    if (newMode === 'signin') {
+      return;
+    }
     if (newMode !== this.mode) {
       this.mode = newMode;
       this.buildMenu();
@@ -83,7 +109,7 @@ export class MenuService {
     });
   }
 
-  buildMenu () {
+  private buildMenu () {
 
     let newSections = []; // new tree
     let newChildren = []; // list of courses that have pages
@@ -191,7 +217,7 @@ export class MenuService {
       };
     }
 
-    this.sections = [head];
+    this._sections = [head];
 
     //   angular.forEach(data, function (course) {
     //     var newPages = [];
@@ -252,26 +278,5 @@ export class MenuService {
     //
     //   sections = newSections;
     // }
-  }
-
-  selectSection (section) {
-    this.openedSection = section;
-  }
-
-  toggleSelectSection (section) {
-    this.openedSection = (this.openedSection === section ? null : section);
-  }
-
-  isSectionSelected (section) {
-    return this.openedSection === section;
-  }
-
-  selectPage (section, page) {
-    this.openedSection = section;
-    this.currentPage = page;
-  }
-
-  isPageSelected (page) {
-    return this.currentPage === page;
   }
 }

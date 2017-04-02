@@ -6,23 +6,18 @@ import {ArchonItemComponent} from "./archon-item/archon-item.component";
 import {ArchonCreateComponent} from "./archon-create/archon-create.component";
 
 const archonRoutes: Routes = [
-  {
-    path: 'archon',
-    children: [
-      {
-        path: '',
-        component: ArchonHomeComponent
-      },
-      {
-        path: ':course/create',
-        component: ArchonCreateComponent
-      },
-      {
-        path: ':course/:id',
-        component: ArchonItemComponent
-      }
-    ]
-  }
+    {
+      path: '',
+      component: ArchonHomeComponent
+    },
+    {
+      path: ':course/create',
+      component: ArchonCreateComponent
+    },
+    {
+      path: ':course/:id',
+      component: ArchonItemComponent
+    }
 ];
 
 @NgModule({

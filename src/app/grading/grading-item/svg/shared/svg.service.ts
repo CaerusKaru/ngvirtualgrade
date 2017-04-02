@@ -6,29 +6,33 @@ export class SvgService {
 
   constructor() { }
 
-  public mode = new BehaviorSubject<string>('draw');
-  public offsetX = new BehaviorSubject<number>(1.0);
-  public offsetY = new BehaviorSubject<number>(1.0);
-  public textEditing = new BehaviorSubject<boolean>(false);
+  private _mode : BehaviorSubject<string> = new BehaviorSubject('draw');
+  private _offsetX : BehaviorSubject<number> = new BehaviorSubject(1.0);
+  private _offsetY : BehaviorSubject<number> = new BehaviorSubject(1.0);
+  private _textEditing : BehaviorSubject<boolean> = new BehaviorSubject(false);
+
+  public mode = this._mode.asObservable();
+  public offsetX = this._offsetX.asObservable();
+  public offsetY = this._offsetY.asObservable();
+  public textEditing = this._textEditing.asObservable();
 
   setMode (newMode : string) {
-    this.mode.next(newMode);
+    this._mode.next(newMode);
   }
 
   setOffsetX (offsetX : number) {
-    this.offsetX.next(offsetX);
+    this._offsetX.next(offsetX);
   }
 
   setOffsetY (offsetY : number) {
-    this.offsetY.next(offsetY);
+    this._offsetY.next(offsetY);
   }
 
   enableTextEditing () {
-    this.textEditing.next(true);
+    this._textEditing.next(true);
   }
 
   disableTextEditing () {
-    this.textEditing.next(false);
+    this._textEditing.next(false);
   }
-
 }
