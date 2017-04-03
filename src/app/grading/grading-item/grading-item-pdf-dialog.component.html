@@ -14,7 +14,7 @@
                   *ngFor="let mode of modes"
                   [ngStyle]="{'color': mode.name === currentMode ? 'white' : '#303030'}"
                   [mdTooltip]="mode.tooltip"
-                  (click)="setMode(mode.name)"
+                  (tap)="setMode(mode.name)"
                   mdTooltipPosition="below">
             <md-icon>{{mode.iconName}}</md-icon>
           </button>
@@ -41,7 +41,7 @@
                   md-icon-button
                   mdTooltip="Undo"
                   mdTooltipPosition="below"
-                  (click)="undo()"
+                  (tap)="undo()"
                   [disabled]="PDF.getCurrentPage().addedStack.length===0">
             <md-icon>undo</md-icon>
           </button>
@@ -49,7 +49,7 @@
                   mdTooltip="Redo"
                   mdTooltipPosition="below"
                   aria-label="Redo previous action"
-                  (click)="redo()"
+                  (tap)="redo()"
                   [disabled]="PDF.getCurrentPage().undoStack.length===0">
             <md-icon>redo</md-icon>
           </button>
@@ -57,7 +57,7 @@
                   mdTooltip="Remove all"
                   mdTooltipPosition="below"
                   aria-label="Delete all changes"
-                  (click)="clear()"
+                  (tap)="clear()"
                   [disabled]="PDF.getCurrentPage().addedStack.length===0">
             <md-icon>delete</md-icon>
           </button>
@@ -68,7 +68,7 @@
                   mdTooltip="Prev page"
                   mdTooltipPosition="below"
                   aria-label="Back"
-                  (click)="backPage()"
+                  (tap)="backPage()"
                   [disabled]="PDF.currentPage()===0">
             <md-icon>navigate_before</md-icon>
           </button>
@@ -79,7 +79,7 @@
                   mdTooltip="Next page"
                   mdTooltipPosition="below"
                   aria-label="Next"
-                  (click)="attachPage()"
+                  (tap)="attachPage()"
                   [disabled]="PDF.currentPage()+1===PDF.numPages()">
             <md-icon>navigate_next</md-icon>
           </button>
@@ -87,7 +87,7 @@
                   mdTooltip="Add page"
                   mdTooltipPosition="below"
                   aria-label="Add page"
-                  (click)="addPage()">
+                  (tap)="addPage()">
             <md-icon>add_box</md-icon>
           </button>
           <button md-icon-button
@@ -95,7 +95,7 @@
                   mdTooltipPosition="below"
                   aria-label="Remove page"
                   [disabled]="!PDF.pages[PDF.currentPage()].removeable"
-                  (click)="removePage()">
+                  (tap)="removePage()">
             <md-icon>indeterminate_check_box</md-icon>
           </button>
 
@@ -107,7 +107,7 @@
                 mdTooltip="Toggle sidenav"
                 mdTooltipPosition="below"
                 aria-label="Toggle sidenav"
-                (click)="sideNavOpen = !sideNavOpen">
+                (tap)="sideNavOpen = !sideNavOpen">
           <md-icon>more_horiz</md-icon>
         </button>
 
@@ -132,21 +132,23 @@
     </div>
     <md-sidenav mode="side" [opened]="sideNavOpen" align="end" fxLayout="column">
       <div fxFlex fxLayout="column" fxFill class="md-padding">
-        <div id="scoring">
+        <div id="scoring" fxFlex>
           <span fxLayout="row">
-            <h3 fxLayout="row" fxLayoutAlign="center center" class="md-headline" style="margin: 0">{{assign}}: Problem {{page}}</h3>
+            <h3 fxLayout="row" fxLayoutAlign="center center" class="md-headline" style="margin: 0">
+              {{assign}}: {{problem}}
+            </h3>
             <button md-icon-button aria-label="Open demo menu" [mdMenuTriggerFor]="problemMenu">
               <md-icon>arrow_drop_down</md-icon>
             </button>
             <md-menu #problemMenu="mdMenu" md-offset="0 -7">
-              <button md-menu-item *ngFor="let num of pagesArray(); let i = index" (click)="selectProblem(i)">
+              <button md-menu-item *ngFor="let num of pagesArray(); let i = index" (tap)="selectProblem(i)">
                 <span>{{i + 1}}</span>
               </button>
             </md-menu>
             <span fxFlex></span>
           </span>
           <span fxLayout="row">
-            <h4 fxLayout="row" fxLayoutAlign="center center" class="md-subhead" style="margin: 0">Student #{{numStudent}}</h4>
+            <h4 fxLayout="row" fxLayoutAlign="center center" class="md-subhead" style="margin: 0">Student: {{studentName}}</h4>
             <button md-icon-button aria-label="Open demo menu" [mdMenuTriggerFor]="studentMenu">
               <md-icon>arrow_drop_down</md-icon>
             </button>
@@ -168,24 +170,27 @@
           <div fxLayout="row">
             <span class="md-title" fxLayout="row" fxLayoutAlign="center center"> {{score()}} / {{max}} pts</span>
             <span fxFlex></span>
-            <button md-icon-button (click)="setScore(true)" mdTooltip="Add scoring item" mdTooltipPosition="below">
+            <button md-icon-button (tap)="addScore()" mdTooltip="Add scoring item" mdTooltipPosition="below">
               <md-icon>playlist_add</md-icon>
             </button>
           </div>
         </div>
         <md-divider></md-divider>
-        <md-list dense style="overflow-y: auto;">
+        <md-list dense class="rubric-items">
           <h3 md-subheader>Rubric Items</h3>
-          <md-list-item *ngFor="let item of scores">
-            <md-checkbox md-list-icon [(ngModel)]="item.selected" color="primary"></md-checkbox>
-            <h5 md-line style="white-space: pre-wrap;">{{item.comment}}</h5>
-            <p md-line>{{item.score}} pts</p>
-            <button md-icon-button (click)="edit(item)">
-              <md-icon>mode_edit</md-icon>
-            </button>
-          </md-list-item>
+          <template ngFor let-item [ngForOf]="scores" let-last="last">
+            <md-list-item>
+              <md-checkbox md-list-icon [(ngModel)]="item.selected" color="primary"></md-checkbox>
+              <h5 md-line style="white-space: pre-wrap;">{{item.comment}}</h5>
+              <p md-line>{{item.score}} pts</p>
+              <button md-icon-button (tap)="edit(item)" fxLayoutAlign="center center">
+                <md-icon>mode_edit</md-icon>
+              </button>
+            </md-list-item>
+            <md-divider *ngIf="!last"></md-divider>
+          </template>
         </md-list>
-        <span fxFlex></span>
+        <span fxFlex style="min-height: 10px;"></span>
         <md-divider></md-divider>
         <h4 md-subheader class="md-no-sticky">Individual Adjustments</h4>
         <div fxLayout="row" fxLayoutAlign="center center" style="padding-left: 20px;">
@@ -199,10 +204,6 @@
           <button md-icon-button class="md-icon-button" mdTooltip="Add comments" mdTooltipPosition="below">
             <md-icon>comment</md-icon>
           </button>
-          <!--<md-input-container class="md-block">-->
-          <!--<label>Comments</label>-->
-          <!--<textarea ng-model="user.biography" rows="1" max-rows="2" md-no-autogrow md-no-resize></textarea>-->
-          <!--</md-input-container>-->
         </div>
         <md-divider></md-divider>
         <div fxLayout="row" style="padding-top:20px;">

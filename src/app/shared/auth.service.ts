@@ -20,7 +20,7 @@ export class AuthService {
       this.isLoggedIn().subscribe(
         data => {
           observable.next(true);
-          this.userService.populate(data.json());
+          this.userService.populate(data.json(), data.json().utln);
         },
         error => {
           observable.next(false);

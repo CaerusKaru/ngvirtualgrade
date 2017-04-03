@@ -20,10 +20,8 @@ export class UserService {
   public archon : Observable<string[]>;
   public courses : Observable<string[]>;
 
-  public populate (data) {
-    if (!this._populated) {
-      this._populated = true;
-      // console.log(data);
+  public populate (data, utln) {
+    if (utln !== this._utln.getValue()) {
       this._isGrader.next(data.grading.length !== 0);
       this._isArchon.next(data.archon.length !== 0);
       this._grading.next(data.grading);
@@ -33,7 +31,6 @@ export class UserService {
     }
   }
 
-  private _populated : boolean = false;
   private _utln : BehaviorSubject<string> = new BehaviorSubject('');
   private _isGrader : BehaviorSubject<boolean> = new BehaviorSubject(true);
   private _isArchon : BehaviorSubject<boolean> = new BehaviorSubject(true);

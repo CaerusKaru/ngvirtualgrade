@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import {UniqueSelectionDispatcher, MdDialog} from "@angular/material";
+import {UniqueSelectionDispatcher, MdDialog, MdDialogRef} from "@angular/material";
 import {SvgService} from "./svg/shared/svg.service";
+import {ScoreItem} from "../score-item";
+import {Problem} from "../problem";
+import {NgForm} from "@angular/forms";
 
 @Component({
   selector: 'app-grading-item',
@@ -106,33 +109,176 @@ export class GradingItemComponent implements OnInit {
 })
 export class GradingItemPDFDialog implements OnInit {
   constructor (
-    private svgService : SvgService
+    private svgService : SvgService,
+    public dialog : MdDialog
   ) {
 
   }
 
   ngOnInit () {
-    this.svgService.mode.subscribe((newMode) => this.currentMode = newMode);
+    this.svgService.mode.subscribe((newMode) => this._currentMode = newMode);
   }
 
-  currentColor : string = '#000000';
-  currentSize : number = 5;
-  currentMode : string;
 
-  doneStudents : number = 4;
-  totalStudents : number = 6;
-  adjust : number = 0;
-  selected = [];
+  public adjust : number = 0;
+  public currentColor : string = '#000000';
+  public currentSize : number = 5;
 
-  assign : string = "hw4";
-  page : number = 5;
-  numStudent : number = 4;
-  numPages : number = 6;
-  currentScore : number = 100;
-  max : number = 100;
-  min : number = 0;
+  get assign () {
+    return this._problem.assignName;
+  }
 
-  scores = [
+  get problem () {
+    return this._problem.problemName;
+  }
+
+  get student () {
+    return this._problem.studentName;
+  }
+
+  get doneStudents () {
+    return this._doneStudents;
+  }
+
+  get totalStudents () {
+    return this._totalStudents;
+  }
+
+  get numPages () {
+    return this._numPages;
+  }
+
+  get max () {
+    return this._problem.maxScore;
+  }
+
+  get scores () {
+    return this._scores;
+  }
+
+  get studentName () {
+    return this._problem.studentName;
+  }
+
+  public addScore () {
+    let dialogRef = this.dialog.open(ScoringItemDialog);
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this._scores.push({
+          score: parseFloat(result.points),
+          comment: result.desc,
+          selected: false
+        });
+      }
+    });
+  }
+
+  public selectProblem (i : number) {
+
+  }
+
+  public pagesArray () {
+    return new Array(this.numPages);
+  }
+
+  public edit (item) {
+    let idx = this._scores.indexOf(item);
+    let dialogRef = this.dialog.open(ScoringItemDialog);
+    dialogRef.componentInstance.desc = item.comment;
+    dialogRef.componentInstance.points = item.score;
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this._scores[idx].score = result.points;
+        this._scores[idx].comment = result.desc;
+      }
+    });
+  }
+
+  public score () {
+    return this.scores.reduce(function (a, b) {
+      return a + (b.selected ? b.score : 0);
+    }, 0) + this.adjust;
+  }
+
+  get modes () {
+    return this._modes;
+  }
+
+  get sideNavOpen () {
+    return this._sideNavOpen;
+  }
+
+  get currentMode () {
+    return this._currentMode;
+  }
+
+  public setMode (mode : string) {
+    this.svgService.setMode(mode);
+  }
+
+  public backPage () {
+
+  }
+
+  public attachPage () {
+
+  }
+
+  public addPage () {
+
+  }
+
+  public redo () {
+
+  }
+
+  public undo () {
+
+  }
+
+  public clear () {
+
+  }
+
+  public removePage () {
+
+  }
+
+  public PDF = {
+    pages: [{
+      removeable: false
+    }],
+    currentPage: () => {
+      return 0;
+    },
+    numPages: () => {
+      return 1;
+    },
+    getCurrentPage: () => {
+      return {
+        addedStack: [],
+        undoStack: []
+      };
+    }
+  };
+
+  // assignment
+
+  private _problem : Problem = {
+    assignName: "hw4",
+    problemName: "Problem 5",
+    studentName: "wiedjiw",
+    maxScore: 100,
+  };
+
+  private _doneStudents : number = 4;
+  private _totalStudents : number = 6;
+  private _numPages: number = 6;
+
+  private _currentMode : string;
+  private _sideNavOpen : boolean = true;
+
+  private _scores : ScoreItem[] = [
     {
       score: 3,
       comment: 'Did everything correctly',
@@ -145,33 +291,7 @@ export class GradingItemPDFDialog implements OnInit {
     }
   ];
 
-  setScore (max : boolean) {
-    if (max) {
-      this.currentScore = this.max;
-    } else {
-      this.currentScore = this.min;
-    }
-  }
-
-  selectProblem (i : number) {
-
-  }
-
-  pagesArray () {
-    return new Array(this.numPages);
-  }
-
-  edit (item) {
-    console.log(item);
-  }
-
-  score () {
-    return this.scores.reduce(function (a, b) {
-      return a + (b.selected ? b.score : 0);
-    }, 0) + this.adjust;
-  }
-
-  modes = [
+  private _modes = [
     {
       name: 'draw',
       iconName: 'mode_edit',
@@ -193,57 +313,24 @@ export class GradingItemPDFDialog implements OnInit {
       tooltip: 'Select'
     },
   ];
+}
 
-  setMode (mode : string) {
-    this.svgService.setMode(mode);
+@Component({
+  selector: 'app-scoring-item-dialog',
+  templateUrl: './score-item-dialog.html',
+  styles: []
+})
+export class ScoringItemDialog {
+
+  constructor (
+    public dialogRef : MdDialogRef<ScoringItemDialog>
+  ) {
   }
 
-  backPage () {
+  public points : number;
+  public desc : string;
 
-  }
-
-  attachPage () {
-
-  }
-
-  addPage () {
-
-  }
-
-  redo () {
-
-  }
-
-  undo () {
-
-  }
-
-  clear () {
-
-  }
-
-  PDF = {
-    pages: [{
-      removeable: false
-    }],
-    currentPage: () => {
-      return 0;
-    },
-    numPages: () => {
-      return 1;
-    },
-    getCurrentPage: () => {
-      return {
-        addedStack: [],
-        undoStack: []
-      };
-    },
-
-  };
-
-  sideNavOpen : boolean = true;
-
-  removePage () {
-
+  closeDialog (f: NgForm) {
+    this.dialogRef.close(f.value);
   }
 }

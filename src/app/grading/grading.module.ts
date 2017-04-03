@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { GradingHomeComponent } from './grading-home/grading-home.component';
 import {GradingRoutingModule} from "./grading-routing.module";
-import {GradingItemComponent, GradingItemPDFDialog} from './grading-item/grading-item.component';
+import {GradingItemComponent, GradingItemPDFDialog, ScoringItemDialog} from './grading-item/grading-item.component';
 import {MaterialModule} from "@angular/material";
 import {FlexLayoutModule} from "@angular/flex-layout";
 import {NgxChartsModule} from "@swimlane/ngx-charts";
@@ -24,6 +24,7 @@ import {SvgService} from "./grading-item/svg/shared/svg.service";
     GradingRoutingModule
   ],
   declarations: [
+    ScoringItemDialog,
     GradingItemPDFDialog,
     GradingHomeComponent,
     GradingItemComponent,
@@ -39,7 +40,8 @@ import {SvgService} from "./grading-item/svg/shared/svg.service";
   entryComponents: [
     LineComponent,
     TextComponent,
-    GradingItemPDFDialog
+    GradingItemPDFDialog,
+    ScoringItemDialog
   ],
   bootstrap: [
   ]

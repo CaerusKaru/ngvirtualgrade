@@ -61,3 +61,12 @@ svg-wrapper {
 .full-sidenav {
   height: 100%;
 }
+
+md-icon {
+  margin-right: 0 !important;
+}
+
+.rubric-items {
+  max-height: 40%;
+  overflow-y: auto;
+}
