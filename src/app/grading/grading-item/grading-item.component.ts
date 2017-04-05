@@ -200,6 +200,10 @@ export class GradingItemPDFDialog implements OnInit {
     }, 0) + this.adjust;
   }
 
+  public toggleSideNav () {
+    this._sideNavOpen = !this._sideNavOpen;
+  }
+
   get modes () {
     return this._modes;
   }

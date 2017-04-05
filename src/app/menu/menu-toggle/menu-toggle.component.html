@@ -16,7 +16,7 @@
 
 <ul id="course-menu-{{section.name | nospace}}"
     class="menu-toggle-list"
-    [@openMenu]="isOpen()">
+    [@openMenu]="isOpenAnimate()">
 
   <li *ngFor="let page of section.pages">
     <menu-link [section]="page"></menu-link>

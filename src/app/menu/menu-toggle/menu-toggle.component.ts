@@ -1,7 +1,11 @@
+import { Component, Input, AfterViewInit } from '@angular/core';
 import {
-  Component, Input, AfterViewInit, trigger, state,
-  style, animate, transition
-} from '@angular/core';
+  trigger,
+  state,
+  style,
+  animate,
+  transition
+} from '@angular/animations';
 import {MenuService} from "../shared/menu.service";
 import {MenuToggle} from "../shared/menu-toggle";
 
@@ -11,11 +15,11 @@ import {MenuToggle} from "../shared/menu-toggle";
   styleUrls: ['./menu-toggle.component.scss'],
   animations: [
     trigger('openMenu', [
-      state('false', style({
+      state('inactive', style({
         visibility: 'hidden',
         height: 0
       })),
-      state('true',  style({
+      state('active',  style({
         visibility: 'visible'
       })),
       transition('void => *', animate(0, style({ height: 0 }))),
@@ -26,8 +30,6 @@ import {MenuToggle} from "../shared/menu-toggle";
 export class MenuToggleComponent implements AfterViewInit {
 
   @Input () section : MenuToggle;
-
-  ul : Element;
 
   constructor(
     private menuService: MenuService
@@ -46,6 +48,10 @@ export class MenuToggleComponent implements AfterViewInit {
 
   isOpen () {
     return this.menuService.isSectionSelected(this.section);
+  }
+
+  isOpenAnimate () {
+    return this.isOpen() ? 'active' : 'inactive';
   }
 
   toggle ()  {

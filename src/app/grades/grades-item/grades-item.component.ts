@@ -12,5 +12,6 @@ export class GradesItemComponent implements OnInit {
   ngOnInit() {
   }
 
+  msg : string = "Click me!";
   disabled : boolean = false;
 }

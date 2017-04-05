@@ -24,6 +24,7 @@ import {MenuLinkComponent} from "./menu/menu-link/menu-link.component";
 import {ArchonModule} from "./archon/archon.module";
 import {GradingModule} from "./grading/grading.module";
 import {GradesModule} from "./grades/grades.module";
+import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 
 @NgModule({
   declarations: [
@@ -36,6 +37,7 @@ import {GradesModule} from "./grades/grades.module";
     HomeComponent
   ],
   imports: [
+    BrowserAnimationsModule,
     NgxChartsModule,
     CovalentCoreModule,
     BrowserModule,
