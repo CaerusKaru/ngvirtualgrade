@@ -17,7 +17,7 @@ export class SigninComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
+    this.returnUrl = this.route.snapshot.queryParams['returnPath'] || '/';
   }
 
   public error : boolean = false;
