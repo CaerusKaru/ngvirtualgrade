@@ -1,36 +1,38 @@
 <div class="default-theme">
   <p class="md-padding">Expand/Collapse Event for Expansion 1: {{msg}}</p>
-  <div fxFlex fxLayout="row" fxLayoutAlign="center start">
-    <div fxFlex="90">
-      <td-expansion-panel [disabled]="disabled">
-        <template td-expansion-panel-label>
-          <span>Problem 1: Vocabulary</span>
-        </template>
-        <template td-expansion-panel-sublabel>
-          <span>Score: 5/10</span>
-        </template>
-        <div class="md-padding">
-          <h3 class="md-subhead">md-padding class</h3>
-          <div>Demo 1</div>
-          <div>Demo 2</div>
-          <div>Demo 3</div>
-          <div>Demo 4</div>
-        </div>
-      </td-expansion-panel>
-      <td-expansion-panel [disabled]="disabled">
-        <template td-expansion-panel-label>
-          <span>Problem 2: Content</span>
-        </template>
-        <template td-expansion-panel-sublabel>
-          <span>Score: 6/10</span>
-        </template>
-        <div class="md-padding">
-          <h3 class="md-subhead">md-padding class</h3>
-          <div>Phase 1</div>
-          <div>Phase 2</div>
-          <div>Phase 3</div>
-        </div>
-      </td-expansion-panel>
+  <div fxLayout="column">
+    <div fxFlex fxLayout="row" fxLayoutAlign="center start">
+      <div fxFlex="90">
+        <td-expansion-panel [disabled]="disabled">
+          <ng-template td-expansion-panel-label>
+            <span>Problem 1: Vocabulary</span>
+          </ng-template>
+          <ng-template td-expansion-panel-sublabel>
+            <span>Score: 5/10</span>
+          </ng-template>
+          <div class="md-padding">
+            <h3 class="md-subhead">md-padding class</h3>
+            <div>Demo 1</div>
+            <div>Demo 2</div>
+            <div>Demo 3</div>
+            <div>Demo 4</div>
+          </div>
+        </td-expansion-panel>
+        <td-expansion-panel [disabled]="disabled">
+          <ng-template td-expansion-panel-label>
+            <span>Problem 2: Content</span>
+          </ng-template>
+          <ng-template td-expansion-panel-sublabel>
+            <span>Score: 6/10</span>
+          </ng-template>
+          <div class="md-padding">
+            <h3 class="md-subhead">md-padding class</h3>
+            <div>Phase 1</div>
+            <div>Phase 2</div>
+            <div>Phase 3</div>
+          </div>
+        </td-expansion-panel>
+      </div>
     </div>
   </div>
 </div>

@@ -2,18 +2,18 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { GradesHomeComponent } from './grades-home/grades-home.component';
 import {GradesRoutingModule} from "./grades-routing.module";
-import {CovalentCoreModule} from "@covalent/core";
-import {MaterialModule} from "@angular/material";
 import {FlexLayoutModule} from "@angular/flex-layout";
 import { GradesItemComponent } from './grades-item/grades-item.component';
+import {GradesMaterialModule} from "./grades-material/grades-material.module";
+import {GradesCovalentModule} from "./grades-covalent/grades-covalent.module";
 
 @NgModule({
   imports: [
     CommonModule,
     GradesRoutingModule,
     FlexLayoutModule,
-    MaterialModule,
-    CovalentCoreModule
+    GradesMaterialModule,
+    GradesCovalentModule
   ],
   declarations: [GradesHomeComponent, GradesItemComponent]
 })

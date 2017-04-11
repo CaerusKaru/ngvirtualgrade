@@ -1,4 +1,4 @@
-@import '~@angular/material/core/theming/all-theme';
+@import '~@angular/material/theming';
 @import '~@covalent/core/theming/all-theme';
 
 @include mat-core();
@@ -14,8 +14,12 @@ $background: (
   hover:      rgba(black, 0.04), // TODO(kara): check style with Material Design UX
   card:       white,
   dialog:     white,
-  disabled-button: rgba(black, 0.12),
+  disabled-button: $black-12-opacity,
   raised-button: white,
+  focused-button: $black-6-opacity,
+  selected-button: map_get($mat-grey, 300),
+  selected-disabled-button: map_get($mat-grey, 400),
+  disabled-button-toggle: map_get($mat-grey, 200),
 );
 
 $pdf-dark-background: (
@@ -24,13 +28,13 @@ $pdf-dark-background: (
   background: #303030,
   hover:      rgba(white, 0.04), // TODO(kara): check style with Material Design UX
   card:       map_get($mat-blue-grey, 800),
-  dialog:     map_get($mat-blue-grey, 800),
-  disabled-button: rgba(white, 0.12),
+  dialog:     map_get($mat-grey, 800),
+  disabled-button: $white-12-opacity,
   raised-button: map-get($mat-blue-grey, 800),
-  focused-button: rgba(white, 0.06),
-  selected-button: map_get($mat-blue-grey, 900),
+  focused-button: $white-6-opacity,
+  selected-button: map_get($mat-grey, 900),
   selected-disabled-button: map_get($mat-blue-grey, 800),
-  disabled-button-toggle: map_get($mat-blue-grey, 1000),
+  disabled-button-toggle: map_get($mat-grey, 1000), // there is no mat-blue-grey 1000 (grey-1000 == black)
 );
 
 @function md-app-theme($primary, $accent, $warn, $background, $foreground) {
@@ -49,14 +53,14 @@ $theme: md-app-theme($primary, $accent, $warn, $background, $mat-light-theme-for
 @include angular-material-theme($theme);
 @include covalent-theme($theme);
 
-@function md-app-dark-theme($primary, $accent, $warn, $background, $foreground) {
+@function md-app-dark-theme($p, $a, $w, $b, $f) {
   @return (
-    primary: $primary,
-    accent: $accent,
-    warn: $warn,
+    primary: $p,
+    accent: $a,
+    warn: $w,
     is-dark: true,
-    foreground: $foreground,
-    background: $background,
+    foreground: $f,
+    background: $b,
   );
 }
 
@@ -75,7 +79,7 @@ $theme: md-app-theme($primary, $accent, $warn, $background, $mat-light-theme-for
 }
 
 $pdf-primary: mat-palette($mat-blue-grey);
-$pdf-accent: mat-palette($mat-light-blue);
+$pdf-accent: mat-palette($mat-light-blue, A200, A100, A400);
 $pdf-warn: mat-palette($mat-red);
 
 .pdf-dialog-dark {

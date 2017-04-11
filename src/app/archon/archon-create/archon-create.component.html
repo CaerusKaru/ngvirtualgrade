@@ -59,56 +59,56 @@
       </td-step>
       <td-step #step2 label="" [active]="activeState === 2" (activated)="activeState = 2">
         This step is required!
-        <template td-step-actions>
+        <ng-template td-step-actions>
           <div fxLayout="row">
             <button md-button (click)="activeState = activeState - 1">BACK</button>
             <span fxFlex></span>
             <button md-button>CANCEL</button>
             <button md-button color="primary" (click)="activeState = activeState + 1">CONTINUE</button>
           </div>
-        </template>
+        </ng-template>
       </td-step>
       <td-step #step3 label="" [active]="activeState === 3" (activated)="activeState = 3">
         Mark this step complete and get a summary
-        <template td-step-summary>
+        <ng-template td-step-summary>
           Use an optional step summary to summarize the info in this step
-        </template>
-        <template td-step-actions>
+        </ng-template>
+        <ng-template td-step-actions>
           <div fxLayout="row">
             <button md-button (click)="activeState = activeState - 1">BACK</button>
             <span fxFlex></span>
             <button md-button>CANCEL</button>
             <button md-button color="primary" (click)="activeState = activeState + 1">CONTINUE</button>
           </div>
-        </template>
+        </ng-template>
       </td-step>
       <td-step #step4 label="" [active]="activeState === 4" (activated)="activeState = 4">
         Mark this step complete and get a summary
-        <template td-step-summary>
+        <ng-template td-step-summary>
           Use an optional step summary to summarize the info in this step
-        </template>
-        <template td-step-actions>
+        </ng-template>
+        <ng-template td-step-actions>
           <div fxLayout="row">
             <button md-button (click)="activeState = activeState - 1">BACK</button>
             <span fxFlex></span>
             <button md-button>CANCEL</button>
             <button md-button color="primary" (click)="activeState = activeState + 1">CONTINUE</button>
           </div>
-        </template>
+        </ng-template>
       </td-step>
       <td-step #step5 label="" [active]="activeState === 5" (activated)="activeState = 5">
         Mark this step complete and get a summary
-        <template td-step-summary>
+        <ng-template td-step-summary>
           Use an optional step summary to summarize the info in this step
-        </template>
-        <template td-step-actions>
+        </ng-template>
+        <ng-template td-step-actions>
           <div fxLayout="row">
             <button md-button (click)="activeState = activeState - 1">BACK</button>
             <span fxFlex></span>
             <button md-button>CANCEL</button>
             <button md-button color="primary">SUBMIT</button>
           </div>
-        </template>
+        </ng-template>
       </td-step>
     </td-steps>
   </md-card>

@@ -1,16 +1,14 @@
 <div fxFlex fxLayout="row" class="md-padding default-theme" fxFill>
   <div fxLayout="column" fxFlex="50">
-    <div>
-      <h4>Select a problem: </h4>
-      <div fxLayout="row">
-        <md-button-toggle-group #group="mdButtonToggleGroup" [(ngModel)]="currentProblem" class="toggle-white">
-          <md-button-toggle *ngFor="let problem of problems" [value]="problem.name">
-            {{problem.name}}
-          </md-button-toggle>
-        </md-button-toggle-group>
-        <span fxFlex="40px"></span>
-        <button md-raised-button (click)="grade()" *ngIf="currentProblem">GRADE</button>
-      </div>
+    <h4>Select a problem: </h4>
+    <div fxLayout="row">
+      <md-button-toggle-group #group="mdButtonToggleGroup" [(ngModel)]="currentProblem" class="toggle-white">
+        <md-button-toggle *ngFor="let problem of problems" [value]="problem.name">
+          {{problem.name}}
+        </md-button-toggle>
+      </md-button-toggle-group>
+      <span fxFlex="40px"></span>
+      <button md-raised-button (click)="grade()" *ngIf="currentProblem">GRADE</button>
     </div>
   </div>
   <div fxLayout="column" fxFlex="50" fxFlexOffset="10px">

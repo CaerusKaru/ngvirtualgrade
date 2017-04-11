@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import {UniqueSelectionDispatcher, MdDialog, MdDialogRef} from "@angular/material";
 import {SvgService} from "./svg/shared/svg.service";
-import {ScoreItem} from "../score-item";
-import {Problem} from "../problem";
+import {ScoreItem} from "../shared/score-item";
+import {Problem} from "../shared/problem";
 import {NgForm} from "@angular/forms";
 
 @Component({

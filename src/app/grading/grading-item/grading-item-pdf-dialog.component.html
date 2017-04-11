@@ -178,7 +178,7 @@
         <md-divider></md-divider>
         <md-list dense class="rubric-items">
           <h3 md-subheader>Rubric Items</h3>
-          <template ngFor let-item [ngForOf]="scores" let-last="last">
+          <ng-template ngFor let-item [ngForOf]="scores" let-last="last">
             <md-list-item>
               <md-checkbox md-list-icon [(ngModel)]="item.selected" color="primary"></md-checkbox>
               <h5 md-line style="white-space: pre-wrap;">{{item.comment}}</h5>
@@ -188,7 +188,7 @@
               </button>
             </md-list-item>
             <md-divider *ngIf="!last"></md-divider>
-          </template>
+          </ng-template>
         </md-list>
         <span fxFlex style="min-height: 10px;"></span>
         <md-divider></md-divider>
