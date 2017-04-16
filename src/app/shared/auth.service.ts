@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
-import {Constants} from "../constants";
 import {Http, RequestOptions, Response, Headers} from "@angular/http";
 import {Observable} from "rxjs";
 import {Router} from "@angular/router";
 import {UserService} from "./user.service";
+import {environment} from "../../environments/environment";
 
 @Injectable()
 export class AuthService {
@@ -43,7 +43,7 @@ export class AuthService {
     this.router.navigate(['/signin']);
   }
 
-  private url: string = Constants.API_ENDPOINT;
+  private url: string = environment.API_ENDPOINT;
   private headers : Headers;
   private options : RequestOptions;
 
