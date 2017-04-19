@@ -1,0 +1,27 @@
+<!--
+
+USAGE:
+
+<nav-menu-container>
+  <nav-menu-heading label="">
+    <nav-menu-toggle label="">
+      <nav-menu-link *ngFor="let link of links" link="">link.name</nav-menu-link>
+    </nav-menu-toggle>
+    <nav-menu-link>Something</nav-menu-link>
+  </nav-menu-heading>
+  <nav-menu-toggle label="">
+    <nav-menu-link *ngFor="let link of links" link="">link.name</nav-menu-link>
+  </nav-menu-toggle>
+  <nav-menu-link>Something</nav-menu-link>
+</nav-menu-container>
+
+-->
+
+<div fxFlex role="navigation">
+  <ul class="course-menu">
+    <ng-content select="nav-menu-header, nav-menu-toggle, nav-menu-link"></ng-content>
+    <md-list style="padding-top: 0">
+      <md-divider></md-divider>
+    </md-list>
+  </ul>
+</div>

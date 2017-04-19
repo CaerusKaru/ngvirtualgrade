@@ -1,0 +1,11 @@
+<li>
+  <button md-button
+    [ngClass]="{'active' : isSelected()}"
+    (click)="navigate(link)">
+    <ng-content></ng-content>
+    <span class="md-visually-hidden"
+          *ngIf="isSelected()">
+      current page
+    </span>
+  </button>
+</li>
