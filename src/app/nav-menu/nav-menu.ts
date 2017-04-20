@@ -1,8 +1,10 @@
-import {Component, OnInit, Input, ViewEncapsulation, ViewChildren, QueryList, AfterContentInit} from '@angular/core';
+import {
+  Component, OnInit, Input, ViewEncapsulation, QueryList, AfterContentInit,
+  OnDestroy, ContentChildren
+} from '@angular/core';
 import {NavMenuService} from "./shared/nav-menu.service";
 import {animate, style, transition, state, trigger} from "@angular/animations";
-import {Router, ActivatedRoute, NavigationEnd} from "@angular/router";
-import {Location} from "@angular/common";
+import {Router} from "@angular/router";
 
 let uniqueId = 0;
 
@@ -20,15 +22,13 @@ export class NavMenuLinkComponent implements OnInit {
   @Input() id : number = uniqueId++;
 
   constructor(
-    private route: ActivatedRoute,
     private router: Router,
-    private location : Location,
     private menuService : NavMenuService
-  ) { }
+  ) {
+  }
 
-  ngOnInit() {
+  ngOnInit () {
     this.menuService.openPage.subscribe(data => this._isSelected = data === this.id);
-    this.initRouter();
   }
 
   isSelected () {
@@ -40,16 +40,6 @@ export class NavMenuLinkComponent implements OnInit {
   }
 
   private _isSelected : boolean;
-
-  private initRouter() {
-    this.router.events.filter(event => event instanceof NavigationEnd).subscribe(
-      event => {
-        if (this.location.path().indexOf(this.link) !== -1) {
-          this.menuService.selectPage(this.id);
-        }
-      }
-    );
-  }
 }
 
 @Component({
@@ -59,44 +49,41 @@ export class NavMenuLinkComponent implements OnInit {
   selector: 'nav-menu-toggle',
   templateUrl: './nav-menu-toggle.component.html',
   animations: [
+    // TODO make this into AnimationBuilder with Angular 4.1-beta.2
     trigger('openMenu', [
       state('false', style({
-        visibility: 'hidden',
-        height: 0
+        height: 0,
+        visibility: 'hidden'
       })),
       state('true',  style({
-        visibility: 'visible',
-        height: '*'
+        height: '*',
+        visibility: 'visible'
       })),
-      transition('void => *', animate(0, style({ height: 0 }))),
+      transition('void => false', animate(0, style({ height: 0 }))),
       transition('* => *', animate('750ms cubic-bezier(0.35, 0, 0.25, 1)'))
     ])
   ],
   encapsulation: ViewEncapsulation.None
 })
-export class NavMenuToggleComponent implements AfterContentInit {
+export class NavMenuToggleComponent implements AfterContentInit, OnDestroy {
 
   @Input () label : string;
   @Input () id : number = uniqueId++;
-  @ViewChildren(NavMenuLinkComponent) links : QueryList<NavMenuLinkComponent>;
+  @ContentChildren(NavMenuLinkComponent) links : QueryList<NavMenuLinkComponent>;
 
   constructor(
     private menuService: NavMenuService
   ) { }
 
   ngAfterContentInit () {
+    this.links.map(c => this.menuService.addLink(c.id, c.link, this.id));
     this.menuService.openSection.subscribe(data => {
       this._openSection = data == this.id;
     });
-    this.menuService.openPage.filter(data => data !== null).subscribe(data => {
-      console.log(this.links);
-      this._openPage = data;
-      this._openSection = this.links.reduce((a, d) => { console.log(d.id); return a ? a : d.id === data }, false);
-      if (this._openSection) {
-        console.log('select!');
-        this.menuService.selectSection(this.id);
-      }
-    });
+  }
+
+  ngOnDestroy () {
+    this.links.map(c => this.menuService.removeLink(c.id, c.link, this.id));
   }
 
   public isOpen () {
@@ -108,7 +95,6 @@ export class NavMenuToggleComponent implements AfterContentInit {
   }
 
   private _openSection : boolean;
-  private _openPage : number;
 }
 
 @Component({
