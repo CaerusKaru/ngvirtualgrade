@@ -1,6 +1,6 @@
 import {
-  ElementRef, Input, HostListener, Renderer, ViewChild, AfterViewInit,
-  Component, OnInit, ComponentFactoryResolver, ViewContainerRef
+  ElementRef, Input, HostListener, ViewChild, AfterViewInit,
+  Component, OnInit, ComponentFactoryResolver, ViewContainerRef, Renderer2
 } from '@angular/core';
 import {LineComponent} from "../line/line.component";
 import {SvgService} from "../shared/svg.service";
@@ -15,7 +15,7 @@ export class WrapperComponent implements OnInit, AfterViewInit{
 
   constructor(
     private element: ElementRef,
-    private renderer: Renderer,
+    private renderer: Renderer2,
     private svgService : SvgService,
     private _componentFactoryResolver: ComponentFactoryResolver
   ) { }
@@ -96,7 +96,7 @@ export class WrapperComponent implements OnInit, AfterViewInit{
   @HostListener ('touchstart', ['$event'])
   clickDown (evt) {
     this.updateBoundingRect();
-    if (this.currentMode === 'draw') {
+    if (this.currentMode === 'draw' || this.currentMode === 'highlight') {
       evt.preventDefault();
       this.drawStart(evt);
     }
@@ -106,7 +106,7 @@ export class WrapperComponent implements OnInit, AfterViewInit{
   @HostListener ('touchmove', ['$event'])
   @HostListener ('mousemove', ['$event'])
   clickMove (evt) {
-    if (this.currentMode === 'draw') {
+    if (this.currentMode === 'draw' || this.currentMode === 'highlight') {
       evt.preventDefault();
       this.drawMove(evt);
     } else {
@@ -120,7 +120,7 @@ export class WrapperComponent implements OnInit, AfterViewInit{
   @HostListener ('document:mouseup', ['$event'])
   @HostListener ('document:touchend', ['$event'])
   clickUp (evt) {
-    if (this.currentMode === 'draw') {
+    if (this.currentMode === 'draw' || this.currentMode === 'highlight') {
       evt.preventDefault();
       this.drawEnd(evt);
     }
@@ -196,7 +196,8 @@ export class WrapperComponent implements OnInit, AfterViewInit{
     (<LineComponent>componentRef.instance).data = {
       line: this.line,
       size: size,
-      color: color
+      color: color,
+      opacity: this.currentMode === 'highlight' ? 0.6 : 1.0
     };
 
     // this.currentPage.addedStack.push(path);
@@ -219,18 +220,19 @@ export class WrapperComponent implements OnInit, AfterViewInit{
     let size = parseFloat(this.currentSize);
     let color = this.currentColor;
 
-    let dot = this.renderer.createElement(this.cursor.nativeElement, 'div');
-    this.renderer.setElementClass(dot, 'dot', true);
-    this.renderer.setElementStyle(dot, 'position', 'fixed');
-    this.renderer.setElementStyle(dot, 'top', (y - (size / (this.offsetY * 2))) + 'px');
-    this.renderer.setElementStyle(dot, 'left', (x - (size / (this.offsetX * 2))) + 'px');
-    this.renderer.setElementStyle(dot, 'background', color);
-    this.renderer.setElementStyle(dot, 'width', size / this.offsetX + 'px');
-    this.renderer.setElementStyle(dot, 'height', size / this.offsetY + 'px');
-    this.renderer.setElementStyle(dot, 'borderRadius', '100%');
-    this.renderer.setElementStyle(dot, 'display', 'block');
-    this.renderer.setElementStyle(dot, 'opacity', '1.0');
-    this.renderer.setElementStyle(dot, 'pointerEvents', 'none');
+    let dot = this.renderer.createElement('div');
+    this.renderer.addClass(dot, 'dot');
+    this.renderer.setStyle(dot, 'position', 'fixed');
+    this.renderer.setStyle(dot, 'top', (y - (size / (this.offsetY * 2))).toString() + 'px');
+    this.renderer.setStyle(dot, 'left', (x - (size / (this.offsetX * 2))).toString() + 'px');
+    this.renderer.setStyle(dot, 'background', color);
+    this.renderer.setStyle(dot, 'width', (size / this.offsetX).toString() + 'px');
+    this.renderer.setStyle(dot, 'height', (size / this.offsetY).toString() + 'px');
+    this.renderer.setStyle(dot, 'borderRadius', '100%');
+    this.renderer.setStyle(dot, 'display', 'block');
+    this.renderer.setStyle(dot, 'opacity', this.currentMode === 'highlight' ? '0.3' : '1.0');
+    this.renderer.setStyle(dot, 'pointerEvents', 'none');
+    this.renderer.appendChild(this.cursor.nativeElement, dot);
   }
 
   attachPage (i, removeOld) {
@@ -243,16 +245,6 @@ export class WrapperComponent implements OnInit, AfterViewInit{
     // this.element.append(svg);
   }
 
-  removePage () {
-    // INVARIANT: first page attached is not removable, so we can safely assume selectedPage > 0
-    // this.attachPage(PDFService.currentPage() - 1, true);
-  }
-
-  addPage () {
-    // PDFService.addPage(PDFService.currentPage() + 1);
-    // this.attachPage(PDFService.currentPage() + 1, false);
-  }
-
   backPage () {
     // this.attachPage(PDFService.currentPage() - 1, false);
   }
@@ -261,8 +253,6 @@ export class WrapperComponent implements OnInit, AfterViewInit{
     // this.attachPage(PDFService.currentPage() + 1, false);
   }
 
-  // $on('addPage', addPage);
-  // $on('removePage', removePage);
   // $on('backPage', backPage);
   // $on('nextPage', nextPage);
 

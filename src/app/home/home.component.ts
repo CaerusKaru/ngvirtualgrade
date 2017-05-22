@@ -1,9 +1,14 @@
 import {Component, OnInit, ViewEncapsulation} from '@angular/core';
 import {NavigationEnd, Router} from "@angular/router";
+<<<<<<< Updated upstream
 import {UserService} from "../shared/user.service";
 import {MenuService} from "../menu/shared/menu.service";
+=======
+import {UserService} from "../shared/services/user.service";
+>>>>>>> Stashed changes
 import {Location} from "@angular/common";
-import {AuthService} from "../shared/auth.service";
+import {AuthService} from "../shared/services/auth.service";
+import {Observable} from "rxjs/Observable";
 
 @Component({
   selector: 'app-home',
@@ -23,6 +28,9 @@ export class HomeComponent implements OnInit {
     this.router.events
       .filter(event => event instanceof NavigationEnd)
       .subscribe((event) => this.changeTab());
+    this._grading = this.userService.grading;
+    this._archon = this.userService.archon;
+    this._grades = this.userService.courses;
   }
 
   ngOnInit () {
@@ -46,6 +54,8 @@ export class HomeComponent implements OnInit {
     }
   }
 
+  public mode : string;
+  public courses : Observable<string[]>;
   public activeLinkIndex = -1;
   public archonTab = {route: '/archon', label: 'Archon'};
   public graderTab = {route: '/grading', label: 'Grading'};
@@ -89,6 +99,9 @@ export class HomeComponent implements OnInit {
   }
 
   private _initTabs = false;
+  private _grades : Observable<string[]>;
+  private _grading : Observable<string[]>;
+  private _archon : Observable<string[]>;
 
   private changeTab() {
     let findTab = (nav) => {
@@ -97,5 +110,13 @@ export class HomeComponent implements OnInit {
 
     this.activeLinkIndex =
       this.navLinks.indexOf(this.navLinks.find(findTab));
+    this.mode = this.navLinks[this.activeLinkIndex].route;
+    if (this.mode === '/archon') {
+      this.courses = this._archon;
+    } else if (this.mode === '/grading') {
+      this.courses = this._grading;
+    } else {
+      this.courses = this._grades;
+    }
   }
 }

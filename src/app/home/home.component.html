@@ -34,25 +34,19 @@
     <md-sidenav class="site-sidenav md-whiteframe-z2 hide-print"
                 #sidenav
                 mode="side"
-                fxFlex fxLayout="column"
-                [opened]="isOpen()" fxFill>
-      <div fxFlex role="navigation">
-        <ul class="course-menu">
-          <li *ngFor="let section of getSections()" class="parent-list-item {{section.className || ''}}" [ngClass]="{'parentActive' : isSectionSelected(section)}">
-            <h2 class="menu-heading md-subhead" *ngIf="isHeading(section)" id="heading_{{ section.name | nospace }}">
-              {{section.name}}
-            </h2>
-            <menu-link [section]="section" *ngIf="isLink(section) && !section.hidden"></menu-link>
-            <menu-toggle [section]="section" *ngIf="isToggle(section) && !section.hidden"></menu-toggle>
-            <ul *ngIf="section.children" class="menu-nested-list">
-              <li *ngFor="let child of section.children | sortBy: 'name'" [ngClass]="{'childActive' : isSectionSelected(child)}">
-                <menu-link [section]="child" *ngIf="isLink(child)"></menu-link>
-                <menu-toggle [section]="child" *ngIf="isToggle(child)"></menu-toggle>
-              </li>
-            </ul>
-          </li>
-        </ul>
-      </div>
+                [opened]="isOpen()">
+      <nav-menu-container fxFlex>
+        <nav-menu-header label="Courses">
+          <nav-menu-toggle *ngFor="let course of courses | async | sortBy: ''"
+                           label="COMP {{course.name}}">
+            <md-icon>grade</md-icon>
+            <nav-menu-link *ngFor="let link of course.assigns | sort"
+                           link="{{mode}}/{{course.name}}/{{link}}">
+              {{link}}
+            </nav-menu-link>
+          </nav-menu-toggle>
+        </nav-menu-header>
+      </nav-menu-container>
     </md-sidenav>
     <router-outlet></router-outlet>
   </md-sidenav-container>

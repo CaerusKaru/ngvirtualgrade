@@ -204,6 +204,14 @@ export class GradingItemPDFDialog implements OnInit {
     this._sideNavOpen = !this._sideNavOpen;
   }
 
+  public openFileExplorer () {
+    this._fileExplorerOpen = !this._fileExplorerOpen;
+  }
+
+  public closeFileExplorer () {
+    this._fileExplorerOpen = false;
+  }
+
   get modes () {
     return this._modes;
   }
@@ -212,11 +220,31 @@ export class GradingItemPDFDialog implements OnInit {
     return this._sideNavOpen;
   }
 
+  get fileExplorerOpen () {
+    return this._fileExplorerOpen;
+  }
+
   get currentMode () {
     return this._currentMode;
   }
 
   public setMode (mode : string) {
+    if (mode === 'highlight') {
+      if (this._currentMode === 'draw') {
+        this.drawColor = this.currentColor;
+        this.drawSize = this.currentSize;
+      }
+      this.currentColor = this.highlightColor;
+      this.currentSize = this.highlightSize;
+    } else if (mode === 'draw') {
+      if (this._currentMode === 'highlight') {
+        this.highlightColor = this.currentColor;
+        this.highlightSize = this.currentSize;
+      }
+      this.currentColor = this.drawColor;
+      this.currentSize = this.drawSize;
+    }
+
     this.svgService.setMode(mode);
   }
 
@@ -248,6 +276,10 @@ export class GradingItemPDFDialog implements OnInit {
 
   }
 
+  public download () {
+
+  }
+
   public PDF = {
     pages: [{
       removeable: false
@@ -271,15 +303,20 @@ export class GradingItemPDFDialog implements OnInit {
   private _problem : Problem = {
     assignName: "hw4",
     problemName: "Problem 5",
-    studentName: "wiedjiw",
+    studentName: "1",
     maxScore: 100,
   };
 
+  private drawColor = '#000000';
+  private drawSize = 5;
+  private highlightColor = '#FFFF00';
+  private highlightSize = 15;
   private _doneStudents : number = 4;
   private _totalStudents : number = 6;
   private _numPages: number = 6;
 
   private _currentMode : string;
+  private _fileExplorerOpen: boolean = false;
   private _sideNavOpen : boolean = true;
 
   private _scores : ScoreItem[] = [
@@ -307,6 +344,11 @@ export class GradingItemPDFDialog implements OnInit {
       tooltip: 'Text'
     },
     {
+      name: 'highlight',
+      iconName: 'highlight',
+      tooltip: 'Highlighter'
+    },
+    {
       name: 'drag',
       iconName: 'pan_tool',
       tooltip: 'Drag'
@@ -315,7 +357,7 @@ export class GradingItemPDFDialog implements OnInit {
       name: 'select',
       iconName: 'touch_app',
       tooltip: 'Select'
-    },
+    }
   ];
 }
 

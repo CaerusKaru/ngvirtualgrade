@@ -2,10 +2,7 @@ import { NgModule }              from '@angular/core';
 import { RouterModule, Routes }  from '@angular/router';
 import {SigninComponent} from "./signin/signin.component";
 import {HomeComponent} from "./home/home.component";
-import {AuthGuard} from "./shared/auth.guard";
-import {GradesModule} from "./grades/grades.module";
-import {GradingModule} from "./grading/grading.module";
-import {ArchonModule} from "./archon/archon.module";
+import {AuthGuard} from "./shared/guards/auth.guard";
 
 export const appRoutes: Routes = [
   { path: 'signin', component: SigninComponent},

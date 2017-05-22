@@ -3,7 +3,7 @@ import {Http, RequestOptions, Response, Headers} from "@angular/http";
 import {Observable} from "rxjs";
 import {Router} from "@angular/router";
 import {UserService} from "./user.service";
-import {environment} from "../../environments/environment";
+import {environment} from "../../../environments/environment";
 
 @Injectable()
 export class AuthService {

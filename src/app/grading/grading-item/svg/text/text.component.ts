@@ -1,5 +1,5 @@
 import {
-  Component, ElementRef, HostBinding, HostListener, Input, OnInit, Renderer, ViewChild, ViewContainerRef
+  Component, ElementRef, HostBinding, HostListener, Input, OnInit, Renderer2, ViewChild, ViewContainerRef
 } from '@angular/core';
 import {SVGInterface} from "../shared/svg.interface";
 import {SvgService} from "../shared/svg.service";
@@ -22,7 +22,7 @@ export class TextComponent implements SVGInterface, OnInit {
   constructor(
     private element : ElementRef,
     private svgService : SvgService,
-    private renderer : Renderer
+    private renderer : Renderer2
   ) { }
 
   ngOnInit () {
@@ -122,7 +122,9 @@ export class TextComponent implements SVGInterface, OnInit {
     }
 
     let trans = () => {
-      this.renderer.setElementAttribute(this.textNode.element.nativeElement, 'transform', this.transform);
+      if (this.transform) {
+        this.renderer.setAttribute(this.textNode.element.nativeElement, 'transform', this.transform);
+      }
     };
 
     if (this.textNode) {

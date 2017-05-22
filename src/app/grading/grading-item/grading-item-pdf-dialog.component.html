@@ -7,9 +7,17 @@
                 fxLayoutAlign="center center"
                 color="primary"
                 class="multiple-page-header art-toolbar md-whiteframe-6dp">
+      <div style="background: #038BE5; height: 100%" fxLayoutAlign="center center">
+        <button md-icon-button
+                mdTooltip="Show files"
+                (click)="openFileExplorer()"
+                mdTooltipPosition="below">
+          <md-icon>folder_open</md-icon>
+        </button>
+      </div>
       <div class="small-header" fxFlex fxLayout="row" fxLayoutAlign="space-between center">
 
-        <div fxLayout="row" fxLayoutAlign="center center" fxFlexOffset="15px">
+        <div fxLayout="row" fxLayoutAlign="center center" fxFlexOffset="10px">
           <button md-icon-button
                   *ngFor="let mode of modes"
                   [ngStyle]="{'color': mode.name === currentMode ? 'white' : '#303030'}"
@@ -34,7 +42,7 @@
           <input type="color" [(ngModel)]="currentColor">
         </div>
 
-        <span fxFlex></span>
+        <span fxFlex="25px"></span>
 
         <div fxLayout="row" fxLayoutAlign="center center">
           <button aria-label="Undo previous action"
@@ -63,7 +71,26 @@
           </button>
         </div>
 
-        <div fxLayout="row" fxLayoutAlign="center center">
+        <md-divider direction="vertical" fxFlexOffset="10px"></md-divider>
+
+        <div fxLayout="row" fxLayoutAlign="center center" fxFlexOffset="20px">
+          <h4 fxLayout="row" fxLayoutAlign="center center">
+            <span>{{assign}} - {{problem}}</span>
+          </h4>
+
+          <button md-icon-button
+                  mdTooltip="Download file"
+                  mdTooltipPosition="below"
+                  aria-label="Download file"
+                  (tap)="download()">
+            <md-icon>file_download</md-icon>
+          </button>
+        </div>
+
+        <md-divider direction="vertical" fxFlexOffset="10px"></md-divider>
+
+        <div fxLayout="row" fxLayoutAlign="center center" fxFlexOffset="10px">
+
           <button md-icon-button
                   mdTooltip="Prev page"
                   mdTooltipPosition="below"
@@ -83,25 +110,11 @@
                   [disabled]="PDF.currentPage()+1===PDF.numPages()">
             <md-icon>navigate_next</md-icon>
           </button>
-          <button md-icon-button
-                  mdTooltip="Add page"
-                  mdTooltipPosition="below"
-                  aria-label="Add page"
-                  (tap)="addPage()">
-            <md-icon>add_box</md-icon>
-          </button>
-          <button md-icon-button
-                  mdTooltip="Remove page"
-                  mdTooltipPosition="below"
-                  aria-label="Remove page"
-                  [disabled]="!PDF.pages[PDF.currentPage()].removeable"
-                  (tap)="removePage()">
-            <md-icon>indeterminate_check_box</md-icon>
-          </button>
-
         </div>
 
         <span fxFlex></span>
+
+        <md-divider direction="vertical" fxFlexOffset="10px"></md-divider>
 
         <button md-icon-button
                 mdTooltip="Toggle sidenav"
@@ -130,41 +143,17 @@
         </svg-wrapper>
       </div>
     </div>
+    <md-sidenav mode="over" align="start" [opened]="fileExplorerOpen" fxLayout="column" (close)="closeFileExplorer()">
+      File content
+    </md-sidenav>
     <md-sidenav mode="side" [opened]="sideNavOpen" align="end" fxLayout="column">
       <div fxFlex fxLayout="column" fxFill class="md-padding">
-        <div id="scoring" fxFlex>
-          <span fxLayout="row">
-            <h3 fxLayout="row" fxLayoutAlign="center center" class="md-headline" style="margin: 0">
-              {{assign}}: {{problem}}
-            </h3>
-            <button md-icon-button aria-label="Open demo menu" [mdMenuTriggerFor]="problemMenu">
-              <md-icon>arrow_drop_down</md-icon>
-            </button>
-            <md-menu #problemMenu="mdMenu" md-offset="0 -7">
-              <button md-menu-item *ngFor="let num of pagesArray(); let i = index" (tap)="selectProblem(i)">
-                <span>{{i + 1}}</span>
-              </button>
-            </md-menu>
-            <span fxFlex></span>
-          </span>
+        <div id="scoring">
           <span fxLayout="row">
             <h4 fxLayout="row" fxLayoutAlign="center center" class="md-subhead" style="margin: 0">Student: {{studentName}}</h4>
-            <button md-icon-button aria-label="Open demo menu" [mdMenuTriggerFor]="studentMenu">
+            <button md-icon-button aria-label="Open demo menu">
               <md-icon>arrow_drop_down</md-icon>
             </button>
-            <md-menu #studentMenu="mdMenu" md-offset="0 -7">
-              <!--<button md-menu-item>Help!</button>-->
-              <!--<md-menu-content width="1" class="md-padding">-->
-                <!--<md-menu-item fxLayout="row">-->
-                  <md-input-container>
-                    <label>Student #</label>
-                    <input mdInput>
-                  </md-input-container>
-                  <!--&lt;!&ndash;<md-button>Go</md-button>&ndash;&gt;-->
-                <!--</md-menu-item>-->
-              <!--</md-menu-content>-->
-            </md-menu>
-            <span fxFlex></span>
           </span>
           <md-divider></md-divider>
           <div fxLayout="row">
@@ -187,7 +176,6 @@
                 <md-icon>mode_edit</md-icon>
               </button>
             </md-list-item>
-            <md-divider *ngIf="!last"></md-divider>
           </ng-template>
         </md-list>
         <span fxFlex style="min-height: 10px;"></span>
