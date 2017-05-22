@@ -2,7 +2,6 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {NavMenuService} from "./shared/nav-menu.service";
 import {NospacePipe} from "./shared/nospace.pipe";
-import {SortByPipe} from "./shared/sort-by.pipe";
 import {FlexLayoutModule} from "@angular/flex-layout";
 import {
   NavMenuContainerComponent, NavMenuHeaderComponent, NavMenuLinkComponent,
@@ -20,7 +19,6 @@ import {MdButtonModule, MdIconModule, MdListModule} from "@angular/material";
   ],
   declarations: [
     NospacePipe,
-    SortByPipe,
     NavMenuHeaderComponent,
     NavMenuToggleComponent,
     NavMenuLinkComponent,

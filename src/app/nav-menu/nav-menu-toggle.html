@@ -5,7 +5,8 @@
     <div fxFlex
          fxLayout="row"
          fxLayoutAlign="center center">
-      {{label}}
+      <!--<span fxLayout="row"><ng-content select="md-icon" style="padding-right: 10px"></ng-content></span>-->
+      <span fxLayoutAlign="center center">{{label}}</span>
       <span fxFlex></span>
       <span class="md-toggle-icon"
             fxLayoutAlign="center center"
@@ -19,8 +20,7 @@
   </button>
 
   <ul id="course-menu-{{label | nospace}}"
-      class="menu-toggle-list"
-      [@openMenu]="isOpen().toString()">
+      class="menu-toggle-list" #ul>
     <ng-content select="nav-menu-link"></ng-content>
   </ul>
 </li>

@@ -11,6 +11,7 @@ export class NavMenuService {
     private router: Router,
     private location : Location,
   ) {
+    this._currentPath = location.path();
     this.openPage = this._currentPage.asObservable();
     this.openSection = this._openedSection.asObservable();
     this.initRouter();
@@ -20,6 +21,10 @@ export class NavMenuService {
   public openSection : Observable<number>;
 
   public addLink (id : number, link : string, parent : number) {
+    if (this._currentPath && this._currentPath.indexOf(link) > -1) {
+      this.selectSection(parent);
+      this.selectPage(id);
+    }
     this._links.push({
       id: id,
       link: link,
@@ -47,30 +52,32 @@ export class NavMenuService {
     this._currentPage.next(id);
   }
 
-  public isPageSelected (page) {
-    return this._currentPage.getValue() === page;
-  }
-
   private _links : any[] = [];
   private _openedSection : BehaviorSubject<number> = new BehaviorSubject(null);
   private _currentPage : BehaviorSubject<number> = new BehaviorSubject(null);
+  private _currentPath : string;
 
   private initRouter () {
     this.router.events
       .filter(event => event instanceof NavigationEnd)
-      .subscribe((event) => this.updateSelection());
+      .subscribe((event) => { this.updateSelection(); this._currentPath = this.location.path() });
   }
 
   private updateSelection () {
-    this._links.forEach(i => {
-      this.matchPage(i.id, i.link, i.parent);
-    });
+    let madeSelection = this._links.reduce((a, d) => a ? a : this.matchPage(d), false);
+    if (!madeSelection) {
+      this.selectPage(null);
+      this.selectSection(null);
+    }
   }
 
-  private matchPage (page, url, section) {
-    if (this.location.path().indexOf(url) !== -1) {
-      this.selectSection(section);
-      this.selectPage(page);
+  private matchPage (page) : boolean
+  {
+    if (this.location.path().indexOf(page.link) !== -1) {
+      this.selectSection(page.parent);
+      this.selectPage(page.id);
+      return true;
     }
+    return false;
   };
 }
