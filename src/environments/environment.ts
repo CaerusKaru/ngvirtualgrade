@@ -5,6 +5,6 @@
 
 export const environment = {
   production: false,
-  API_ENDPOINT: 'https://virtualgrade-dev.eecs.tufts.edu/cr/',
+  API_ENDPOINT: 'https://virtualgrade.eecs.tufts.edu/cr/',
   ENTITY_NAME: 'Tufts University'
 };

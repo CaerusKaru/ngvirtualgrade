@@ -1,15 +1,15 @@
-<div fxFlex fxFill fxLayout="column" fxLayoutAlign="center center" class="md-padding side-dark mat-app-background">
+<div fxFlexFill fxLayout="column" fxLayoutAlign="center center" class="md-padding side-dark mat-app-background">
   <md-card>
     <md-card-header>
       <md-card-title fxLayoutAlign="center center">
-        <span class="md-headline">Log in to Virtual Grade</span>
+        <span class="md-headline">Log In to Virtual Grade</span>
       </md-card-title>
-      <md-card-subtitle>
-        <span class="md-subhead">Department of Computer Science</span>
+      <md-card-subtitle fxLayoutAlign="center center">
+        <span class="md-subhead">{{entityName}}</span>
       </md-card-subtitle>
     </md-card-header>
     <md-card-content fxLayout="column" fxLayoutAlign="center center" novalidate>
-      <span fxFlex="30px"></span>
+      <span fxFlex="20px"></span>
       <form #f="ngForm" autocomplete="off" (ngSubmit)="login(f)" fxLayout="column">
         <div fxLayout="row" fxLayoutAlign="center center">
           <md-icon>person</md-icon>
@@ -29,7 +29,7 @@
         </div>
         <span fxFlex="30px"></span>
         <div fxLayout="row" fxLayoutAlign="center center">
-          <button md-raised-button color="primary" type="submit">Login</button>
+          <button md-raised-button color="primary" type="submit" class="text-upper">Login</button>
         </div>
       </form>
     </md-card-content>

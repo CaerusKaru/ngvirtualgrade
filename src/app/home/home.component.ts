@@ -1,14 +1,9 @@
 import {Component, OnInit, ViewEncapsulation} from '@angular/core';
-import {NavigationEnd, Router} from "@angular/router";
-<<<<<<< Updated upstream
-import {UserService} from "../shared/user.service";
-import {MenuService} from "../menu/shared/menu.service";
-=======
-import {UserService} from "../shared/services/user.service";
->>>>>>> Stashed changes
-import {Location} from "@angular/common";
-import {AuthService} from "../shared/services/auth.service";
-import {Observable} from "rxjs/Observable";
+import {NavigationEnd, Router} from '@angular/router';
+import {UserService} from '../shared/services/user.service';
+import {Location} from '@angular/common';
+import {AuthService} from '../shared/services/auth.service';
+import {Observable} from 'rxjs/Observable';
 
 @Component({
   selector: 'app-home',
@@ -18,11 +13,31 @@ import {Observable} from "rxjs/Observable";
 })
 export class HomeComponent implements OnInit {
 
+  public mode: string;
+  public courses: Observable<string[]>;
+  public activeLinkIndex = -1;
+  public archonTab = {route: '/archon', label: 'Archon'};
+  public graderTab = {route: '/grading', label: 'Grading'};
+
+  public navLinks = [
+    {route: '/grades', label: 'Grades'},
+    this.graderTab,
+    this.archonTab
+  ];
+
+  public utln: string;
+  public isArchon: boolean;
+  public isGrader: boolean;
+
+  private _initTabs = false;
+  private _grades: Observable<string[]>;
+  private _grading: Observable<string[]>;
+  private _archon: Observable<string[]>;
+
   constructor(
     private router: Router,
     private location: Location,
     private userService: UserService,
-    private menuService: MenuService,
     private authService: AuthService
   ) {
     this.router.events
@@ -54,42 +69,6 @@ export class HomeComponent implements OnInit {
     }
   }
 
-  public mode : string;
-  public courses : Observable<string[]>;
-  public activeLinkIndex = -1;
-  public archonTab = {route: '/archon', label: 'Archon'};
-  public graderTab = {route: '/grading', label: 'Grading'};
-
-  public navLinks = [
-    {route: '/grades', label: 'Grades'},
-    this.graderTab,
-    this.archonTab
-  ];
-
-  public utln : string;
-  public isArchon : boolean;
-  public isGrader : boolean;
-
-  public isSectionSelected (section) {
-    return this.menuService.isSectionSelected(section);
-  }
-
-  public getSections () {
-    return this.menuService.sections;
-  }
-
-  public isHeading (section) {
-    return section.type === 'heading';
-  }
-
-  public isLink (section) {
-    return section.type === 'link';
-  }
-
-  public isToggle (section) {
-    return section.type === 'toggle';
-  }
-
   public isOpen() {
     return true;
   }
@@ -98,13 +77,8 @@ export class HomeComponent implements OnInit {
     this.authService.logout();
   }
 
-  private _initTabs = false;
-  private _grades : Observable<string[]>;
-  private _grading : Observable<string[]>;
-  private _archon : Observable<string[]>;
-
   private changeTab() {
-    let findTab = (nav) => {
+    const findTab = (nav) => {
       return this.location.path().indexOf(nav.route) !== -1;
     };
 

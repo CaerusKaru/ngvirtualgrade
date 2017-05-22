@@ -5,17 +5,17 @@ import { HttpModule } from '@angular/http';
 
 import { AppComponent } from './app.component';
 import {AppRoutingModule} from './app-routing.module';
-import {UserService} from './shared/user.service';
+import {UserService} from './shared/services/user.service';
 import {FlexLayoutModule} from '@angular/flex-layout';
 import 'hammerjs';
 import 'd3';
 import { SigninComponent } from './signin/signin.component';
-import {AuthService} from './shared/auth.service';
-import {AuthGuard} from './shared/auth.guard';
+import {AuthService} from './shared/services/auth.service';
+import {AuthGuard} from './shared/guards/auth.guard';
 import {HomeComponent} from './home/home.component';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {AppMaterialModule} from './app-material/app-material.module';
-// import {NavMenuModule} from './nav-menu/in';
+import {NavMenuModule} from './nav-menu/index';
 
 @NgModule({
   declarations: [
@@ -29,7 +29,7 @@ import {AppMaterialModule} from './app-material/app-material.module';
     FormsModule,
     HttpModule,
     FlexLayoutModule,
-    // NavMenuModule,
+    NavMenuModule,
     AppMaterialModule,
     AppRoutingModule
   ],
