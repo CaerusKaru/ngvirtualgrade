@@ -16,12 +16,16 @@ import {HomeComponent} from './home/home.component';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {AppMaterialModule} from './app-material/app-material.module';
 import {NavMenuModule} from './nav-menu/index';
+import {SortByPipe} from './shared/pipes/sort-by.pipe';
+import {SortPipe} from './shared/pipes/sort.pipe';
 
 @NgModule({
   declarations: [
     AppComponent,
     SigninComponent,
-    HomeComponent
+    HomeComponent,
+    SortByPipe,
+    SortPipe
   ],
   imports: [
     BrowserAnimationsModule,
