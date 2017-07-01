@@ -1,0 +1,105 @@
+@import '~@angular/material/theming';
+@import '~@covalent/core/theming/all-theme';
+@import './app/nav-menu/nav-menu-theme';
+
+@include mat-core();
+
+$primary: mat-palette($mat-light-blue);
+$accent:  mat-palette($mat-orange, A200, A100, A400);
+$warn:    mat-palette($mat-red);
+
+$background: (
+  status-bar: map_get($mat-grey, 300),
+  app-bar:    map_get($mat-grey, 100),
+  background: map_get($mat-grey, 50),
+  hover:      rgba(black, 0.04), // TODO(kara): check style with Material Design UX
+  card:       white,
+  dialog:     white,
+  disabled-button: $black-12-opacity,
+  raised-button: white,
+  focused-button: $black-6-opacity,
+  selected-button: map_get($mat-grey, 300),
+  selected-disabled-button: map_get($mat-grey, 400),
+  disabled-button-toggle: map_get($mat-grey, 200),
+);
+
+$pdf-dark-background: (
+  status-bar: black,
+  app-bar:    map_get($mat-blue-grey, 900),
+  background: #303030,
+  hover:      rgba(white, 0.04), // TODO(kara): check style with Material Design UX
+  card:       map_get($mat-blue-grey, 800),
+  dialog:     map_get($mat-grey, 800),
+  disabled-button: $white-12-opacity,
+  raised-button: map-get($mat-blue-grey, 800),
+  focused-button: $white-6-opacity,
+  selected-button: map_get($mat-grey, 900),
+  selected-disabled-button: map_get($mat-blue-grey, 800),
+  disabled-button-toggle: map_get($mat-grey, 1000), // there is no mat-blue-grey 1000 (grey-1000 == black)
+);
+
+@function md-app-theme($primary, $accent, $warn, $background, $foreground) {
+  @return (
+    primary: $primary,
+    accent: $accent,
+    warn: $warn,
+    is-dark: false,
+    foreground: $foreground,
+    background: $background,
+  );
+}
+// Create the theme object (a Sass map containing all of the palettes).
+$theme: md-app-theme($primary, $accent, $warn, $background, $mat-light-theme-foreground);
+
+@include angular-material-theme($theme);
+@include covalent-theme($theme);
+@include nav-menu-theme($theme);
+
+@function md-app-dark-theme($p, $a, $w, $b, $f) {
+  @return (
+    primary: $p,
+    accent: $a,
+    warn: $w,
+    is-dark: true,
+    foreground: $f,
+    background: $b,
+  );
+}
+
+.dark-theme {
+
+  $dark-theme: md-app-dark-theme($primary, $accent, $warn, $mat-dark-theme-background, $mat-dark-theme-foreground);
+
+  @include angular-material-theme($dark-theme);
+  @include covalent-theme($dark-theme);
+  @include nav-menu-theme($dark-theme);
+}
+
+.default-theme {
+  $default-theme: md-app-theme($primary, $accent, $warn, $background, $mat-light-theme-foreground);
+
+  @include angular-material-theme($default-theme);
+  @include covalent-theme($default-theme);
+  @include nav-menu-theme($default-theme);
+}
+
+$pdf-primary: mat-palette($mat-blue-grey);
+$pdf-accent: mat-palette($mat-light-blue, A200, A100, A400);
+$pdf-warn: mat-palette($mat-red);
+
+.pdf-dialog-dark {
+
+  $pdf-dialog-dark-theme: md-app-dark-theme($pdf-primary, $pdf-accent, $pdf-warn, $pdf-dark-background, $mat-dark-theme-foreground);
+
+  @include angular-material-theme($pdf-dialog-dark-theme);
+  @include covalent-theme($pdf-dialog-dark-theme);
+  @include nav-menu-theme($pdf-dialog-dark-theme);
+}
+
+.pdf-dialog-light {
+  $pdf-dialog-light-theme: md-app-theme($pdf-primary, $pdf-accent, $pdf-warn, $background, $mat-light-theme-foreground);
+
+  @include angular-material-theme($pdf-dialog-light-theme);
+  @include covalent-theme($pdf-dialog-light-theme);
+  @include nav-menu-theme($pdf-dialog-light-theme);
+}

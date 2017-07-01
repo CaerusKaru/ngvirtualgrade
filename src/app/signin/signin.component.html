@@ -1,0 +1,37 @@
+<div fxFlexFill fxLayout="column" fxLayoutAlign="center center" class="md-padding side-dark mat-app-background">
+  <md-card>
+    <md-card-header>
+      <md-card-title fxLayoutAlign="center center">
+        <span class="mat-headline">Log In to Virtual Grade</span>
+      </md-card-title>
+      <md-card-subtitle fxLayoutAlign="center center">
+        <span class="mat-subheading-2">{{entityName}}</span>
+      </md-card-subtitle>
+    </md-card-header>
+    <md-card-content fxLayout="column" fxLayoutAlign="center center" novalidate>
+      <span fxFlex="20px"></span>
+      <form #f="ngForm" autocomplete="off" (ngSubmit)="login(f)" fxLayout="column">
+        <div fxLayout="row" fxLayoutAlign="center center">
+          <md-icon>person</md-icon>
+          <span fxFlex="10px"></span>
+          <md-input-container floatPlaceholder="never" class="md-block" color="accent">
+            <input mdInput ngModel required name="username" type="text" placeholder="Username" spellcheck="false"
+                   autocorrect="none" autocomplete="off" autocapitalize="none">
+          </md-input-container>
+        </div>
+        <div fxLayout="row" fxLayoutAlign="center center">
+          <md-icon>vpn_key</md-icon>
+          <span fxFlex="10px"></span>
+          <md-input-container floatPlaceholder="never" class="md-block" color="accent">
+            <input mdInput ngModel required name="password" type="password" placeholder="Password">
+            <md-hint *ngIf="error" [ngStyle]="{color: 'red'}" align="start">Invalid username/password</md-hint>
+          </md-input-container>
+        </div>
+        <span fxFlex="30px"></span>
+        <div fxLayout="row" fxLayoutAlign="center center">
+          <button md-raised-button color="primary" type="submit" class="text-upper">Login</button>
+        </div>
+      </form>
+    </md-card-content>
+  </md-card>
+</div>

@@ -1,0 +1,12 @@
+<svg:text svgSelect svgDrag font-family="Helvetica" [attr.font-size]="data.currentSize * 5" font-weight="bold"
+          [attr.fill]="data.currentColor" [attr.x]="data.x" [attr.y]="data.y" dy="1.0em" #textNode
+          *ngIf="!localEditing" xml:space="preserve">
+  <svg:tspan [attr.x]="data.x">&zwnj;{{lines[0]}}</svg:tspan>
+  <svg:tspan [attr.x]="data.x" dy="1.0em" *ngFor="let line of lines | slice:1">&zwnj;{{line}}</svg:tspan>
+</svg:text>
+<svg:foreignObject width="100%" height="100%" [attr.x]="currentX" [attr.y]="currentY" *ngIf="localEditing">
+  <xhtml:div class="insideforeign" width="auto" [style.font-size]="sizeString" #textdiv
+             [style.color]="data.currentColor" font-family="Helvetica" [style.line-height]="lineHeight"
+             contenteditable="true" [innerHTML]="svgToHTML()">
+  </xhtml:div>
+</svg:foreignObject>

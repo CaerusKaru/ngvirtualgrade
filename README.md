@@ -1,28 +1,51 @@
-# Ngvirtualgrade
+# Virtual Grade for Angular
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 1.2.0.
+This is a single-page application meant to consolidate every aspect of course grading and administration. 
 
-## Development server
+#### Overview
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+VirtualGrade is a complete rewrite of @tofergregg's virtualgrade, which was itself based on UVA's TPEGS open-source grading solution.
 
-## Code scaffolding
+The point of the application is to create a consolidated system for submitting, grading/annotating, and returning assignments all online.
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|module`.
+The current version has three modes: student view, grader view, and admin (archon) view, each with a different purpose.
 
-## Build
+#### Project Status
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `-prod` flag for a production build.
+This project is very much under development at the present time. This application was originally written for AngularJS and
+has since been ported to Angular 4.1 (as of 4/19/2017).
 
-## Running unit tests
+Functional elements of the project so far:
+* Interactive PDF/SVG editing modal which allows for annotations using lines and text
+* Initial templating to view scores (student view) and create assignments (admin view)
+* Layout pending design review for navigation
+* Connection to backend server API (see below)
+* Builds successfully with Angular AOT
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
 
-## Running end-to-end tests
+#### The Backend
 
-Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
-Before running the tests make sure you are serving the app via `ng serve`.
+This repository contains code exclusively for the frontend of VirtualGrade. This was done for several reasons.
+Namely, to allow users the freedom to develop multiple backend systems for the frontend implementation, so long as a
+base API is followed. The other reason is to allow the same for the frontend (perhaps with a new version written in React).
+The initial version of this backend is most likely going to be written in Python (either with Django or Flask).
 
-## Further help
+#### Realtime Interaction
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
+One of the main components of this system is its ability to utilize realtime technologies in the form of DerbyJS's ShareDB
+realtime server. The requisite module to use with this system will necessitate a NodeJS server instance, which will also
+be freely available. The realtime system would ideally be made available in multiple languages in the future (with support
+for multiple database types), but until then we are stuck with Node.
+
+
+#### Future Development and Roadmap
+
+* Finalize basic design for each view and at each level
+  * Grades view: separate view for past/current courses, grades "portal" for aggregate view
+  * Grading view: finalize top-level view and item view, grading "portal" for solutions/discussion
+  * Admin view: finalize top-level view and item view, finalize creation workflow and create backend API
+  * Account view: create new view to allow for customization of account settings (maybe hiding courses as needed)
+  * Maybe add Help page
+* Integrate realtime component into the grading view
+* Finalize the API for the backend/realtime to allow for more robust backend development
+* 

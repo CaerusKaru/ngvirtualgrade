@@ -1,0 +1,57 @@
+<div fxFlex class="md-padding default-theme">
+  <h3>Components</h3>
+  <div fxLayout="row" fxLayoutWrap fxLayoutAlign="space-around start">
+    <md-card *ngFor="let problem of problems">
+      <md-card-header>
+        <md-card-title><h3>{{problem.name}}</h3></md-card-title>
+        <md-card-subtitle>n submissions remaining</md-card-subtitle>
+      </md-card-header>
+      <md-card-content>
+        <md-progress-bar color="primary" mode="determinate" [value]="problem.progress"></md-progress-bar>
+      </md-card-content>
+      <md-card-actions>
+        <button md-button color="primary" (click)="grade()">GRADE</button>
+        <span fxFlex></span>
+        <button md-button>STATS</button>
+      </md-card-actions>
+    </md-card>
+    <md-card>
+      <md-card-header>
+        <md-card-title><h3>Resources</h3></md-card-title>
+      </md-card-header>
+      <md-card-content>
+        <div fxLayout="column">
+          <button md-raised-button color="primary">GRADER PORTAL</button>
+          <!--<button md-button>OTHER</button>-->
+          <!--<button md-button>OTHER</button>-->
+        </div>
+      </md-card-content>
+    </md-card>
+  </div>
+  <!--<h2>Statistics</h2>-->
+  <!--<div fxLayout="row">-->
+    <!--&lt;!&ndash;[view]="view"&ndash;&gt;-->
+    <!--<ngx-charts-area-chart-->
+      <!--[scheme]="colorScheme"-->
+      <!--[results]="problems"-->
+      <!--[gradient]="gradient"-->
+      <!--[xAxis]="showXAxis"-->
+      <!--[yAxis]="showYAxis"-->
+      <!--[legend]="showLegend"-->
+      <!--[showXAxisLabel]="showXAxisLabel"-->
+      <!--[showYAxisLabel]="showYAxisLabel"-->
+      <!--[xAxisLabel]="xAxisLabel"-->
+      <!--[yAxisLabel]="yAxisLabel"-->
+      <!--[autoScale]="autoScale"-->
+      <!--(select)="onSelect($event)">-->
+    <!--</ngx-charts-area-chart>-->
+  <!--</div>-->
+  <!--<div *ngIf="currentProblem">-->
+    <!--<h4>Problem-by-problem statistics</h4>-->
+    <!--<p>Mean for problem {{currentProblem}}: x1</p>-->
+    <!--<p>Median for problem {{currentProblem}}: x2</p>-->
+    <!--<p>Mode for problem {{currentProblem}}: x3</p>-->
+    <!--<p>Range for problem {{currentProblem}}: x4</p>-->
+    <!--<p>Std. deviation for problem {{currentProblem}}: x5</p>-->
+  <!--</div>-->
+</div>

@@ -1,3 +1,5 @@
 export const environment = {
-  production: true
+  production: true,
+  API_ENDPOINT: '/cr/',
+  ENTITY_NAME: 'Tufts University'
 };

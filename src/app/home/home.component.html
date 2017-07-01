@@ -1,0 +1,54 @@
+<div fxFill class="mat-app-background" fxLayout="column">
+  <div class="nav-bar" fxLayout="row">
+    <nav md-tab-nav-bar fxFlex>
+      <span fxLayoutAlign="space-around center" fxFlexOffset="30px">
+        <a routerLink=""
+           (click)="activeLinkIndex = 0">
+          <img src="../assets/logo.png"
+               height="13"
+               width="93.5"
+               fxLayoutAlign="center center" />
+        </a>
+      </span>
+      <span fxFlex="30px"></span>
+      <div fxLayoutAlign="center center">
+        <a md-tab-link
+           *ngFor="let link of navLinks; let i = index"
+           [routerLink]="link.route"
+           [active]="activeLinkIndex === i"
+           (click)="activeLinkIndex = i">
+          <span fxFill fxLayoutAlign="center center">{{link.label}}</span>
+        </a>
+      </div>
+      <span fxFlex></span>
+      <md-menu #appMenu="mdMenu" y-position="below" [overlapTrigger]="false">
+        <button md-menu-item (click)="logOut()"> Log Out </button>
+      </md-menu>
+
+      <button md-button [mdMenuTriggerFor]="appMenu">
+        {{utln}}
+      </button>
+    </nav>
+  </div>
+  <md-sidenav-container class="dark-theme" fxFlex>
+    <md-sidenav class="site-sidenav md-whiteframe-z2 hide-print"
+                #sidenav
+                mode="side"
+                [opened]="isOpen()">
+      <nav-menu-container fxFlex>
+        <nav-menu-header label="Courses">
+          <nav-menu-toggle *ngFor="let course of courses | async | sortBy: ''"
+                           label="COMP {{course.name}}">
+            <md-icon>grade</md-icon>
+            <nav-menu-link *ngFor="let link of course.assigns | sort"
+                           link="{{mode}}/{{course.name}}/{{link}}">
+              {{link}}
+            </nav-menu-link>
+          </nav-menu-toggle>
+        </nav-menu-header>
+      </nav-menu-container>
+    </md-sidenav>
+    <router-outlet></router-outlet>
+  </md-sidenav-container>
+</div>
+
