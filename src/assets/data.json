@@ -1,0 +1,37 @@
+{
+  "grading": [
+    {
+      "name": "COMP 105",
+      "assigns": ["hw1", "hw2"]
+    },
+    {
+      "name": "COMP 20",
+      "assigns": ["hw1", "hw2"]
+    },
+    {
+      "name": "COMP 00",
+      "assigns": ["hw1", "hw2"]
+    }
+  ],
+  "admin": [
+    {
+      "name": "COMP 20",
+      "assigns": ["hw1", "hw2"]
+    },
+    {
+      "name": "COMP 00",
+      "assigns": ["hw1", "hw2"]
+    }
+  ],
+  "courses": [
+    {
+      "name": "COMP 11",
+      "assigns": ["hw1", "hw2"]
+    },
+    {
+      "name": "COMP 15",
+      "assigns": ["hw1", "hw2"]
+    }
+  ],
+  "user": "aplume01"
+}

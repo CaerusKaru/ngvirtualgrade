@@ -9,10 +9,9 @@ import {UserService} from './shared/services/user.service';
 import {FlexLayoutModule} from '@angular/flex-layout';
 import 'hammerjs';
 import 'd3';
-import { SigninComponent } from './signin/signin.component';
 import {AuthService} from './shared/services/auth.service';
-import {AuthGuard} from './shared/guards/auth.guard';
-import {HomeComponent} from './home/home.component';
+import {CanLoadAdmin, CanLoadGrades, CanLoadGrading} from './shared/guards/auth.guard';
+import {HomeComponent, SigninDialogComponent} from './home/home.component';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {AppMaterialModule} from './app-material/app-material.module';
 import {NavMenuModule} from './nav-menu/index';
@@ -22,7 +21,7 @@ import {SortPipe} from './shared/pipes/sort.pipe';
 @NgModule({
   declarations: [
     AppComponent,
-    SigninComponent,
+    SigninDialogComponent,
     HomeComponent,
     SortByPipe,
     SortPipe
@@ -37,8 +36,8 @@ import {SortPipe} from './shared/pipes/sort.pipe';
     AppMaterialModule,
     AppRoutingModule
   ],
-  providers: [UserService, AuthService, AuthGuard],
+  providers: [UserService, AuthService, CanLoadGrades, CanLoadGrading, CanLoadAdmin],
   bootstrap: [AppComponent],
-  entryComponents: []
+  entryComponents: [SigninDialogComponent]
 })
 export class AppModule { }

@@ -11,4 +11,4 @@ import {CovalentStepsModule} from '@covalent/core';
   ],
   declarations: []
 })
-export class ArchonCovalentModule { }
+export class AdminCovalentModule { }

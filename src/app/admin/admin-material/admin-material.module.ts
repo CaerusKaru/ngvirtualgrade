@@ -14,4 +14,4 @@ import {MdButtonModule, MdCardModule, MdInputModule, MdProgressBarModule} from '
   ],
   declarations: []
 })
-export class ArchonMaterialModule { }
+export class AdminMaterialModule { }

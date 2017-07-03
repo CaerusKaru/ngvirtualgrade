@@ -1,0 +1,20 @@
+{
+  "external": {
+    "urls": [
+      {"url": "https://fonts.googleapis.com/css?family=Roboto:400,500,700"},
+      {"url": "https://fonts.googleapis.com/icon?family=Material+Icons"}
+    ]
+  },
+  "routing": {
+    "index": "/index.html",
+    "routes": {
+      "/": {
+        "prefix": false
+      }
+    }
+  },
+  "dynamic": {
+  },
+  "push": {
+  }
+}

@@ -3,12 +3,12 @@ import {UserService} from '../../shared/services/user.service';
 
 @Component({
   selector: 'vg-archon-home',
-  templateUrl: './archon-home.component.html',
-  styleUrls: ['./archon-home.component.scss']
+  templateUrl: './admin-home.component.html',
+  styleUrls: ['./admin-home.component.scss']
 })
-export class ArchonHomeComponent implements OnInit {
+export class AdminHomeComponent implements OnInit {
 
-  courses = this._userService.archon;
+  courses = this._userService.admin;
 
   constructor(
     private _userService: UserService

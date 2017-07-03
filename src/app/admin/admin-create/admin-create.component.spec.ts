@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ArchonCreateComponent } from './archon-create.component';
+import { AdminCreateComponent } from './admin-create.component';
 
-describe('ArchonCreateComponent', () => {
-  let component: ArchonCreateComponent;
-  let fixture: ComponentFixture<ArchonCreateComponent>;
+describe('AdminCreateComponent', () => {
+  let component: AdminCreateComponent;
+  let fixture: ComponentFixture<AdminCreateComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ ArchonCreateComponent ]
+      declarations: [ AdminCreateComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(ArchonCreateComponent);
+    fixture = TestBed.createComponent(AdminCreateComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

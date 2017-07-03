@@ -1,0 +1,15 @@
+{
+  "dir": "ltr",
+  "lang": "en",
+  "name": "Virtual Grade",
+  "scope": "/",
+  "display": "standalone",
+  "start_url": "./?utm_source=web_app_manifest",
+  "short_name": "VirtualGrade",
+  "theme_color": "#2196F3",
+  "description": "An online grading platform solution",
+  "orientation": "any",
+  "background_color": "#3a1c8d",
+  "related_applications": [],
+  "prefer_related_applications": false
+}

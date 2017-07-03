@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {
-  MdButtonModule, MdCardModule, MdIconModule, MdInputModule, MdMenuModule, MdSidenavModule,
+  MdButtonModule, MdCardModule, MdDialogModule, MdIconModule, MdInputModule, MdMenuModule, MdSidenavModule,
   MdTabsModule
 } from '@angular/material';
 
@@ -10,6 +10,7 @@ import {
     CommonModule
   ],
   exports: [
+    MdDialogModule,
     MdCardModule,
     MdButtonModule,
     MdInputModule,

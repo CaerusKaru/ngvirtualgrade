@@ -1,27 +1,27 @@
-import { NgModule }              from '@angular/core';
-import { RouterModule, Routes }  from '@angular/router';
-import {SigninComponent} from "./signin/signin.component";
-import {HomeComponent} from "./home/home.component";
-import {AuthGuard} from "./shared/guards/auth.guard";
+import { NgModule } from '@angular/core';
+import { RouterModule, Routes } from '@angular/router';
+import {HomeComponent} from './home/home.component';
+import {CanLoadAdmin, CanLoadGrades, CanLoadGrading} from './shared/guards/auth.guard';
 
 export const appRoutes: Routes = [
-  { path: 'signin', component: SigninComponent},
   {
     path: '',
     component: HomeComponent,
-    canActivate: [AuthGuard],
     children: [
       {
-        path: 'grades', loadChildren: './grades/grades.module#GradesModule'
+        path: '', loadChildren: './landing/landing.module#LandingModule'
       },
       {
-        path: 'grading', loadChildren: './grading/grading.module#GradingModule'
+        path: 'grades', loadChildren: './grades/grades.module#GradesModule', canLoad: [CanLoadGrades]
       },
       {
-        path: 'archon', loadChildren: './archon/archon.module#ArchonModule'
+        path: 'grading', loadChildren: './grading/grading.module#GradingModule', canLoad: [CanLoadGrading]
       },
       {
-        path: '**', redirectTo: 'grades', pathMatch: 'full'
+        path: 'admin', loadChildren: './admin/admin.module#AdminModule', canLoad: [CanLoadAdmin]
+      },
+      {
+        path: '**', redirectTo: '/', pathMatch: 'full'
       }
     ]
   }

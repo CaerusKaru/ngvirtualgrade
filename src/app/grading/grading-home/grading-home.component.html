@@ -1,6 +1,6 @@
 <div fxLayout="row" fxLayoutWrap class="md-padding">
   <div *ngFor="let course of courses | async">
-    <h1>COMP {{course.name}}</h1>
+    <h1>{{course.name}}</h1>
     <div fxLayout="row" fxLayoutWrap fxLayoutAlign="space-between none">
       <h3 *ngIf="course.assigns.length === 0">No assignments available</h3>
       <md-card *ngFor="let assign of course.assigns">

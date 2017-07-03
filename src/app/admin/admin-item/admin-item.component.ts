@@ -2,10 +2,10 @@ import { Component, OnInit } from '@angular/core';
 
 @Component({
   selector: 'vg-archon-item',
-  templateUrl: './archon-item.component.html',
-  styleUrls: ['./archon-item.component.scss']
+  templateUrl: './admin-item.component.html',
+  styleUrls: ['./admin-item.component.scss']
 })
-export class ArchonItemComponent implements OnInit {
+export class AdminItemComponent implements OnInit {
 
   problems = [
     {
