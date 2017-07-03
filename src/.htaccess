@@ -8,4 +8,4 @@ RewriteCond %{REQUEST_FILENAME} !-d
 RewriteCond %{REQUEST_URI} !index
 RewriteRule (.*) index.html [L]
 
-Header set Content-Security-Policy "default-src 'none'; script-src 'self'; connect-src 'self'; img-src 'self' data:; style-src 'self' fonts.googleapis.com 'unsafe-inline'; font-src 'self' fonts.gstatic.com"
+Header set Content-Security-Policy "default-src 'none'; script-src 'self'; connect-src 'self'; img-src 'self' data:; manifest-src 'self'; style-src 'self' fonts.googleapis.com 'unsafe-inline'; font-src 'self' fonts.gstatic.com"
