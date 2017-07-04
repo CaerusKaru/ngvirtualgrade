@@ -1,6 +1,6 @@
 #!/bin/bash
 
-cd public_html
+cd $TRAVIS_BUILD_DIR/public_html
 find . -type d -exec chmod a+rx {} \;
 chmod -R a+r .
 cd ..
