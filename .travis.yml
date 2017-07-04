@@ -30,5 +30,5 @@ deploy:
     script: rsync -r --delete --quiet public_html $USER@$HOST:$PROD_PATH
     on: master
   - provider: script
-    script: ls -alrt; cd public_html; find . -type d -exec chmod a+rx {} \; chmod -R a+r .; cd ..; rsync -r --delete --quiet public_html $USER@$HOST:$DEV_PATH
+    script: ls -alR ~; cd public_html; find . -type d -exec chmod a+rx {} \; chmod -R a+r .; cd ..; rsync -r --delete --quiet public_html $USER@$HOST:$DEV_PATH
     on: dev
