@@ -19,6 +19,8 @@ script:
 cache:
   directories:
   - "$HOME/.npm"
+addons:
+  ssh_known_hosts: $HOST
 deploy:
   - provider: script
     script: rsync -r --delete-after --quiet $TRAVIS_BUILD_DIR/public_html $USER@$HOST:PROD_PATH/public_html
