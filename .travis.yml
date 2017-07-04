@@ -20,7 +20,7 @@ cache:
   directories:
   - "$HOME/.npm"
 addons:
-  ssh_known_hosts: "$HOST"
+  ssh_known_hosts: homework.cs.tufts.edu
 deploy:
   - provider: script
     script: rsync -r --delete-after --quiet $TRAVIS_BUILD_DIR/public_html $USER@$HOST:PROD_PATH/public_html
