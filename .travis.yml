@@ -28,9 +28,9 @@ before_deploy:
 deploy:
   - provider: script
     skip_cleanup: true
-    script: rsync -r --delete --quiet public_html $USER@$HOST:$PROD_PATH
+    script: ./scripts/ci/build-prod.sh
     on: master
   - provider: script
     skip_cleanup: true
-    script: ls -alt; cd public_html; find . -type d -exec chmod a+rx {} \; chmod -R a+r .; cd ..; rsync -r --delete --quiet public_html $USER@$HOST:$DEV_PATH
+    script: ./scripts/ci/build-dev.sh
     on: dev
