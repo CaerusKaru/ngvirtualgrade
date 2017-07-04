@@ -13,7 +13,7 @@ before_install:
 install:
 - npm install
 script:
-- ng build --prod --output-path=public_html
+- ng build --prod --output-path=public_html -dop false -v
 cache:
   directories:
   - "$HOME/.npm"
