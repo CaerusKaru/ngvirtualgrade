@@ -8,11 +8,6 @@ branches:
   - master
   - dev
 before_install:
-- openssl aes-256-cbc -K $encrypted_e276fd3f97f2_key -iv $encrypted_e276fd3f97f2_iv
-  -in deploy_rsa.enc -out deploy_rsa -d
-- eval "$(ssh-agent -s)"
-- chmod 600 deploy_rsa
-- ssh-add deploy_rsa
 - npm i -g npm@^5.0.1
 - npm install -g @angular/cli
 install:
@@ -24,10 +19,16 @@ cache:
   - "$HOME/.npm"
 addons:
   ssh_known_hosts: homework.cs.tufts.edu
+before_deploy:
+- openssl aes-256-cbc -K $encrypted_e276fd3f97f2_key -iv $encrypted_e276fd3f97f2_iv
+  -in deploy_rsa.enc -out deploy_rsa -d
+- eval "$(ssh-agent -s)"
+- chmod 600 deploy_rsa
+- ssh-add deploy_rsa
 deploy:
   - provider: script
     script: rsync -r --delete-after --quiet ssh $TRAVIS_BUILD_DIR/public_html $USER@$HOST:PROD_PATH/public_html
     on: master
   - provider: script
-    script: ssh $USER@$HOST 'echo $PATH'
+    script: rsync -r --delete-after --quiet ssh $TRAVIS_BUILD_DIR/public_html $USER@$HOST:DEV_PATH/public_html
     on: dev
