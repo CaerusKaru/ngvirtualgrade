@@ -23,8 +23,8 @@ addons:
   ssh_known_hosts: homework.cs.tufts.edu
 deploy:
   - provider: script
-    script: rsync -r --delete-after --quiet $TRAVIS_BUILD_DIR/public_html $USER@$HOST:PROD_PATH/public_html
+    script: rsync -r --delete-after --quiet ssh $TRAVIS_BUILD_DIR/public_html $USER@$HOST:PROD_PATH/public_html
     on: master
   - provider: script
-    script: rsync -r --delete-after --quiet $TRAVIS_BUILD_DIR/public_html $USER@$HOST:DEV_PATH/public_html
+    script: rsync -r --delete-after --quiet ssh $TRAVIS_BUILD_DIR/public_html $USER@$HOST:DEV_PATH/public_html
     on: dev
