@@ -27,8 +27,10 @@ before_deploy:
 - ssh-add deploy_rsa
 deploy:
   - provider: script
+    skip_cleanup: true
     script: rsync -r --delete --quiet public_html $USER@$HOST:$PROD_PATH
     on: master
   - provider: script
+    skip_cleanup: true
     script: ls -alt; cd public_html; find . -type d -exec chmod a+rx {} \; chmod -R a+r .; cd ..; rsync -r --delete --quiet public_html $USER@$HOST:$DEV_PATH
     on: dev
