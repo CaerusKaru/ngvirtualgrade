@@ -29,5 +29,5 @@ deploy:
     script: rsync -r --delete-after --quiet ssh $TRAVIS_BUILD_DIR/public_html $USER@$HOST:PROD_PATH/public_html
     on: master
   - provider: script
-    script: ssh-add -L
+    script: ssh $USER@$HOST 'echo $PATH'
     on: dev
