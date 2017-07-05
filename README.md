@@ -1,10 +1,11 @@
 # Virtual Grade for Angular
+[![Build Status](https://travis-ci.org/CaerusKaru/ngvirtualgrade.svg?branch=master)](https://travis-ci.org/CaerusKaru/ngvirtualgrade)
 
 This is a single-page application meant to consolidate every aspect of course grading and administration. 
 
 #### Overview
 
-VirtualGrade is a complete rewrite of @tofergregg's virtualgrade, which was itself based on UVA's TPEGS open-source grading solution.
+VirtualGrade is a complete rewrite of [@tofergregg](https://github.com/tofergregg)'s virtualgrade, which was itself based on UVA's TPEGS open-source grading solution.
 
 The point of the application is to create a consolidated system for submitting, grading/annotating, and returning assignments all online.
 
