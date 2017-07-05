@@ -1,35 +1,35 @@
 {
   "grading": [
     {
-      "name": "COMP 105",
+      "name": "COMP105",
       "assigns": ["hw1", "hw2"]
     },
     {
-      "name": "COMP 20",
+      "name": "COMP20",
       "assigns": ["hw1", "hw2"]
     },
     {
-      "name": "COMP 00",
+      "name": "COMP00",
       "assigns": ["hw1", "hw2"]
     }
   ],
   "admin": [
     {
-      "name": "COMP 20",
+      "name": "COMP20",
       "assigns": ["hw1", "hw2"]
     },
     {
-      "name": "COMP 00",
+      "name": "COMP00",
       "assigns": ["hw1", "hw2"]
     }
   ],
   "courses": [
     {
-      "name": "COMP 11",
+      "name": "COMP11",
       "assigns": ["hw1", "hw2"]
     },
     {
-      "name": "COMP 15",
+      "name": "COMP15",
       "assigns": ["hw1", "hw2"]
     }
   ],

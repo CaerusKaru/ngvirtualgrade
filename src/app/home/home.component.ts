@@ -17,7 +17,7 @@ import {NgForm} from '@angular/forms';
 export class HomeComponent implements OnInit {
 
   mode: string;
-  courses: Observable<string[]>;
+  courses$: Observable<string[]>;
   activeLinkIndex = -1;
   adminTab = {route: '/admin', label: 'Admin', show: false};
   graderTab = {route: '/grading', label: 'Grading', show: false};
@@ -73,10 +73,6 @@ export class HomeComponent implements OnInit {
     this.isSideBySide = width > this._sideBySideWidth;
   }
 
-  toggle() {
-    this._isOpen = !this._isOpen;
-  }
-
   get isOpen() {
     return this._isOpen;
   }
@@ -101,11 +97,13 @@ export class HomeComponent implements OnInit {
       this.navLinks.indexOf(this.navLinks.find(findTab));
     this.mode = this.navLinks[this.activeLinkIndex].route;
     if (this.mode === '/admin') {
-      this.courses = this._admin;
+      this.courses$ = this._admin;
     } else if (this.mode === '/grading') {
-      this.courses = this._grading;
+      this.courses$ = this._grading;
+    } else if (this.mode === '/grades') {
+      this.courses$ = this._grades;
     } else {
-      this.courses = this._grades;
+      this.courses$ = null;
     }
   }
 }

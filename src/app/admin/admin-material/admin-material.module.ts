@@ -1,6 +1,9 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import {MdButtonModule, MdCardModule, MdInputModule, MdProgressBarModule} from '@angular/material';
+import {
+  MdButtonModule, MdCardModule, MdCheckboxModule, MdChipsModule, MdDatepickerModule, MdInputModule, MdNativeDateModule,
+  MdProgressBarModule
+} from '@angular/material';
 
 @NgModule({
   imports: [
@@ -10,7 +13,11 @@ import {MdButtonModule, MdCardModule, MdInputModule, MdProgressBarModule} from '
     MdInputModule,
     MdButtonModule,
     MdCardModule,
-    MdProgressBarModule
+    MdProgressBarModule,
+    MdDatepickerModule,
+    MdNativeDateModule,
+    MdChipsModule,
+    MdCheckboxModule
   ],
   declarations: []
 })

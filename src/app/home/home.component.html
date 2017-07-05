@@ -2,7 +2,7 @@
   <div class="nav-bar" fxLayout="row">
     <nav md-tab-nav-bar fxFlex>
       <div *ngIf="!isSideBySide">
-        <button md-icon-button (click)="toggle()" fxFlexOffset="10px"><md-icon>menu</md-icon></button>
+        <button md-icon-button (click)="sidenav.toggle()" fxFlexOffset="10px"><md-icon>menu</md-icon></button>
       </div>
       <span fxLayoutAlign="space-around center" fxFlexOffset="30px">
         <a routerLink=""
@@ -43,11 +43,11 @@
   <md-sidenav-container class="dark-theme" fxFlex>
     <md-sidenav class="site-sidenav md-whiteframe-z2 hide-print"
                 #sidenav
-                mode="side"
+                [mode]="isSideBySide ? 'side' : 'over'"
                 [opened]="isSideBySide || isOpen">
       <nav-menu-container fxFlex>
-        <nav-menu-header label="Courses">
-          <nav-menu-toggle *ngFor="let course of courses | async | sortBy: ''"
+        <nav-menu-header label="Courses" *ngIf="courses$ | async as courses">
+          <nav-menu-toggle *ngFor="let course of courses | sortBy: ''"
                            label="{{course.name}}">
             <nav-menu-link *ngFor="let link of course.assigns | sort"
                            link="{{mode}}/{{course.name}}/{{link}}">
@@ -55,6 +55,13 @@
             </nav-menu-link>
           </nav-menu-toggle>
         </nav-menu-header>
+        <div *ngFor="let link of navLinks">
+          <nav-menu-link [link]="link.route" *ngIf="!isSideBySide && link.show">{{link.label}}</nav-menu-link>
+        </div>
+        <div *ngIf="!courses$">
+          <nav-menu-link [link]="">About</nav-menu-link>
+          <nav-menu-link [link]="">Help</nav-menu-link>
+        </div>
       </nav-menu-container>
     </md-sidenav>
     <router-outlet></router-outlet>

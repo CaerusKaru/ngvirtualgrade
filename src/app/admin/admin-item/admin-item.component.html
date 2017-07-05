@@ -1,5 +1,5 @@
-<div fxFlex class="md-padding default-theme">
-  <div fxLayout="row" fxLayoutWrap fxLayoutAlign="space-around start">
+<div fxFlex class="md-padding default-theme" fxLayout="column">
+  <div fxLayout="row" fxLayoutAlign="start start" fxLayoutGap="20px">
     <md-card *ngFor="let problem of problems">
       <md-card-header>
         <md-card-title><h3>{{problem.name}}</h3></md-card-title>

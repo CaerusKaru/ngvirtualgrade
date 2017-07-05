@@ -1,63 +1,54 @@
 <div class="md-padding default-theme" fxflex>
   <md-card>
-    <td-steps mode="horizontal">
-      <td-step #step1 label="Basic Info" [active]="activeState === 1" (activated)="activeState = 1">
-        <div fxLayout="row" class="md-padding">
-          <form>
-            <md-input-container class="demo-full-width">
-              <input mdInput placeholder="Company (disabled)" disabled value="Google">
+    <td-steps mode="vertical">
+      <td-step #step1 label="Step 1: Basic Info" sublabel="Not much to put here"
+               [active]="activeState === 1" (activated)="activeState = 1">
+        <form fxLayout="column" fxLayoutGap="15px">
+          <div fxLayout="row" fxLayoutGap="20px">
+            <md-input-container>
+              <input mdInput placeholder="Name">
             </md-input-container>
-
-            <table style="width: 100%" cellspacing="0"><tr>
-              <td>
-                <md-input-container style="width: 100%">
-                  <input mdInput placeholder="First name">
-                </md-input-container>
-              </td>
-              <td>
-                <md-input-container style="width: 100%">
-                  <input mdInput placeholder="Long Last Name That Will Be Truncated">
-                </md-input-container>
-              </td>
-            </tr></table>
-            <p>
-              <md-input-container class="demo-full-width">
-                <textarea mdInput placeholder="Address">1600 Amphitheatre Pkway</textarea>
-              </md-input-container>
-              <md-input-container class="demo-full-width">
-                <textarea mdInput placeholder="Address 2"></textarea>
-              </md-input-container>
-            </p>
-            <table style="width: 100%" cellspacing="0"><tr>
-              <td>
-                <md-input-container class="demo-full-width">
-                  <input mdInput placeholder="City" value="Mountain View">
-                </md-input-container>
-              </td>
-              <td>
-                <md-input-container class="demo-full-width">
-                  <input mdInput placeholder="State" maxLength="2" value="CA">
-                </md-input-container>
-              </td>
-              <td>
-                <md-input-container class="demo-full-width">
-                  <input mdInput #postalCode maxLength="5" placeholder="Postal Code" value="94043">
-                  <md-hint align="end">
-                    {{postalCode.value.length}} / 5
-                  </md-hint>
-                </md-input-container>
-              </td>
-            </tr></table>
-          </form>
-        </div>
-
-        <div fxLayout="row">
-          <span fxFlex></span>
-          <button md-button>CANCEL</button>
-          <button md-button color="primary" (click)="activeState = activeState + 1">CONTINUE</button>
-        </div>
+          </div>
+          <div fxLayout="row" fxLayoutGap="20px">
+            <md-input-container>
+              <input mdInput [mdDatepicker]="startDate" placeholder="Start Date">
+              <button mdSuffix [mdDatepickerToggle]="startDate"></button>
+            </md-input-container>
+            <md-datepicker #startDate></md-datepicker>
+            <md-input-container>
+              <input mdInput [mdDatepicker]="endDate" placeholder="Due Date">
+              <button mdSuffix [mdDatepickerToggle]="endDate"></button>
+            </md-input-container>
+            <md-datepicker #endDate></md-datepicker>
+          </div>
+          <div fxLayout="row" fxLayoutAlign="start center">
+            <span>Required files: </span>
+            <md-chip-list fxFlexOffset="15px">
+              <md-chip>Test.cpp</md-chip>
+              <md-chip>Test.h</md-chip>
+              <md-chip>README.md</md-chip>
+            </md-chip-list>
+          </div>
+          <div fxLayout="row">
+            <md-checkbox align="end">Allow additional files?</md-checkbox>
+          </div>
+          <span class="mat-title">Testing (beta)</span>
+          <div fxLayout="row">
+            <md-input-container>
+              <textarea mdInput></textarea>
+            </md-input-container>
+          </div>
+        </form>
+        <ng-template td-step-actions>
+          <div fxLayout="row">
+            <span fxFlex></span>
+            <button md-button>CANCEL</button>
+            <button md-button color="primary" (click)="activeState = activeState + 1">CONTINUE</button>
+          </div>
+        </ng-template>
       </td-step>
-      <td-step #step2 label="" [active]="activeState === 2" (activated)="activeState = 2">
+      <td-step #step2 label="Step 2: Components" sublabel="Not much to put here"
+               [active]="activeState === 2" (activated)="activeState = 2">
         This step is required!
         <ng-template td-step-actions>
           <div fxLayout="row">
@@ -68,35 +59,8 @@
           </div>
         </ng-template>
       </td-step>
-      <td-step #step3 label="" [active]="activeState === 3" (activated)="activeState = 3">
-        Mark this step complete and get a summary
-        <ng-template td-step-summary>
-          Use an optional step summary to summarize the info in this step
-        </ng-template>
-        <ng-template td-step-actions>
-          <div fxLayout="row">
-            <button md-button (click)="activeState = activeState - 1">BACK</button>
-            <span fxFlex></span>
-            <button md-button>CANCEL</button>
-            <button md-button color="primary" (click)="activeState = activeState + 1">CONTINUE</button>
-          </div>
-        </ng-template>
-      </td-step>
-      <td-step #step4 label="" [active]="activeState === 4" (activated)="activeState = 4">
-        Mark this step complete and get a summary
-        <ng-template td-step-summary>
-          Use an optional step summary to summarize the info in this step
-        </ng-template>
-        <ng-template td-step-actions>
-          <div fxLayout="row">
-            <button md-button (click)="activeState = activeState - 1">BACK</button>
-            <span fxFlex></span>
-            <button md-button>CANCEL</button>
-            <button md-button color="primary" (click)="activeState = activeState + 1">CONTINUE</button>
-          </div>
-        </ng-template>
-      </td-step>
-      <td-step #step5 label="" [active]="activeState === 5" (activated)="activeState = 5">
+      <td-step #step3 label="Step 3: Assign Graders" sublabel="Not much to put here"
+               [active]="activeState === 3" (activated)="activeState = 3">
         Mark this step complete and get a summary
         <ng-template td-step-summary>
           Use an optional step summary to summarize the info in this step

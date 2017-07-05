@@ -1,8 +1,11 @@
-<div fxLayout="row" fxLayoutWrap class="md-padding">
+<div fxLayout="column" class="md-padding">
   <div *ngFor="let course of courses | async">
     <h1>{{course.name}}</h1>
-    <div fxLayout="row" fxLayoutWrap fxLayoutAlign="space-between start">
+    <div fxLayoutWrap fxLayoutAlign="start stretch" fxLayoutGap="20px">
       <h3 *ngIf="course.assigns.length === 0">No assignments available</h3>
+      <md-card fxLayout="column" fxLayoutAlign="center center">
+        <button md-raised-button color="primary" routerLink="{{course.name}}/create">CREATE</button>
+      </md-card>
       <md-card *ngFor="let assign of course.assigns">
         <md-card-header>
           <md-card-title><h3>{{assign}}</h3></md-card-title>
@@ -13,6 +16,7 @@
         </md-card-content>
         <md-card-actions>
           <button md-raised-button color="primary" routerLink="{{course.name}}/{{assign}}">VIEW</button>
+          <span fxFlex></span>
           <button md-button>STATS</button>
         </md-card-actions>
       </md-card>

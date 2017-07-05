@@ -4,6 +4,7 @@ import {UserService} from './user.service';
 import {environment} from '../../../environments/environment';
 import {Observable} from 'rxjs/Observable';
 import {BehaviorSubject} from 'rxjs/BehaviorSubject';
+import {Router} from '@angular/router';
 
 @Injectable()
 export class AuthService {
@@ -16,6 +17,7 @@ export class AuthService {
   private _loggedIn = new BehaviorSubject<boolean>(false);
 
   constructor(
+    private _router: Router,
     private userService: UserService,
     private http: Http
   ) {
@@ -35,6 +37,7 @@ export class AuthService {
   public logout () {
     this.userService.depopulate();
     this._loggedIn.next(false);
+    this._router.navigate(['']);
     // this.http.post(this._url + 'logout', { }, this._options).subscribe();
   }
 
