@@ -2,7 +2,9 @@
   <div class="nav-bar" fxLayout="row">
     <nav md-tab-nav-bar fxFlex>
       <div *ngIf="!isSideBySide">
-        <button md-icon-button (click)="sidenav.toggle()" fxFlexOffset="10px"><md-icon>menu</md-icon></button>
+        <button md-icon-button (click)="sidenav.toggle()" fxFlexOffset="10px" title="Show nav menu">
+          <md-icon>menu</md-icon>
+        </button>
       </div>
       <span fxLayoutAlign="space-around center" fxFlexOffset="30px">
         <a routerLink=""

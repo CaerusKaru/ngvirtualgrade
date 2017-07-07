@@ -8,8 +8,8 @@
         <span class="mat-subheading-2">{{entityName}}</span>
       </md-card-subtitle>
     </md-card-header>
-    <md-card-content fxLayout="column" fxLayoutAlign="center center">
-      <form #f="ngForm" autocomplete="off" (ngSubmit)="login(f)" fxLayout="column" novalidate fxLayoutGap="30px">
+    <md-card-content>
+      <form #f="ngForm" autocomplete="off" (ngSubmit)="login(f)" fxFlex fxLayout="column" novalidate fxLayoutGap="30px">
         <div fxLayout="column" fxLayoutGap="10px">
           <div fxLayout="row" fxLayoutAlign="center center">
             <md-icon>person</md-icon>
@@ -26,7 +26,7 @@
             </md-input-container>
           </div>
         </div>
-        <div fxLayout="row" fxLayoutAlign="space-between center">
+        <div fxLayout="row" fxLayoutAlign="space-around center">
           <button md-raised-button md-dialog-close>CANCEL</button>
           <button md-raised-button color="primary" type="submit" class="text-upper">LOGIN</button>
         </div>
