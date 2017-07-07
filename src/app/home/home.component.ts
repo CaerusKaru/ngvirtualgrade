@@ -1,4 +1,4 @@
-import {Component, HostListener, OnInit, ViewEncapsulation} from '@angular/core';
+import {Component, HostListener, OnDestroy, OnInit, ViewEncapsulation} from '@angular/core';
 import {NavigationEnd, Router} from '@angular/router';
 import {UserService} from '../shared/services/user.service';
 import {Location} from '@angular/common';
@@ -7,6 +7,8 @@ import {Observable} from 'rxjs/Observable';
 import {MdDialog, MdDialogRef} from '@angular/material';
 import {environment} from '../../environments/environment';
 import {NgForm} from '@angular/forms';
+import {Subject} from 'rxjs/Subject';
+import {takeUntil} from 'rxjs/operator/takeUntil';
 
 @Component({
   selector: 'vg-home',
@@ -14,7 +16,7 @@ import {NgForm} from '@angular/forms';
   styleUrls: ['./home.component.scss'],
   encapsulation: ViewEncapsulation.None
 })
-export class HomeComponent implements OnInit {
+export class HomeComponent implements OnInit, OnDestroy {
 
   mode: string;
   courses$: Observable<string[]>;
@@ -39,6 +41,8 @@ export class HomeComponent implements OnInit {
   private _sideBySideWidth = 875;
   private _isOpen = false;
 
+  private _destroy = new Subject<void>();
+
   constructor(
     private _router: Router,
     private _location: Location,
@@ -46,8 +50,8 @@ export class HomeComponent implements OnInit {
     private _authService: AuthService,
     public dialog: MdDialog
   ) {
-    this._router.events
-      .filter(event => event instanceof NavigationEnd)
+    takeUntil.call(this._router.events
+      .filter(event => event instanceof NavigationEnd), this._destroy)
       .subscribe((event) => this.changeTab());
     this._grading = this._userService.grading;
     this._admin = this._userService.admin;
@@ -55,17 +59,22 @@ export class HomeComponent implements OnInit {
   }
 
   ngOnInit () {
-    this._userService.isAdmin.subscribe(data => {
+    takeUntil.call(this._userService.isAdmin, this._destroy).subscribe(data => {
       this.navLinks[this.navLinks.indexOf(this.adminTab)].show = data;
     });
-    this._userService.isGrader.subscribe(data => {
+    takeUntil.call(this._userService.isGrader, this._destroy).subscribe(data => {
       this.navLinks[this.navLinks.indexOf(this.graderTab)].show = data;
     });
-    this._authService.loggedIn.subscribe(data => {
+    takeUntil.call(this._authService.loggedIn, this._destroy).subscribe(data => {
       this.navLinks[this.navLinks.indexOf(this.gradesTab)].show = data;
     });
 
     this.onResize(window.innerWidth);
+  }
+
+  ngOnDestroy() {
+    this._destroy.next();
+    this._destroy.complete();
   }
 
   @HostListener('window:resize', ['$event.target.innerWidth'])

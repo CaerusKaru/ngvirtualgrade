@@ -3,6 +3,7 @@ import {CanLoad, Route} from '@angular/router';
 import { Observable } from 'rxjs/Observable';
 import {AuthService} from '../services/auth.service';
 import {UserService} from '../services/user.service';
+import {first} from 'rxjs/operator/first';
 
 @Injectable()
 export class CanLoadGrades implements CanLoad {
@@ -13,7 +14,7 @@ export class CanLoadGrades implements CanLoad {
   }
 
   canLoad(route: Route): Observable<boolean> | Promise<boolean> | boolean {
-    return this._authService.loggedIn.first();
+    return first.call(this._authService.loggedIn);
   }
 }
 
@@ -26,7 +27,7 @@ export class CanLoadGrading implements CanLoad {
   }
 
   canLoad(route: Route): Observable<boolean> | Promise<boolean> | boolean {
-    return this._userService.isGrader.first();
+    return first.call(this._userService.isGrader);
   }
 }
 
@@ -39,6 +40,6 @@ export class CanLoadAdmin implements CanLoad {
   }
 
   canLoad(route: Route): Observable<boolean> | Promise<boolean> | boolean {
-    return this._userService.isAdmin.first();
+    return first.call(this._userService.isAdmin);
   }
 }

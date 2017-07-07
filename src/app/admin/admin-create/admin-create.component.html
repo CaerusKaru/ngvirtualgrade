@@ -1,79 +1,72 @@
-<div class="md-padding default-theme" fxflex>
-  <md-card>
-    <td-steps mode="vertical">
-      <td-step #step1 label="Step 1: Basic Info" sublabel="Not much to put here"
-               [active]="activeState === 1" (activated)="activeState = 1">
-        <form fxLayout="column" fxLayoutGap="15px">
-          <div fxLayout="row" fxLayoutGap="20px">
-            <md-input-container>
-              <input mdInput placeholder="Name">
-            </md-input-container>
-          </div>
-          <div fxLayout="row" fxLayoutGap="20px">
-            <md-input-container>
-              <input mdInput [mdDatepicker]="startDate" placeholder="Start Date">
-              <button mdSuffix [mdDatepickerToggle]="startDate"></button>
-            </md-input-container>
-            <md-datepicker #startDate></md-datepicker>
-            <md-input-container>
-              <input mdInput [mdDatepicker]="endDate" placeholder="Due Date">
-              <button mdSuffix [mdDatepickerToggle]="endDate"></button>
-            </md-input-container>
-            <md-datepicker #endDate></md-datepicker>
-          </div>
-          <div fxLayout="row" fxLayoutAlign="start center">
-            <span>Required files: </span>
-            <md-chip-list fxFlexOffset="15px">
-              <md-chip>Test.cpp</md-chip>
-              <md-chip>Test.h</md-chip>
-              <md-chip>README.md</md-chip>
-            </md-chip-list>
-          </div>
-          <div fxLayout="row">
-            <md-checkbox align="end">Allow additional files?</md-checkbox>
-          </div>
-          <span class="mat-title">Testing (beta)</span>
-          <div fxLayout="row">
-            <md-input-container>
-              <textarea mdInput></textarea>
-            </md-input-container>
-          </div>
-        </form>
-        <ng-template td-step-actions>
-          <div fxLayout="row">
-            <span fxFlex></span>
-            <button md-button>CANCEL</button>
-            <button md-button color="primary" (click)="activeState = activeState + 1">CONTINUE</button>
-          </div>
-        </ng-template>
-      </td-step>
-      <td-step #step2 label="Step 2: Components" sublabel="Not much to put here"
-               [active]="activeState === 2" (activated)="activeState = 2">
-        This step is required!
-        <ng-template td-step-actions>
-          <div fxLayout="row">
-            <button md-button (click)="activeState = activeState - 1">BACK</button>
-            <span fxFlex></span>
-            <button md-button>CANCEL</button>
-            <button md-button color="primary" (click)="activeState = activeState + 1">CONTINUE</button>
-          </div>
-        </ng-template>
-      </td-step>
-      <td-step #step3 label="Step 3: Assign Graders" sublabel="Not much to put here"
-               [active]="activeState === 3" (activated)="activeState = 3">
-        Mark this step complete and get a summary
-        <ng-template td-step-summary>
-          Use an optional step summary to summarize the info in this step
-        </ng-template>
-        <ng-template td-step-actions>
-          <div fxLayout="row">
-            <button md-button (click)="activeState = activeState - 1">BACK</button>
-            <span fxFlex></span>
-            <button md-button>CANCEL</button>
-            <button md-button color="primary">SUBMIT</button>
-          </div>
-        </ng-template>
-      </td-step>
-    </td-steps>
-  </md-card>
+<div class="md-padding default-theme" fxFlex>
+  <md-accordion displayMode="default" multi="false">
+    <md-expansion-panel #panel1>
+      <md-expansion-panel-header>
+        Step 1: Basic Info
+      </md-expansion-panel-header>
+      <md-input-container>
+        <input mdInput placeholder="Name">
+      </md-input-container>
+    </md-expansion-panel>
+    <md-expansion-panel #panel2>
+      <md-expansion-panel-header>
+        Step 2: Dates
+      </md-expansion-panel-header>
+      <md-input-container>
+        <input mdInput [mdDatepicker]="startDate" placeholder="Start Date">
+        <button mdSuffix [mdDatepickerToggle]="startDate"></button>
+      </md-input-container>
+      <md-datepicker #startDate></md-datepicker>
+      <md-input-container>
+        <input mdInput [mdDatepicker]="endDate" placeholder="Due Date">
+        <button mdSuffix [mdDatepickerToggle]="endDate"></button>
+      </md-input-container>
+      <md-datepicker #endDate></md-datepicker>
+    </md-expansion-panel>
+    <md-expansion-panel #panel3>
+      <md-expansion-panel-header>
+        Step 3: Files
+      </md-expansion-panel-header>
+      <div fxLayout="column" fxLayoutGap="15px">
+        <div>
+          <md-input-container>
+            <input mdInput placeholder="File Name">
+          </md-input-container>
+          <button md-button>Add File</button>
+        </div>
+        <div fxLayout="row">
+          <md-chip-list>
+            <md-chip>Test.cpp</md-chip>
+            <md-chip>Test.h</md-chip>
+          </md-chip-list>
+        </div>
+        <div fxLayout="row">
+          <md-checkbox align="end">Allow additional files</md-checkbox>
+        </div>
+      </div>
+    </md-expansion-panel>
+    <md-expansion-panel #panel4>
+      <md-expansion-panel-header>
+        Step 4: Components
+      </md-expansion-panel-header>
+      <md-input-container>
+        <input mdInput placeholder="Component Name">
+      </md-input-container>
+    </md-expansion-panel>
+    <md-expansion-panel #panel5>
+      <md-expansion-panel-header>
+        Step 5: File Source
+      </md-expansion-panel-header>
+      <md-radio-button name="fileSource">Student Upload</md-radio-button>
+      <md-radio-button name="fileSource">Instructor Upload</md-radio-button>
+    </md-expansion-panel>
+    <md-expansion-panel #panel6>
+      <md-expansion-panel-header>
+        Step 6: Assign Graders
+      </md-expansion-panel-header>
+      <md-input-container>
+        <input mdInput placeholder="Component Name">
+      </md-input-container>
+    </md-expansion-panel>
+  </md-accordion>
 </div>

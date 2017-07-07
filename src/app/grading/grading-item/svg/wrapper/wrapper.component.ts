@@ -1,17 +1,19 @@
 import {
   ElementRef, Input, HostListener, ViewChild, AfterViewInit,
-  Component, OnInit, ComponentFactoryResolver, ViewContainerRef, Renderer2
+  Component, OnInit, ComponentFactoryResolver, ViewContainerRef, Renderer2, OnDestroy
 } from '@angular/core';
 import {LineComponent} from '../line/line.component';
 import {SvgService} from '../shared/svg.service';
 import {TextComponent} from '../text/text.component';
+import {takeUntil} from 'rxjs/operator/takeUntil';
+import {Subject} from 'rxjs/Subject';
 
 @Component({
   selector: 'svg-wrapper',
   templateUrl: './wrapper.component.html',
   styleUrls: ['./wrapper.component.scss']
 })
-export class WrapperComponent implements OnInit, AfterViewInit {
+export class WrapperComponent implements OnInit, AfterViewInit, OnDestroy {
 
   @ViewChild('board', {read: ViewContainerRef}) boardRef: ViewContainerRef;
   @ViewChild('container', {read: ViewContainerRef}) container: ViewContainerRef;
@@ -34,6 +36,8 @@ export class WrapperComponent implements OnInit, AfterViewInit {
   defaultText = '';
   currentPage = null;
 
+  private _destroy = new Subject<void>();
+
   constructor(
     private _element: ElementRef,
     private _renderer: Renderer2,
@@ -42,9 +46,9 @@ export class WrapperComponent implements OnInit, AfterViewInit {
   ) { }
 
   ngOnInit () {
-    this._svgService.offsetX.subscribe((val) => this.offsetX = val);
-    this._svgService.offsetY.subscribe((val) => this.offsetY = val);
-    this._svgService.textEditing.subscribe((val) => this.textEditing = val);
+    takeUntil.call(this._svgService.offsetX, this._destroy).subscribe((val) => this.offsetX = val);
+    takeUntil.call(this._svgService.offsetY, this._destroy).subscribe((val) => this.offsetY = val);
+    takeUntil.call(this._svgService.textEditing, this._destroy).subscribe((val) => this.textEditing = val);
     // TODO fetch the pdf annotations while the view is rendering
     // PDFService.initPDF().then(function () {
     //   currentPage = PDFService.getPage(0);
@@ -56,6 +60,11 @@ export class WrapperComponent implements OnInit, AfterViewInit {
 
   ngAfterViewInit () {
     this.board = this.boardRef.element.nativeElement;
+  }
+
+  ngOnDestroy() {
+    this._destroy.next();
+    this._destroy.complete();
   }
 
   undo () {

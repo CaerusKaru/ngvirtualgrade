@@ -6,6 +6,8 @@ import {NavMenuService} from './shared/nav-menu.service';
 import {animate, style, AnimationBuilder, AnimationPlayer} from '@angular/animations';
 import {Router} from '@angular/router';
 import {Observable} from 'rxjs/Observable';
+import {Subject} from 'rxjs/Subject';
+import {takeUntil} from 'rxjs/operator/takeUntil';
 
 let uniqueId = 0;
 
@@ -18,7 +20,7 @@ let uniqueId = 0;
   templateUrl: './nav-menu-link.html',
   encapsulation: ViewEncapsulation.None
 })
-export class NavMenuLinkComponent {
+export class NavMenuLinkComponent implements OnInit, OnDestroy {
 
   @Input() link: string;
   @Input() id: number = uniqueId++;
@@ -26,11 +28,21 @@ export class NavMenuLinkComponent {
   public isSelected: Observable<boolean> = this.menuService.openPage.map(i => i === this.id);
   private _isSelected: boolean;
 
+  private _destroy = new Subject<void>();
+
   constructor(
     private router: Router,
     private menuService: NavMenuService
   ) {
-    menuService.openPage.subscribe(data => this._isSelected = data === this.id);
+  }
+
+  ngOnInit() {
+    takeUntil.call(this.menuService.openPage, this._destroy).subscribe(data => this._isSelected = data === this.id);
+  }
+
+  ngOnDestroy() {
+    this._destroy.next();
+    this._destroy.complete();
   }
 
   public navigate(url) {
@@ -58,13 +70,15 @@ export class NavMenuToggleComponent implements OnInit, AfterViewInit, OnDestroy 
   private _finalLinks: NavMenuLinkComponent[];
   private _openSection: boolean;
 
+  private _destroy = new Subject<void>();
+
   constructor(
     private builder: AnimationBuilder,
     private menuService: NavMenuService
   ) { }
 
   ngOnInit () {
-    this.menuService.openSection.subscribe(data => {
+    takeUntil.call(this.menuService.openSection, this._destroy).subscribe(data => {
       this._openSection = data === this.id;
       if (data === this.id && !this.open) {
         if (this.player) {
@@ -103,6 +117,8 @@ export class NavMenuToggleComponent implements OnInit, AfterViewInit, OnDestroy 
 
   ngOnDestroy () {
     this._finalLinks.map(c => this.menuService.removeLink(c.id, c.link, this.id));
+    this._destroy.next();
+    this._destroy.complete();
   }
 
   public isOpen () {
@@ -124,7 +140,7 @@ export class NavMenuToggleComponent implements OnInit, AfterViewInit, OnDestroy 
   encapsulation: ViewEncapsulation.None
 })
 export class NavMenuHeaderComponent {
-  @Input () label: string;
+  @Input() label: string;
   constructor() { }
 }
 
