@@ -1,15 +1,17 @@
 import {
-  Component, ElementRef, HostBinding, HostListener, Input, OnInit, Renderer2, ViewChild, ViewContainerRef
+  Component, ElementRef, HostBinding, HostListener, Input, OnInit, Renderer2, ViewChild, ViewContainerRef, OnDestroy
 } from '@angular/core';
 import {SVGInterface} from '../shared/svg.interface';
 import {SvgService} from '../shared/svg.service';
+import {Subject} from 'rxjs/Subject';
+import {takeUntil} from 'rxjs/operator/takeUntil';
 
 @Component({
   selector: 'svg:svg[svgText]',
   templateUrl: './text.component.html',
   styleUrls: ['./text.component.scss']
 })
-export class TextComponent implements SVGInterface, OnInit {
+export class TextComponent implements SVGInterface, OnInit, OnDestroy {
 
   @Input () data: any;
 
@@ -27,6 +29,8 @@ export class TextComponent implements SVGInterface, OnInit {
   localEditing: boolean;
   transform: string;
 
+  private _destroy = new Subject<void>();
+
   constructor(
     private _element: ElementRef,
     private _svgService: SvgService,
@@ -34,9 +38,9 @@ export class TextComponent implements SVGInterface, OnInit {
   ) { }
 
   ngOnInit () {
-    this._svgService.textEditing.subscribe((val) => this.textEditing = val);
+    takeUntil.call(this._svgService.textEditing, this._destroy).subscribe((val) => this.textEditing = val);
     this.localEditing = this.textEditing;
-    this._svgService.mode.subscribe((val) => {
+    takeUntil.call(this._svgService.mode, this._destroy).subscribe((val) => {
       if (val !== 'text') {
         // find a better way of doing this
         if (this.localEditing) {
@@ -53,6 +57,11 @@ export class TextComponent implements SVGInterface, OnInit {
       this.createNode(null);
       this.init = false;
     }
+  }
+
+  ngOnDestroy() {
+    this._destroy.next();
+    this._destroy.complete();
   }
 
   @HostListener('click', ['$event'])

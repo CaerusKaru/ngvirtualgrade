@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {
   MdButtonModule, MdCardModule, MdDialogModule, MdIconModule, MdInputModule, MdMenuModule, MdSidenavModule,
+  MdSnackBarModule,
   MdTabsModule
 } from '@angular/material';
 
@@ -17,7 +18,8 @@ import {
     MdIconModule,
     MdTabsModule,
     MdSidenavModule,
-    MdMenuModule
+    MdMenuModule,
+    MdSnackBarModule
   ],
   declarations: []
 })

@@ -5,12 +5,10 @@ import {AdminRoutingModule} from './admin-routing.module';
 import { AdminItemComponent } from './admin-item/admin-item.component';
 import { AdminCreateComponent } from './admin-create/admin-create.component';
 import {AdminMaterialModule} from './admin-material/admin-material.module';
-import {AdminCovalentModule} from './admin-covalent/admin-covalent.module';
 import {FlexLayoutModule} from '@angular/flex-layout';
 
 @NgModule({
   imports: [
-    AdminCovalentModule,
     CommonModule,
     FlexLayoutModule,
     AdminMaterialModule,

@@ -5,6 +5,7 @@ import {environment} from '../../../environments/environment';
 import {Observable} from 'rxjs/Observable';
 import {BehaviorSubject} from 'rxjs/BehaviorSubject';
 import {Router} from '@angular/router';
+import {MdSnackBar} from '@angular/material';
 
 @Injectable()
 export class AuthService {
@@ -19,7 +20,8 @@ export class AuthService {
   constructor(
     private _router: Router,
     private userService: UserService,
-    private http: Http
+    private http: Http,
+    private _snackbar: MdSnackBar
   ) {
     this.loggedIn = this._loggedIn.asObservable();
   }
@@ -50,9 +52,15 @@ export class AuthService {
       data => {
         this._loggedIn.next(true);
         this.userService.populate(data.json(), data.json().user);
+        this._snackbar.open('Login successful', '', {
+            duration: 1250
+          });
       },
       error => {
         this._loggedIn.next(false);
+        this._snackbar.open('Error logging in', '', {
+          duration: 1250
+        });
       }
     );
   }

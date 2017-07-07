@@ -1,10 +1,12 @@
-import {Directive, ElementRef, HostBinding, HostListener, OnInit} from '@angular/core';
+import {Directive, ElementRef, HostBinding, HostListener, OnDestroy, OnInit} from '@angular/core';
 import {SvgService} from './svg.service';
+import {Subject} from 'rxjs/Subject';
+import {takeUntil} from 'rxjs/operator/takeUntil';
 
 @Directive({
   selector: '[svgSelect]'
 })
-export class SvgSelectDirective implements OnInit {
+export class SvgSelectDirective implements OnInit, OnDestroy {
 
   @HostBinding('style.stroke')
   currentColor: string;
@@ -13,14 +15,21 @@ export class SvgSelectDirective implements OnInit {
   originalColor: string;
   selected = false;
 
+  private _destroy = new Subject<void>();
+
   constructor(
     private _svgService: SvgService,
     private _element: ElementRef
   ) { }
 
   ngOnInit () {
-    this._svgService.mode.subscribe((newMode) => this.currentMode = newMode);
+    takeUntil.call(this._svgService.mode, this._destroy).subscribe((newMode) => this.currentMode = newMode);
     this.originalColor = this.currentColor;
+  }
+
+  ngOnDestroy() {
+    this._destroy.next();
+    this._destroy.complete();
   }
 
   @HostListener('mouseover')

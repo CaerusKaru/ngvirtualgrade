@@ -1,9 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {UniqueSelectionDispatcher, MdDialog, MdDialogRef} from '@angular/material';
 import {SvgService} from './svg/shared/svg.service';
 import {ScoreItem} from '../shared/score-item';
 import {Problem} from '../shared/problem';
 import {NgForm} from '@angular/forms';
+import {takeUntil} from 'rxjs/operator/takeUntil';
+import {Subject} from 'rxjs/Subject';
 
 @Component({
   selector: 'vg-grading-item',
@@ -110,7 +112,7 @@ export class GradingItemComponent implements OnInit {
   templateUrl: './grading-item-pdf-dialog.component.html',
   styleUrls: ['./grading-item-pdf-dialog.component.scss']
 })
-export class GradingItemPDFDialogComponent implements OnInit {
+export class GradingItemPDFDialogComponent implements OnInit, OnDestroy {
 
   adjust = 0;
   currentColor = '#000000';
@@ -133,6 +135,8 @@ export class GradingItemPDFDialogComponent implements OnInit {
       };
     }
   };
+
+  private _destroy = new Subject<void>();
 
   // assignment
 
@@ -204,7 +208,12 @@ export class GradingItemPDFDialogComponent implements OnInit {
   }
 
   ngOnInit () {
-    this._svgService.mode.subscribe((newMode) => this._currentMode = newMode);
+    takeUntil.call(this._svgService.mode, this._destroy).subscribe((newMode) => this._currentMode = newMode);
+  }
+
+  ngOnDestroy() {
+    this._destroy.next();
+    this._destroy.complete();
   }
 
   get assign () {
@@ -245,7 +254,7 @@ export class GradingItemPDFDialogComponent implements OnInit {
 
   addScore () {
     const dialogRef = this.dialog.open(ScoringItemDialogComponent);
-    dialogRef.afterClosed().subscribe(result => {
+    takeUntil.call(dialogRef.afterClosed(), this._destroy).subscribe(result => {
       if (result) {
         this._scores.push({
           score: parseFloat(result.points),
@@ -269,7 +278,7 @@ export class GradingItemPDFDialogComponent implements OnInit {
     const dialogRef = this.dialog.open(ScoringItemDialogComponent);
     dialogRef.componentInstance.desc = item.comment;
     dialogRef.componentInstance.points = item.score;
-    dialogRef.afterClosed().subscribe(result => {
+    takeUntil.call(dialogRef.afterClosed(), this._destroy).subscribe(result => {
       if (result) {
         this._scores[idx].score = result.points;
         this._scores[idx].comment = result.desc;

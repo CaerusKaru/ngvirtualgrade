@@ -1,10 +1,12 @@
-import {Directive, ElementRef, HostBinding, HostListener, OnInit} from '@angular/core';
+import {Directive, ElementRef, HostBinding, HostListener, OnInit, OnDestroy} from '@angular/core';
 import {SvgService} from './svg.service';
+import {Subject} from 'rxjs/Subject';
+import {takeUntil} from 'rxjs/operator/takeUntil';
 
 @Directive({
   selector: '[svgDrag]'
 })
-export class SvgDragDirective implements OnInit {
+export class SvgDragDirective implements OnInit, OnDestroy {
 
   @HostBinding('style.stroke')
   currentColor: string;
@@ -31,15 +33,17 @@ export class SvgDragDirective implements OnInit {
   touchX;
   touchY;
 
+  private _destroy = new Subject<void>();
+
   constructor(
     private _element: ElementRef,
     private _svgService: SvgService
   ) { }
 
   ngOnInit () {
-    this._svgService.mode.subscribe((newMode) => this.currentMode = newMode);
-    this._svgService.offsetX.subscribe((val) => this.offsetX = val);
-    this._svgService.offsetY.subscribe((val) => this.offsetY = val);
+    takeUntil.call(this._svgService.mode, this._destroy).subscribe((newMode) => this.currentMode = newMode);
+    takeUntil.call(this._svgService.offsetX, this._destroy).subscribe((val) => this.offsetX = val);
+    takeUntil.call(this._svgService.offsetY, this._destroy).subscribe((val) => this.offsetY = val);
     this.originalColor = this._element.nativeElement.style.stroke;
     if (this.transform) {
       const currentPos = this.transform.split('(')[1].split(')')[0].split(',');
@@ -52,6 +56,11 @@ export class SvgDragDirective implements OnInit {
     if (!this.dragY) {
       this.dragY = 0.0;
     }
+  }
+
+  ngOnDestroy() {
+    this._destroy.next();
+    this._destroy.complete();
   }
 
   @HostListener ('mouseover')
