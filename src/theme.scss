@@ -1,5 +1,4 @@
 @import '~@angular/material/theming';
-@import '~@covalent/core/theming/all-theme';
 @import './app/nav-menu/nav-menu-theme';
 
 @include mat-core();
@@ -52,7 +51,6 @@ $pdf-dark-background: (
 $theme: md-app-theme($primary, $accent, $warn, $background, $mat-light-theme-foreground);
 
 @include angular-material-theme($theme);
-@include covalent-theme($theme);
 @include nav-menu-theme($theme);
 
 @function md-app-dark-theme($p, $a, $w, $b, $f) {
@@ -71,7 +69,6 @@ $theme: md-app-theme($primary, $accent, $warn, $background, $mat-light-theme-for
   $dark-theme: md-app-dark-theme($primary, $accent, $warn, $mat-dark-theme-background, $mat-dark-theme-foreground);
 
   @include angular-material-theme($dark-theme);
-  @include covalent-theme($dark-theme);
   @include nav-menu-theme($dark-theme);
 }
 
@@ -79,7 +76,6 @@ $theme: md-app-theme($primary, $accent, $warn, $background, $mat-light-theme-for
   $default-theme: md-app-theme($primary, $accent, $warn, $background, $mat-light-theme-foreground);
 
   @include angular-material-theme($default-theme);
-  @include covalent-theme($default-theme);
   @include nav-menu-theme($default-theme);
 }
 
@@ -92,7 +88,6 @@ $pdf-warn: mat-palette($mat-red);
   $pdf-dialog-dark-theme: md-app-dark-theme($pdf-primary, $pdf-accent, $pdf-warn, $pdf-dark-background, $mat-dark-theme-foreground);
 
   @include angular-material-theme($pdf-dialog-dark-theme);
-  @include covalent-theme($pdf-dialog-dark-theme);
   @include nav-menu-theme($pdf-dialog-dark-theme);
 }
 
@@ -100,6 +95,5 @@ $pdf-warn: mat-palette($mat-red);
   $pdf-dialog-light-theme: md-app-theme($pdf-primary, $pdf-accent, $pdf-warn, $background, $mat-light-theme-foreground);
 
   @include angular-material-theme($pdf-dialog-light-theme);
-  @include covalent-theme($pdf-dialog-light-theme);
   @include nav-menu-theme($pdf-dialog-light-theme);
 }
