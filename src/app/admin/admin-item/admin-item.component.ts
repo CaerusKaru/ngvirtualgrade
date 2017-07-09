@@ -3,7 +3,6 @@ import {MdPaginator, MdSort} from '@angular/material';
 import {BehaviorSubject} from 'rxjs/BehaviorSubject';
 import {DataSource} from '@angular/cdk';
 import {Observable} from 'rxjs/Observable';
-import 'rxjs/add/operator/startWith';
 import 'rxjs/add/observable/merge';
 import 'rxjs/add/operator/map';
 import {ActivatedRoute} from '@angular/router';

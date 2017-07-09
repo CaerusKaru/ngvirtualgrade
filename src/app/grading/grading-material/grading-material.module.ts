@@ -3,12 +3,13 @@ import { CommonModule } from '@angular/common';
 import {
   MdButtonModule, MdButtonToggleModule, MdCardModule, MdCheckboxModule, MdDialogModule, MdIconModule, MdInputModule,
   MdListModule,
-  MdMenuModule,
+  MdMenuModule, MdPaginatorModule,
   MdProgressBarModule,
-  MdSidenavModule,
+  MdSidenavModule, MdSortModule, MdTableModule,
   MdToolbarModule,
   MdTooltipModule
 } from '@angular/material';
+import {CdkTableModule} from '@angular/cdk';
 
 @NgModule({
   imports: [
@@ -27,7 +28,11 @@ import {
     MdDialogModule,
     MdButtonToggleModule,
     MdCheckboxModule,
-    MdCardModule
+    MdCardModule,
+    MdTableModule,
+    MdSortModule,
+    MdPaginatorModule,
+    CdkTableModule
   ],
   declarations: []
 })

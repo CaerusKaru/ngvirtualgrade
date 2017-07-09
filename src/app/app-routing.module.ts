@@ -21,7 +21,7 @@ export const appRoutes: Routes = [
         path: 'admin', loadChildren: './admin/admin.module#AdminModule', canLoad: [CanLoadAdmin]
       },
       {
-        path: '**', redirectTo: '/', pathMatch: 'full'
+        path: '**', redirectTo: '', pathMatch: 'full'
       }
     ]
   }

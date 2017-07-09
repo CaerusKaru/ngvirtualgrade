@@ -1,11 +1,16 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
-import {UniqueSelectionDispatcher, MdDialog, MdDialogRef} from '@angular/material';
+import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
+import {UniqueSelectionDispatcher, MdDialog, MdDialogRef, MdSort, MdPaginator} from '@angular/material';
 import {SvgService} from './svg/shared/svg.service';
 import {ScoreItem} from '../shared/score-item';
 import {Problem} from '../shared/problem';
 import {NgForm} from '@angular/forms';
 import {takeUntil} from 'rxjs/operator/takeUntil';
 import {Subject} from 'rxjs/Subject';
+import {Observable} from 'rxjs/Observable';
+import {DataSource} from '@angular/cdk';
+import {BehaviorSubject} from 'rxjs/BehaviorSubject';
+import {ActivatedRoute} from '@angular/router';
+import 'rxjs/add/operator/map';
 
 @Component({
   selector: 'vg-grading-item',
@@ -13,81 +18,39 @@ import {Subject} from 'rxjs/Subject';
   styleUrls: ['./grading-item.component.scss'],
   providers: [UniqueSelectionDispatcher]
 })
-export class GradingItemComponent implements OnInit {
+export class GradingItemComponent implements OnInit, OnDestroy {
 
-  problems = [
-    {
-      name: 'Problem 1',
-      progress: Math.random() * 100,
-      series: [
-        {
-          'name': '2010',
-          'value': 74
-        },
-        {
-          'name': '2012',
-          'value': 89
-        }
-      ]
-    },
-    {
-      name: 'Problem 2',
-      progress: Math.random() * 100,
-      series: [
-        {
-          'name': '2010',
-          'value': 52
-        },
-        {
-          'name': '2011',
-          'value': 66
-        }
-      ]
-    },
-    {
-      name: 'Problem 3',
-      progress: Math.random() * 100,
-      series: [
-        {
-          'name': '2010',
-          'value': 15
-        },
-        {
-          'name': '2011',
-          'value': 12
-        }
-      ]
-    }
-  ];
+  displayedColumns = ['userId', 'progress', 'userName', 'color'];
+  exampleDatabase = new ExampleDatabase();
+  dataSource: ExampleDataSource | null;
 
-  // view: any[] = [700, 400];
-  //
-  // currentProblem;
-  //
-  // // options
-  // showXAxis = true;
-  // showYAxis = true;
-  // gradient = false;
-  // showLegend = true;
-  // showXAxisLabel = true;
-  // xAxisLabel = 'Num. students';
-  // showYAxisLabel = true;
-  // yAxisLabel = 'Score';
-  //
-  // colorScheme = {
-  //   domain: ['#5AA454', '#A10A28', '#C7B42C', '#AAAAAA']
-  // };
-  //
-  // // line, area
-  // autoScale = true;
+  course;
+  id;
+
+  @ViewChild(MdPaginator) paginator: MdPaginator;
+  @ViewChild(MdSort) sort: MdSort;
 
   type = 'pdf';
 
-  constructor(public dialog: MdDialog) {
+  private _destroy = new Subject<void>();
+
+  constructor(
+    public dialog: MdDialog,
+    private _route: ActivatedRoute
+  ) {
   }
 
   ngOnInit() {
+    this.dataSource = new ExampleDataSource(this.exampleDatabase, this.paginator, this.sort);
+    takeUntil.call(this._route.params, this._destroy).subscribe(params => {
+      this.course = params['course'];
+      this.id = params['id'];
+    });
+  }
 
+  ngOnDestroy() {
+    this._destroy.next();
+    this._destroy.complete();
   }
 
   onSelect(event) {
@@ -105,6 +68,111 @@ export class GradingItemComponent implements OnInit {
     });
   }
 
+}
+
+/** Constants used to fill up our data base. */
+const COLORS = ['maroon', 'red', 'orange', 'yellow', 'olive', 'green', 'purple',
+  'fuchsia', 'lime', 'teal', 'aqua', 'blue', 'navy', 'black', 'gray'];
+const NAMES = ['Maia', 'Asher', 'Olivia', 'Atticus', 'Amelia', 'Jack',
+  'Charlotte', 'Theodore', 'Isla', 'Oliver', 'Isabella', 'Jasper',
+  'Cora', 'Levi', 'Violet', 'Arthur', 'Mia', 'Thomas', 'Elizabeth'];
+
+export interface UserData {
+  id: string;
+  name: string;
+  progress: string;
+  color: string;
+}
+
+/** An example database that the data source uses to retrieve data for the table. */
+export class ExampleDatabase {
+  /** Stream that emits whenever the data has been modified. */
+  dataChange: BehaviorSubject<UserData[]> = new BehaviorSubject<UserData[]>([]);
+  get data(): UserData[] { return this.dataChange.value; }
+
+  constructor() {
+    // Fill up the database with 100 users.
+    for (let i = 0; i < 100; i++) { this.addUser(); }
+  }
+
+  /** Adds a new user to the database. */
+  addUser() {
+    const copiedData = this.data.slice();
+    copiedData.push(this.createNewUser());
+    this.dataChange.next(copiedData);
+  }
+
+  /** Builds and returns a new User. */
+  private createNewUser() {
+    const name =
+      NAMES[Math.round(Math.random() * (NAMES.length - 1))] + ' ' +
+      NAMES[Math.round(Math.random() * (NAMES.length - 1))].charAt(0) + '.';
+
+    return {
+      id: (this.data.length + 1).toString(),
+      name: name,
+      progress: Math.round(Math.random() * 100).toString(),
+      color: COLORS[Math.round(Math.random() * (COLORS.length - 1))]
+    };
+  }
+}
+
+/**
+ * Data source to provide what data should be rendered in the table. Note that the data source
+ * can retrieve its data in any way. In this case, the data source is provided a reference
+ * to a common data base, ExampleDatabase. It is not the data source's responsibility to manage
+ * the underlying data. Instead, it only needs to take the data and send the table exactly what
+ * should be rendered.
+ */
+export class ExampleDataSource extends DataSource<any> {
+  constructor(
+    private _exampleDatabase: ExampleDatabase,
+    private _paginator: MdPaginator,
+    private _sort: MdSort) {
+    super();
+  }
+
+  /** Connect function called by the table to retrieve one stream containing the data to render. */
+  connect(): Observable<UserData[]> {
+    const displayDataChanges = [
+      this._exampleDatabase.dataChange,
+      this._paginator.page,
+      this._sort.mdSortChange
+    ];
+
+    return Observable.merge(...displayDataChanges).map(() => {
+      const data = this.getSortedData();
+
+      // Grab the page's slice of data.
+      const startIndex = this._paginator.pageIndex * this._paginator.pageSize;
+      return data.splice(startIndex, this._paginator.pageSize);
+    });
+  }
+
+  disconnect() {}
+
+  /** Returns a sorted copy of the database data. */
+  getSortedData(): UserData[] {
+    const data = this._exampleDatabase.data.slice();
+    if (!this._sort.active || this._sort.direction === '') { return data; }
+
+    return data.sort((a, b) => {
+      let propertyA: number|string = '';
+      let propertyB: number|string = '';
+
+      switch (this._sort.active) {
+        case 'userId': [propertyA, propertyB] = [a.id, b.id]; break;
+        case 'userName': [propertyA, propertyB] = [a.name, b.name]; break;
+        case 'progress': [propertyA, propertyB] = [a.progress, b.progress]; break;
+        case 'color': [propertyA, propertyB] = [a.color, b.color]; break;
+      }
+
+      const valueA = isNaN(+propertyA) ? propertyA : +propertyA;
+      const valueB = isNaN(+propertyB) ? propertyB : +propertyB;
+
+      return (valueA < valueB ? -1 : 1) * (this._sort.direction === 'asc' ? 1 : -1);
+    });
+  }
 }
 
 @Component({
