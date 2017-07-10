@@ -1,72 +1,125 @@
-<div class="md-padding default-theme" fxFlex>
-  <md-accordion displayMode="default" multi="false">
-    <md-expansion-panel #panel1>
-      <md-expansion-panel-header>
-        Step 1: Basic Info
-      </md-expansion-panel-header>
-      <md-input-container>
-        <input mdInput placeholder="Name">
-      </md-input-container>
-    </md-expansion-panel>
-    <md-expansion-panel #panel2>
-      <md-expansion-panel-header>
-        Step 2: Dates
-      </md-expansion-panel-header>
-      <md-input-container>
-        <input mdInput [mdDatepicker]="startDate" placeholder="Start Date">
-        <button mdSuffix [mdDatepickerToggle]="startDate"></button>
-      </md-input-container>
-      <md-datepicker #startDate></md-datepicker>
-      <md-input-container>
-        <input mdInput [mdDatepicker]="endDate" placeholder="Due Date">
-        <button mdSuffix [mdDatepickerToggle]="endDate"></button>
-      </md-input-container>
-      <md-datepicker #endDate></md-datepicker>
-    </md-expansion-panel>
-    <md-expansion-panel #panel3>
-      <md-expansion-panel-header>
-        Step 3: Files
-      </md-expansion-panel-header>
-      <div fxLayout="column" fxLayoutGap="15px">
-        <div>
-          <md-input-container>
-            <input mdInput placeholder="File Name">
-          </md-input-container>
-          <button md-button>Add File</button>
+<div class="md-padding default-theme" fxFlexFill fxLayout="column" fxLayoutGap="10px">
+  <h1 class="mat-heading">Create Assignment for: {{course}}</h1>
+  <div style="overflow-y: auto">
+    <md-accordion displayMode="default" multi="true">
+      <md-expansion-panel #panel1>
+        <md-expansion-panel-header>
+          Basic Info
+        </md-expansion-panel-header>
+        <div fxLayout="column" fxLayoutGap="10px">
+          <div fxLayoutGap="15px">
+            <md-input-container>
+              <input mdInput placeholder="Assignment Name">
+            </md-input-container>
+          </div>
+          <div fxLayoutGap="15px">
+            <md-input-container>
+              <input mdInput placeholder="Step Name" [(ngModel)]="newStep">
+            </md-input-container>
+            <button md-button (click)="addStep()">Add Step</button>
+          </div>
         </div>
-        <div fxLayout="row">
-          <md-chip-list>
-            <md-chip>Test.cpp</md-chip>
-            <md-chip>Test.h</md-chip>
-          </md-chip-list>
+      </md-expansion-panel>
+
+      <md-expansion-panel *ngFor="let step of steps; let i = index" expanded="true">
+        <md-expansion-panel-header>Step {{i+1}}: {{step.name}}</md-expansion-panel-header>
+        <div fxLayout="column" fxLayoutGap="10px">
+          <div>
+            <md-input-container>
+              <input mdInput placeholder="Step Name" [(ngModel)]="step.name">
+            </md-input-container>
+          </div>
+          <div>
+            <md-input-container>
+              <input mdInput [mdDatepicker]="startDate" placeholder="Start Date" [(ngModel)]="step.start_date">
+              <button mdSuffix [mdDatepickerToggle]="startDate"></button>
+            </md-input-container>
+            <md-datepicker #startDate></md-datepicker>
+            <md-input-container>
+              <input mdInput [mdDatepicker]="endDate" placeholder="Due Date" [(ngModel)]="step.end_date">
+              <button mdSuffix [mdDatepickerToggle]="endDate"></button>
+            </md-input-container>
+            <md-datepicker #endDate></md-datepicker>
+          </div>
+          <div>
+            <md-radio-group [(ngModel)]="step.submission_type" fxLayoutGap="10px">
+              <md-radio-button value="student">Student Upload</md-radio-button>
+              <md-radio-button value="instructor">Instructor Upload</md-radio-button>
+            </md-radio-group>
+          </div>
+          <div>
+            <md-input-container>
+              <input mdInput placeholder="File Name" [(ngModel)]="newFile">
+            </md-input-container>
+            <button md-button (click)="addFile(step)">Add File</button>
+          </div>
+          <div>
+            <md-chip-list>
+              <md-chip *ngFor="let file of step.files" selected="true">
+                {{file}}
+              </md-chip>
+            </md-chip-list>
+          </div>
+          <div>
+            <md-checkbox align="end" [(ngModel)]="step.allow_other_files">Allow additional files</md-checkbox>
+          </div>
+          <div>
+            <md-input-container>
+              <input mdInput placeholder="Component Name" name="newComp" ngModel #newComp="ngModel">
+            </md-input-container>
+            <button md-button (click)="addComp(step, newComp.value)">Add Component</button>
+          </div>
+          <div>
+            <md-expansion-panel *ngFor="let comp of step.components" expanded="true">
+              <md-expansion-panel-header>
+                Component: {{comp.name}}
+              </md-expansion-panel-header>
+              <div fxLayout="column">
+                <div>
+                  <md-input-container>
+                    <input mdInput placeholder="Step Name" [(ngModel)]="comp.name">
+                  </md-input-container>
+                </div>
+                <div>
+                  <md-input-container>
+                    <input mdInput placeholder="File Name" [(ngModel)]="newFile">
+                  </md-input-container>
+                  <button md-button (click)="addFile(comp)">Add File</button>
+                </div>
+                <div>
+                  <md-chip-list>
+                    <md-chip *ngFor="let file of comp.files" selected="true">
+                      {{file}}
+                    </md-chip>
+                  </md-chip-list>
+                </div>
+                <div>
+                  <!--TODO: turn this into md-autocomplete with async-->
+                  <md-input-container>
+                    <input mdInput placeholder="Grader" [(ngModel)]="newGrader">
+                  </md-input-container>
+                  <button md-button (click)="addGrader(comp)">Add Grader</button>
+                </div>
+                <div>
+                  <md-chip-list>
+                    <md-chip *ngFor="let grader of comp.graders" selected="true">
+                      {{grader.user}}
+                    </md-chip>
+                  </md-chip-list>
+                </div>
+              </div>
+            </md-expansion-panel>
+          </div>
         </div>
-        <div fxLayout="row">
-          <md-checkbox align="end">Allow additional files</md-checkbox>
-        </div>
-      </div>
-    </md-expansion-panel>
-    <md-expansion-panel #panel4>
-      <md-expansion-panel-header>
-        Step 4: Components
-      </md-expansion-panel-header>
-      <md-input-container>
-        <input mdInput placeholder="Component Name">
-      </md-input-container>
-    </md-expansion-panel>
-    <md-expansion-panel #panel5>
-      <md-expansion-panel-header>
-        Step 5: File Source
-      </md-expansion-panel-header>
-      <md-radio-button name="fileSource">Student Upload</md-radio-button>
-      <md-radio-button name="fileSource">Instructor Upload</md-radio-button>
-    </md-expansion-panel>
-    <md-expansion-panel #panel6>
-      <md-expansion-panel-header>
-        Step 6: Assign Graders
-      </md-expansion-panel-header>
-      <md-input-container>
-        <input mdInput placeholder="Component Name">
-      </md-input-container>
-    </md-expansion-panel>
-  </md-accordion>
+
+      </md-expansion-panel>
+    </md-accordion>
+  </div>
+  
+  <span fxFlex></span>
+
+  <div>
+    <button md-raised-button color="accent">SAVE</button>
+  </div>
+
 </div>

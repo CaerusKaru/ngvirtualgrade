@@ -20,6 +20,15 @@
     "routes": {
       "/": {
         "prefix": false
+      },
+      "/grades": {
+        "prefix": true
+      },
+      "/grading": {
+        "prefix": true
+      },
+      "/admin": {
+        "prefix": true
       }
     }
   }

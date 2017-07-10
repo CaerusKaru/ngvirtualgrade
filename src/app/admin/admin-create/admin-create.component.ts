@@ -1,4 +1,10 @@
 import { Component, OnInit } from '@angular/core';
+import {SubmissionStep} from '../../shared/classes/submission-step';
+import {GradingComponent} from '../../shared/classes/grading-component';
+import {takeUntil} from 'rxjs/operator/takeUntil';
+import {ActivatedRoute} from '@angular/router';
+import {Subject} from 'rxjs/Subject';
+import {Grader} from '../../shared/classes/grader';
 
 @Component({
   selector: 'vg-archon-create',
@@ -7,10 +13,49 @@ import { Component, OnInit } from '@angular/core';
 })
 export class AdminCreateComponent implements OnInit {
 
-  activeState = 1;
+  steps = [];
+  newStep: string;
+  newFile: string;
+  newGrader: string;
 
-  constructor() { }
+  course: string;
+
+  private _destroy = new Subject<void>();
+
+  constructor(private _route: ActivatedRoute) { }
 
   ngOnInit() {
+    takeUntil.call(this._route.params, this._destroy).subscribe(params => {
+      this.course = params['course'];
+    });
+  }
+
+  addStep() {
+    const step = new SubmissionStep();
+    step.name = this.newStep;
+    step.components = [];
+    step.end_date = new Date();
+    step.start_date = new Date();
+    step.allow_other_files = false;
+    step.files = [];
+    this.steps.push(step);
+  }
+
+  addComp(step, newComp) {
+    const comp = new GradingComponent();
+    comp.name = newComp;
+    comp.files = [];
+    comp.graders = [];
+    step.components.push(comp);
+  }
+
+  addFile(comp) {
+    comp.files.push(this.newFile);
+  }
+
+  addGrader(comp) {
+    const grader = new Grader();
+    grader.user = this.newGrader;
+    comp.graders.push(grader);
   }
 }

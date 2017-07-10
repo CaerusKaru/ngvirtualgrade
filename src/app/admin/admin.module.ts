@@ -6,9 +6,11 @@ import { AdminItemComponent } from './admin-item/admin-item.component';
 import { AdminCreateComponent } from './admin-create/admin-create.component';
 import {AdminMaterialModule} from './admin-material/admin-material.module';
 import {FlexLayoutModule} from '@angular/flex-layout';
+import {FormsModule} from '@angular/forms';
 
 @NgModule({
   imports: [
+    FormsModule,
     CommonModule,
     FlexLayoutModule,
     AdminMaterialModule,
