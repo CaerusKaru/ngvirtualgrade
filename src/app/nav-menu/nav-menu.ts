@@ -146,7 +146,10 @@ export class NavMenuHeaderComponent {
 
 @Component({
   host: {
-    '[class.nav-menu]': 'true'
+    '[class.nav-menu]': 'true',
+    '[class.site-sidenav]': 'true',
+    '[class.mat-elevation-z2]': 'true',
+    '[attr.hide-print]': 'true'
   },
   selector: 'nav-menu-container',
   templateUrl: './nav-menu-container.html',

@@ -13,4 +13,6 @@ export class GradingComponent {
   files: string[];
   graders: Grader[];
   submission_type: SubmissionType;
+  max_score: number;
+  is_extra_credit: boolean;
 }

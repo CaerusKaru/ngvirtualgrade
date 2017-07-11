@@ -14,7 +14,7 @@
   $foreground: map-get($theme, foreground);
 
   .nav-menu {
-    background: transparent;
+    //background: transparent;
     color: mat-color($foreground, text);
 
     &.mat-primary {

@@ -46,6 +46,8 @@ export class AdminCreateComponent implements OnInit {
     comp.name = newComp;
     comp.files = [];
     comp.graders = [];
+    comp.is_extra_credit = false;
+    comp.max_score = 0;
     step.components.push(comp);
   }
 
@@ -57,5 +59,13 @@ export class AdminCreateComponent implements OnInit {
     const grader = new Grader();
     grader.user = this.newGrader;
     comp.graders.push(grader);
+  }
+
+  removeComp(step, index) {
+    step.components.splice(index, 1);
+  }
+
+  removeStep(index) {
+    this.steps.splice(index, 1);
   }
 }

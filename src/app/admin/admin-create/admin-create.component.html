@@ -1,27 +1,23 @@
-<div class="md-padding default-theme" fxFlexFill fxLayout="column" fxLayoutGap="10px">
-  <h1 class="mat-heading">Create Assignment for: {{course}}</h1>
+<div class="md-padding" fxFlexFill fxLayout="column" fxLayoutGap="10px">
+  <h1 class="mat-display-1">Create Assignment for: {{course}}</h1>
   <div style="overflow-y: auto; padding: 5px 5px">
-    <md-accordion displayMode="default" multi="true">
-      <md-expansion-panel #panel1>
-        <md-expansion-panel-header>
-          Basic Info
-        </md-expansion-panel-header>
-        <div fxLayout="column" fxLayoutGap="10px">
-          <div fxLayoutGap="15px">
-            <md-input-container>
-              <input mdInput placeholder="Assignment Name">
-            </md-input-container>
-          </div>
-          <div fxLayoutGap="15px">
-            <md-input-container>
-              <input mdInput placeholder="Step Name" [(ngModel)]="newStep">
-            </md-input-container>
-            <button md-button (click)="addStep()">Add Step</button>
-          </div>
-        </div>
-      </md-expansion-panel>
 
-      <md-expansion-panel *ngFor="let step of steps; let i = index" expanded="true">
+    <md-card>
+      <md-card-content>
+        <div fxLayoutGap="15px">
+          <md-input-container>
+            <input mdInput placeholder="Assignment Name">
+          </md-input-container>
+        </div>
+        <md-input-container>
+          <input mdInput placeholder="Step Name" [(ngModel)]="newStep">
+        </md-input-container>
+        <button md-button (click)="addStep()">Add Step</button>
+      </md-card-content>
+    </md-card>
+
+    <md-accordion displayMode="default" multi="true">
+      <md-expansion-panel *ngFor="let step of steps; index as i; last as end" [expanded]="end">
         <md-expansion-panel-header>Step {{i+1}}: {{step.name}}</md-expansion-panel-header>
         <div fxLayout="column" fxLayoutGap="10px">
           <div>
@@ -69,8 +65,9 @@
             </md-input-container>
             <button md-button (click)="addComp(step, newComp.value)">Add Component</button>
           </div>
-          <div>
-            <md-expansion-panel *ngFor="let comp of step.components" expanded="true">
+          <div class="dark-theme">
+            <md-expansion-panel *ngFor="let comp of step.components; index as i; last as end"
+                                [expanded]="end">
               <md-expansion-panel-header>
                 Component: {{comp.name}}
               </md-expansion-panel-header>
@@ -79,6 +76,15 @@
                   <md-input-container>
                     <input mdInput placeholder="Step Name" [(ngModel)]="comp.name">
                   </md-input-container>
+                </div>
+                <!--TODO: add scoring (max, extra-credit, etc)-->
+                <div>
+                  <md-input-container>
+                    <input mdInput placeholder="Max Score" [(ngModel)]="comp.max_score" type="number">
+                  </md-input-container>
+                </div>
+                <div>
+                  <md-checkbox align="end" [(ngModel)]="comp.is_extra_credit">Extra Credit</md-checkbox>
                 </div>
                 <div>
                   <md-input-container>
@@ -108,10 +114,15 @@
                   </md-chip-list>
                 </div>
               </div>
+              <md-action-row>
+                <button md-button (click)="removeComp(step, i)">DELETE</button>
+              </md-action-row>
             </md-expansion-panel>
           </div>
         </div>
-
+        <md-action-row>
+          <button md-button (click)="removeStep(i)">DELETE</button>
+        </md-action-row>
       </md-expansion-panel>
     </md-accordion>
   </div>

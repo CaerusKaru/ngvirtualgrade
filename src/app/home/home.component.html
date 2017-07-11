@@ -1,4 +1,4 @@
-<div fxFill class="mat-app-background" fxLayout="column">
+<div fxFill fxLayout="column">
   <div class="nav-bar" fxLayout="row">
     <nav md-tab-nav-bar fxFlex>
       <div *ngIf="!isSideBySide">
@@ -42,12 +42,12 @@
       </ng-template>
     </nav>
   </div>
-  <md-sidenav-container class="dark-theme" fxFlex>
-    <md-sidenav class="site-sidenav md-whiteframe-z2 hide-print"
-                #sidenav
+  <md-sidenav-container fxFlex>
+    <md-sidenav #sidenav
+                class="dark-theme"
                 [mode]="isSideBySide ? 'side' : 'over'"
                 [opened]="isSideBySide || isOpen">
-      <nav-menu-container fxFlex>
+      <nav-menu-container fxFlex class="mat-app-background">
         <nav-menu-header label="Courses" *ngIf="courses$ | async as courses">
           <nav-menu-toggle *ngFor="let course of courses | sortBy: ''"
                            label="{{course.name}}">
