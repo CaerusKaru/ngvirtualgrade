@@ -14,10 +14,11 @@ import {Grader} from '../../shared/classes/grader';
 export class AdminCreateComponent implements OnInit {
 
   steps = [];
-  newStep: string;
   newFile: string;
   newGrader: string;
 
+  newStep = 'New Step';
+  newComp = 'New Component';
   course: string;
 
   private _destroy = new Subject<void>();
@@ -41,9 +42,9 @@ export class AdminCreateComponent implements OnInit {
     this.steps.push(step);
   }
 
-  addComp(step, newComp) {
+  addComp(step) {
     const comp = new GradingComponent();
-    comp.name = newComp;
+    comp.name = this.newComp;
     comp.files = [];
     comp.graders = [];
     comp.is_extra_credit = false;

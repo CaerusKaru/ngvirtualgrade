@@ -9,10 +9,6 @@
             <input mdInput placeholder="Assignment Name">
           </md-input-container>
         </div>
-        <md-input-container>
-          <input mdInput placeholder="Step Name" [(ngModel)]="newStep">
-        </md-input-container>
-        <button md-button (click)="addStep()">Add Step</button>
       </md-card-content>
     </md-card>
 
@@ -43,6 +39,7 @@
               <md-radio-button value="instructor">Instructor Upload</md-radio-button>
             </md-radio-group>
           </div>
+          <!--TODO: turn this into form to allow for enter key manipulation-->
           <div>
             <md-input-container>
               <input mdInput placeholder="File Name" [(ngModel)]="newFile">
@@ -59,12 +56,6 @@
           <div>
             <md-checkbox align="end" [(ngModel)]="step.allow_other_files">Allow additional files</md-checkbox>
           </div>
-          <div>
-            <md-input-container>
-              <input mdInput placeholder="Component Name" name="newComp" ngModel #newComp="ngModel">
-            </md-input-container>
-            <button md-button (click)="addComp(step, newComp.value)">Add Component</button>
-          </div>
           <div class="dark-theme">
             <md-expansion-panel *ngFor="let comp of step.components; index as i; last as end"
                                 [expanded]="end">
@@ -77,7 +68,6 @@
                     <input mdInput placeholder="Step Name" [(ngModel)]="comp.name">
                   </md-input-container>
                 </div>
-                <!--TODO: add scoring (max, extra-credit, etc)-->
                 <div>
                   <md-input-container>
                     <input mdInput placeholder="Max Score" [(ngModel)]="comp.max_score" type="number">
@@ -86,6 +76,7 @@
                 <div>
                   <md-checkbox align="end" [(ngModel)]="comp.is_extra_credit">Extra Credit</md-checkbox>
                 </div>
+                <!--TODO: turn this into form to allow for enter key manipulation-->
                 <div>
                   <md-input-container>
                     <input mdInput placeholder="File Name" [(ngModel)]="newFile">
@@ -99,6 +90,7 @@
                     </md-chip>
                   </md-chip-list>
                 </div>
+                <!--TODO: turn this into form to allow for enter key manipulation-->
                 <div>
                   <!--TODO: turn this into md-autocomplete with async-->
                   <md-input-container>
@@ -121,6 +113,7 @@
           </div>
         </div>
         <md-action-row>
+          <button md-button (click)="addComp(step)">ADD COMPONENT</button>
           <button md-button (click)="removeStep(i)">DELETE</button>
         </md-action-row>
       </md-expansion-panel>
@@ -130,6 +123,7 @@
   <span fxFlex></span>
 
   <div>
+    <button md-raised-button color="primary" (click)="addStep()">ADD STEP</button>
     <button md-raised-button color="accent">SAVE</button>
   </div>
 
