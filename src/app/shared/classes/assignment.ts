@@ -1,8 +1,6 @@
-import {Submission} from './submission';
-import {GradingComponent} from './grading-component';
+import {SubmissionStep} from './submission-step';
 export class Assignment {
   id: number;
   name: string;
-  submissions: Submission[];
-  components: GradingComponent[];
+  steps: SubmissionStep[];
 }

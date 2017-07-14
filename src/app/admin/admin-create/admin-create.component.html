@@ -1,4 +1,5 @@
-<div class="md-padding" fxFlexFill fxLayout="column" fxLayoutGap="10px">
+<form novalidate (ngSubmit)="onSubmit()" [formGroup]="createForm"
+      class="md-padding" fxFlexFill fxLayout="column" fxLayoutGap="10px">
   <h1 class="mat-display-1">Create Assignment for: {{course}}</h1>
   <div style="overflow-y: auto; padding: 5px 5px">
 
@@ -6,115 +7,119 @@
       <md-card-content>
         <div fxLayoutGap="15px">
           <md-input-container>
-            <input mdInput placeholder="Assignment Name">
+            <input mdInput placeholder="Assignment Name" formControlName="name">
           </md-input-container>
         </div>
       </md-card-content>
     </md-card>
 
-    <md-accordion displayMode="default" multi="true">
-      <md-expansion-panel *ngFor="let step of steps; index as i; last as end" [expanded]="end">
-        <md-expansion-panel-header>Step {{i+1}}: {{step.name}}</md-expansion-panel-header>
+    <!--TODO: in order to do what I want, I have to make nested dynamic components and inject the FormGroup down-->
+
+    <md-accordion displayMode="default" multi="true" formArrayName="steps">
+      <md-expansion-panel *ngFor="let step of steps.controls; index as i; last as end"
+                          [formGroupName]="i"
+                          [expanded]="end">
+        <md-expansion-panel-header>Step {{i+1}}: {{step.get('name').value}}</md-expansion-panel-header>
         <div fxLayout="column" fxLayoutGap="10px">
           <div>
             <md-input-container>
-              <input mdInput placeholder="Step Name" [(ngModel)]="step.name">
+              <input mdInput placeholder="Step Name" formControlName="name">
             </md-input-container>
           </div>
           <div>
             <md-input-container>
-              <input mdInput [mdDatepicker]="startDate" placeholder="Start Date" [(ngModel)]="step.start_date">
-              <button mdSuffix [mdDatepickerToggle]="startDate"></button>
+              <input mdInput [mdDatepicker]="startDate" placeholder="Start Date" formControlName="start_date">
+              <button mdSuffix [mdDatepickerToggle]="startDate" type="button"></button>
             </md-input-container>
             <md-datepicker #startDate></md-datepicker>
             <md-input-container>
-              <input mdInput [mdDatepicker]="endDate" placeholder="Due Date" [(ngModel)]="step.end_date">
-              <button mdSuffix [mdDatepickerToggle]="endDate"></button>
+              <input mdInput [mdDatepicker]="endDate" placeholder="Due Date" formControlName="end_date">
+              <button mdSuffix [mdDatepickerToggle]="endDate" type="button"></button>
             </md-input-container>
             <md-datepicker #endDate></md-datepicker>
           </div>
           <div>
-            <md-radio-group [(ngModel)]="step.submission_type" fxLayoutGap="10px">
+            <md-radio-group formControlName="submission_type" fxLayoutGap="10px">
               <md-radio-button value="student">Student Upload</md-radio-button>
               <md-radio-button value="instructor">Instructor Upload</md-radio-button>
             </md-radio-group>
           </div>
-          <!--TODO: turn this into form to allow for enter key manipulation-->
           <div>
             <md-input-container>
-              <input mdInput placeholder="File Name" [(ngModel)]="newFile">
+              <input mdInput placeholder="File Name" formControlName="new_file">
             </md-input-container>
-            <button md-button (click)="addFile(step)">Add File</button>
+            <button md-button (click)="addFile(step)" type="button">Add File</button>
           </div>
           <div>
-            <md-chip-list>
-              <md-chip *ngFor="let file of step.files" selected="true">
-                {{file}}
+            <md-chip-list formArrayName="files">
+              <md-chip *ngFor="let file of steps.controls[i].get('files').controls" selected="true">
+                {{file.value}}
               </md-chip>
             </md-chip-list>
           </div>
           <div>
-            <md-checkbox align="end" [(ngModel)]="step.allow_other_files">Allow additional files</md-checkbox>
+            <md-checkbox align="end" formControlName="allow_other_files">Allow additional files</md-checkbox>
           </div>
-          <div class="dark-theme">
-            <md-expansion-panel *ngFor="let comp of step.components; index as i; last as end"
+          <div class="dark-theme" formArrayName="components">
+            <md-expansion-panel *ngFor="let comp of steps.controls[i].get('components').controls; index as j; last as end"
+                                [formGroupName]="j"
                                 [expanded]="end">
               <md-expansion-panel-header>
-                Component: {{comp.name}}
+                Component: {{comp.get('name').value}}
               </md-expansion-panel-header>
               <div fxLayout="column">
                 <div>
                   <md-input-container>
-                    <input mdInput placeholder="Step Name" [(ngModel)]="comp.name">
+                    <input mdInput placeholder="Step Name" formControlName="name">
                   </md-input-container>
                 </div>
                 <div>
                   <md-input-container>
-                    <input mdInput placeholder="Max Score" [(ngModel)]="comp.max_score" type="number">
+                    <input mdInput placeholder="Max Score" formControlName="max_score" type="number">
                   </md-input-container>
                 </div>
                 <div>
-                  <md-checkbox align="end" [(ngModel)]="comp.is_extra_credit">Extra Credit</md-checkbox>
+                  <md-checkbox align="end" formControlName="is_extra_credit">Extra Credit</md-checkbox>
                 </div>
-                <!--TODO: turn this into form to allow for enter key manipulation-->
                 <div>
                   <md-input-container>
-                    <input mdInput placeholder="File Name" [(ngModel)]="newFile">
+                    <input mdInput placeholder="File Name" formControlName="new_file">
                   </md-input-container>
-                  <button md-button (click)="addFile(comp)">Add File</button>
+                  <button md-button (click)="addFile(comp)" type="button">Add File</button>
                 </div>
                 <div>
-                  <md-chip-list>
-                    <md-chip *ngFor="let file of comp.files" selected="true">
-                      {{file}}
+                  <md-chip-list formArrayName="files">
+                    <md-chip *ngFor="let file of comp.get('files').controls"
+                             selected="true">
+                      {{file.value}}
                     </md-chip>
                   </md-chip-list>
                 </div>
-                <!--TODO: turn this into form to allow for enter key manipulation-->
                 <div>
                   <!--TODO: turn this into md-autocomplete with async-->
                   <md-input-container>
-                    <input mdInput placeholder="Grader" [(ngModel)]="newGrader">
+                    <input mdInput placeholder="Grader" formControlName="new_grader">
                   </md-input-container>
-                  <button md-button (click)="addGrader(comp)">Add Grader</button>
+                  <button md-button (click)="addGrader(comp)" type="button">Add Grader</button>
                 </div>
                 <div>
-                  <md-chip-list>
-                    <md-chip *ngFor="let grader of comp.graders" selected="true">
-                      {{grader.user}}
+                  <md-chip-list formArrayName="graders">
+                    <md-chip *ngFor="let grader of comp.get('graders').controls"
+                             selected="true">
+                      {{grader.value}}
                     </md-chip>
                   </md-chip-list>
                 </div>
               </div>
               <md-action-row>
-                <button md-button (click)="removeComp(step, i)">DELETE</button>
+                <button md-button (click)="removeComp(step, i)" type="button">DELETE</button>
               </md-action-row>
             </md-expansion-panel>
           </div>
         </div>
         <md-action-row>
-          <button md-button (click)="addComp(step)">ADD COMPONENT</button>
-          <button md-button (click)="removeStep(i)">DELETE</button>
+          <button md-button (click)="addComp(step)" type="button">ADD COMPONENT</button>
+          <button md-button (click)="removeStep(i)" type="button">DELETE</button>
         </md-action-row>
       </md-expansion-panel>
     </md-accordion>
@@ -123,8 +128,8 @@
   <span fxFlex></span>
 
   <div>
-    <button md-raised-button color="primary" (click)="addStep()">ADD STEP</button>
-    <button md-raised-button color="accent">SAVE</button>
+    <button md-raised-button color="primary" (click)="addStep()" type="button">ADD STEP</button>
+    <button md-raised-button color="accent" type="submit">SAVE</button>
   </div>
 
-</div>
+</form>
