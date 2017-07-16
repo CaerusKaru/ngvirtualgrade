@@ -59,13 +59,13 @@ export class HomeComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit () {
-    takeUntil.call(this._userService.isAdmin, this._destroy).subscribe(data => {
+    takeUntil.call(this._authService.isAdmin, this._destroy).subscribe(data => {
       this.navLinks[this.navLinks.indexOf(this.adminTab)].show = data;
     });
-    takeUntil.call(this._userService.isGrader, this._destroy).subscribe(data => {
+    takeUntil.call(this._authService.isGrader, this._destroy).subscribe(data => {
       this.navLinks[this.navLinks.indexOf(this.graderTab)].show = data;
     });
-    takeUntil.call(this._authService.loggedIn, this._destroy).subscribe(data => {
+    takeUntil.call(this._authService.isLoggedIn, this._destroy).subscribe(data => {
       this.navLinks[this.navLinks.indexOf(this.gradesTab)].show = data;
     });
 

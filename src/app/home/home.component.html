@@ -17,16 +17,14 @@
         </a>
       </span>
       <span fxFlex="30px"></span>
-      <div fxLayoutAlign="center center" *ngIf="isSideBySide">
-        <div *ngFor="let link of navLinks; let i = index">
-          <a md-tab-link
-             *ngIf="link.show"
-             [routerLink]="link.route"
-             [active]="activeLinkIndex === i"
-             (click)="activeLinkIndex = i">
-            <span fxFill fxLayoutAlign="center center">{{link.label}}</span>
-          </a>
-        </div>
+      <div *ngFor="let link of navLinks; let i = index" fxLayoutAlign="center center">
+        <a md-tab-link
+           *ngIf="isSideBySide && link.show"
+           [routerLink]="link.route"
+           [active]="activeLinkIndex === i"
+           (click)="activeLinkIndex = i">
+          <span fxFill fxLayoutAlign="center center">{{link.label}}</span>
+        </a>
       </div>
       <span fxFlex></span>
       <md-menu #appMenu="mdMenu" y-position="below" [overlapTrigger]="false">

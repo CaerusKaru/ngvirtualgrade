@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {SubmissionStep} from '../../shared/classes/submission-step';
 import {GradingComponent} from '../../shared/classes/grading-component';
 import {takeUntil} from 'rxjs/operator/takeUntil';
@@ -18,10 +18,12 @@ export class AdminCreateComponent implements OnInit {
   newStep = 'New Step';
   newComp = 'New Component';
   course: string;
+  tabIndex = 0;
 
   createForm: FormGroup;
 
   private _destroy = new Subject<void>();
+  private _currentIndex: number;
 
   constructor(
     private _route: ActivatedRoute,
@@ -40,8 +42,28 @@ export class AdminCreateComponent implements OnInit {
     return this.createForm.get('steps') as FormArray;
   };
 
+  get comps(): FormArray {
+    if (this.currentStep === null) {
+      return null;
+    }
+    return this.currentStep.get('components') as FormArray;
+  }
+
+  get currentStep(): FormGroup {
+    return this.steps.at(this._currentIndex) as FormGroup;
+  }
+
+  get files(): FormArray {
+    if (this.currentStep === null) {
+      return null;
+    }
+    return this.currentStep.get('files') as FormArray;
+  }
+
   addStep() {
     this.steps.push(this._setSteps());
+    this.tabIndex = 0;
+    this._currentIndex = this.steps.length - 1;
   }
 
   addComp(step) {
@@ -62,16 +84,33 @@ export class AdminCreateComponent implements OnInit {
 
   removeStep(index) {
     this.steps.removeAt(index);
+    if (this._currentIndex >= this.steps.length) {
+      this._currentIndex = this.steps.length - 1;
+    }
+    this.tabIndex = 0;
+  }
+
+  removeFile(step, index) {
+    step.get('files').removeAt(index);
+  }
+
+  removeGrader(step, index) {
+    step.get('graders').removeAt(index);
   }
 
   onSubmit() {
     console.log(this.createForm.value);
   }
 
+  select(index) {
+    this.tabIndex = 0;
+    this._currentIndex = index;
+  }
+
   private _createForm() {
     this.createForm = this._fb.group({
       name: ['', [Validators.required]],
-      steps: this._fb.array([])
+      steps: this._fb.array([this._setSteps()])
     });
   }
 
@@ -84,7 +123,7 @@ export class AdminCreateComponent implements OnInit {
       new_file: '',
       files: this._fb.array([]),
       allow_other_files: false,
-      components: this._fb.array([])
+      components: this._fb.array([this._setComps()])
     })
   }
 
