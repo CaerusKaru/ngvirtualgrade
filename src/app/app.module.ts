@@ -10,7 +10,7 @@ import {FlexLayoutModule} from '@angular/flex-layout';
 import 'hammerjs';
 import 'd3';
 import {AuthService} from './shared/services/auth.service';
-import {CanLoadAdmin, CanLoadGrades, CanLoadGrading} from './shared/guards/auth.guard';
+import {CanLoadAdmin, CanLoadCourses, CanLoadGrading} from './shared/guards/auth.guard';
 import {HomeComponent, SigninDialogComponent} from './home/home.component';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {AppMaterialModule} from './app-material/app-material.module';
@@ -36,7 +36,7 @@ import {SortPipe} from './shared/pipes/sort.pipe';
     AppMaterialModule,
     AppRoutingModule
   ],
-  providers: [UserService, AuthService, CanLoadGrades, CanLoadGrading, CanLoadAdmin],
+  providers: [UserService, AuthService, CanLoadCourses, CanLoadGrading, CanLoadAdmin],
   bootstrap: [AppComponent],
   entryComponents: [SigninDialogComponent]
 })

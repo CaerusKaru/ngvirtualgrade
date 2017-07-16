@@ -1,26 +1,42 @@
-<div fxLayout="column" class="md-padding">
+<div fxLayout="column" class="md-padding" fxLayoutGap="25px">
   <div *ngFor="let course of courses | async">
-    <h1>{{course.name}}</h1>
-    <div fxLayoutWrap fxLayoutAlign="start stretch" fxLayoutGap="20px">
-      <h3 *ngIf="course.assigns.length === 0">No assignments available</h3>
-      <md-card fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="10px">
-        <button md-raised-button color="primary" routerLink="{{course.name}}/create">CREATE</button>
-        <button md-raised-button color="primary" routerLink="{{course.name}}/manage">MANAGE</button>
-      </md-card>
-      <md-card *ngFor="let assign of course.assigns">
-        <md-card-header>
-          <md-card-title><h3>{{assign}}</h3></md-card-title>
-          <md-card-subtitle>n submissions remaining</md-card-subtitle>
-        </md-card-header>
-        <md-card-content>
-          <md-progress-bar color="primary" mode="determinate" [value]="37"></md-progress-bar>
-        </md-card-content>
-        <md-card-actions>
-          <button md-raised-button color="primary" routerLink="{{course.name}}/{{assign}}">VIEW</button>
-          <span fxFlex></span>
-          <button md-button>STATS</button>
-        </md-card-actions>
-      </md-card>
-    </div>
+    <md-card fxLayout="row"
+             fxLayoutAlign="start center"
+             fxLayoutGap="40px"
+             md-ripple
+             class="admin-box"
+             routerLink="{{course['name']}}">
+      <div fxLayout="column" fxLayoutGap="5px" fxLayoutAlign="center center">
+        <div class="mat-caption">
+          Name
+        </div>
+        <div class="mat-body-2">
+          {{course['name']}}
+        </div>
+      </div>
+      <div fxLayout="column" fxLayoutGap="5px" fxLayoutAlign="center center">
+        <div class="mat-caption">
+          Assignments
+        </div>
+        <div class="mat-body-2">
+          {{course['assigns'].length}}
+        </div>
+      </div>
+      <div fxLayout="column" fxLayoutGap="5px" fxLayoutAlign="center center">
+        <div class="mat-caption">
+          Enrollment
+        </div>
+        <div class="mat-body-2">
+          97
+        </div>
+      </div>
+      <span fxFlex></span>
+      <div>
+        <button md-raised-button>GRADEBOOK</button>
+      </div>
+      <div>
+        <button md-raised-button routerLink="{{course['name']}}/create">ADD</button>
+      </div>
+    </md-card>
   </div>
 </div>

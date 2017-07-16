@@ -4,7 +4,7 @@ import {
   MdButtonModule, MdButtonToggleModule, MdCardModule, MdCheckboxModule, MdDialogModule, MdIconModule, MdInputModule,
   MdListModule,
   MdMenuModule, MdPaginatorModule,
-  MdProgressBarModule,
+  MdProgressBarModule, MdRippleModule,
   MdSidenavModule, MdSortModule, MdTableModule,
   MdToolbarModule,
   MdTooltipModule
@@ -30,9 +30,10 @@ import {CdkTableModule} from '@angular/cdk';
     MdCheckboxModule,
     MdCardModule,
     MdTableModule,
-    MdSortModule,
     MdPaginatorModule,
-    CdkTableModule
+    MdSortModule,
+    CdkTableModule,
+    MdRippleModule
   ],
   declarations: []
 })

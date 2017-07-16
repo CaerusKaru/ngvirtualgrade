@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import {MdButtonModule, MdCardModule, MdCheckboxModule, MdExpansionModule, } from '@angular/material';
+import {MdButtonModule, MdCardModule, MdCheckboxModule, MdExpansionModule, MdRippleModule,} from '@angular/material';
 
 @NgModule({
   imports: [
@@ -9,8 +9,10 @@ import {MdButtonModule, MdCardModule, MdCheckboxModule, MdExpansionModule, } fro
   exports: [
     MdExpansionModule,
     MdCheckboxModule,
-    MdButtonModule
+    MdButtonModule,
+    MdCardModule,
+    MdRippleModule
   ],
   declarations: []
 })
-export class GradesMaterialModule { }
+export class CoursesMaterialModule { }

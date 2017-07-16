@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import {
   MdButtonModule, MdCardModule, MdCheckboxModule, MdChipsModule, MdDatepickerModule, MdInputModule, MdNativeDateModule,
   MdProgressBarModule, MdExpansionModule, MdRadioModule, MdTableModule, MdPaginatorModule, MdSortModule, MdIconModule,
-  MdTabsModule
+  MdTabsModule, MdRippleModule
 } from '@angular/material';
 import {CdkTableModule} from '@angular/cdk';
 
@@ -27,7 +27,8 @@ import {CdkTableModule} from '@angular/cdk';
     MdSortModule,
     MdIconModule,
     CdkTableModule,
-    MdTabsModule
+    MdTabsModule,
+    MdRippleModule
   ],
   declarations: []
 })

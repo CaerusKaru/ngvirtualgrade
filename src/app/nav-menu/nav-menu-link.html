@@ -1,7 +1,8 @@
 <li>
   <button md-button
-    [ngClass]="{'active' : isSelected | async}"
-    (click)="navigate(link)">
+          [routerLink]="link"
+          routerLinkActive="active"
+          [routerLinkActiveOptions]="{exact: true}">
     <ng-content></ng-content>
     <span class="md-visually-hidden"
           *ngIf="isSelected | async">

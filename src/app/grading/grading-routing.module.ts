@@ -3,16 +3,21 @@ import { RouterModule, Routes } from '@angular/router';
 
 import {GradingHomeComponent} from './grading-home/grading-home.component';
 import {GradingItemComponent} from './grading-item/grading-item.component';
+import {GradingCourseComponent} from './grading-course/grading-course.component';
 
 export const gradingRoutes: Routes = [
-    {
-      path: '',
-      component: GradingHomeComponent
-    },
-    {
-      path: ':course/:id',
-      component: GradingItemComponent
-    }
+  {
+    path: '',
+    component: GradingHomeComponent
+  },
+  {
+    path: ':course',
+    component: GradingCourseComponent
+  },
+  {
+    path: ':course/:id',
+    component: GradingItemComponent
+  }
 ];
 
 @NgModule({

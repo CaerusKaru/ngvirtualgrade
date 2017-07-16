@@ -50,7 +50,7 @@ export class NavMenuService {
   }
 
   public toggleSelectSection (id: number) {
-    this._openedSection.next(this._openedSection.getValue() === id ? null: id);
+    this._openedSection.next(this._openedSection.getValue() === id ? null : id);
   }
 
   public selectPage (id: number) {
@@ -64,7 +64,7 @@ export class NavMenuService {
   }
 
   private updateSelection () {
-    const madeSelection = this._links.reduce((a, d) => a ? a: this.matchPage(d), false);
+    const madeSelection = this._links.reduce((a, d) => a ? a : this.matchPage(d), false);
     if (!madeSelection) {
       this.selectPage(null);
       this.selectSection(null);

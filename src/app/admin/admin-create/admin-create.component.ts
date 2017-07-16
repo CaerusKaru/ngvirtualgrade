@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {SubmissionStep} from '../../shared/classes/submission-step';
 import {GradingComponent} from '../../shared/classes/grading-component';
 import {takeUntil} from 'rxjs/operator/takeUntil';
@@ -13,7 +13,7 @@ import {FormArray, FormBuilder, FormGroup, Validators} from '@angular/forms';
   templateUrl: './admin-create.component.html',
   styleUrls: ['./admin-create.component.scss']
 })
-export class AdminCreateComponent implements OnInit {
+export class AdminCreateComponent implements OnInit, OnDestroy {
 
   newStep = 'New Step';
   newComp = 'New Component';
@@ -23,7 +23,7 @@ export class AdminCreateComponent implements OnInit {
   createForm: FormGroup;
 
   private _destroy = new Subject<void>();
-  private _currentIndex: number;
+  private _currentIndex = 0;
 
   constructor(
     private _route: ActivatedRoute,
@@ -38,6 +38,11 @@ export class AdminCreateComponent implements OnInit {
     });
   }
 
+  ngOnDestroy() {
+    this._destroy.next();
+    this._destroy.complete();
+  }
+
   get steps(): FormArray {
     return this.createForm.get('steps') as FormArray;
   };
@@ -47,6 +52,13 @@ export class AdminCreateComponent implements OnInit {
       return null;
     }
     return this.currentStep.get('components') as FormArray;
+  }
+
+  get exceptions(): FormArray {
+    if (this.currentStep === null) {
+      return null;
+    }
+    return this.currentStep.get('exceptions') as FormArray;
   }
 
   get currentStep(): FormGroup {
@@ -64,6 +76,10 @@ export class AdminCreateComponent implements OnInit {
     this.steps.push(this._setSteps());
     this.tabIndex = 0;
     this._currentIndex = this.steps.length - 1;
+  }
+
+  addException(step) {
+    step.get('exceptions').push(this._setException());
   }
 
   addComp(step) {
@@ -110,6 +126,7 @@ export class AdminCreateComponent implements OnInit {
   private _createForm() {
     this.createForm = this._fb.group({
       name: ['', [Validators.required]],
+      description: '',
       steps: this._fb.array([this._setSteps()])
     });
   }
@@ -123,7 +140,8 @@ export class AdminCreateComponent implements OnInit {
       new_file: '',
       files: this._fb.array([]),
       allow_other_files: false,
-      components: this._fb.array([this._setComps()])
+      components: this._fb.array([this._setComps()]),
+      exceptions: this._fb.array([])
     })
   }
 
@@ -137,5 +155,13 @@ export class AdminCreateComponent implements OnInit {
       files: this._fb.array([]),
       graders: this._fb.array([])
     });
+  }
+
+  private _setException() {
+    return this._fb.group({
+      user: ['', [Validators.required]],
+      date: new Date(),
+      reason: ''
+    })
   }
 }

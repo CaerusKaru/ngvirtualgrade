@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import {RouterModule} from '@angular/router';
 import {NavMenuService} from './shared/nav-menu.service';
 import {NospacePipe} from './shared/nospace.pipe';
 import {FlexLayoutModule} from '@angular/flex-layout';
@@ -15,7 +16,8 @@ import {MdButtonModule, MdIconModule, MdListModule} from '@angular/material';
     MdButtonModule,
     MdIconModule,
     MdListModule,
-    FlexLayoutModule
+    FlexLayoutModule,
+    RouterModule
   ],
   declarations: [
     NospacePipe,

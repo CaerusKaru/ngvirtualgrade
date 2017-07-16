@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 
 @Component({
-  selector: 'vg-grades-item',
-  templateUrl: './grades-item.component.html',
-  styleUrls: ['./grades-item.component.scss']
+  selector: 'vg-courses-item',
+  templateUrl: './courses-item.component.html',
+  styleUrls: ['./courses-item.component.scss']
 })
-export class GradesItemComponent implements OnInit {
+export class CoursesItemComponent implements OnInit {
 
   multi = true;
   hideToggle = false;

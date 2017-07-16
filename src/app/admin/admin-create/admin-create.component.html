@@ -5,6 +5,12 @@
         <md-card>
           <md-tab-group dynamicHeight="true" [(selectedIndex)]="tabIndex" md-stretch-tabs>
             <md-tab label="Basic Info">
+              <div class="mat-caption md-padding">
+                This section sets the basic information for this submission step. As submission step is only one factor
+                in the composite assignment, and can be made up of multiple components itself. The settings below
+                allows you to configure when/what to accept from students, and it is what students will see when
+                submitting. If any custom alterations need to be made, they can be adjusted in the Advanced section.
+              </div>
               <div fxFlex fxLayout="column" fxLayoutGap="10px" class="md-padding">
                 <div>
                   <md-input-container>
@@ -55,6 +61,13 @@
             </md-tab>
             <md-tab label="Components">
               <div fxFlex class="accordion-inside" fxLayout="column">
+                <div class="mat-caption">
+                  A component is a tool for organizing grading of an assignment. Students submitting are not aware of
+                  the individual components, but you can assign certain parts of the assignment to different components,
+                  and then assign graders to grade each component. Likewise, each component can have an individual score
+                  that accumulates for the composite score of the assignment. Components can also be made optional by
+                  marking them as Extra Credit.
+                </div>
                 <md-accordion formArrayName="components">
                   <md-expansion-panel *ngFor="let comp of comps.controls; index as i; last as end"
                                       [formGroupName]="i"
@@ -126,8 +139,16 @@
                         type="button" (click)="addComp(currentStep)">ADD COMPONENT</button>
               </div>
             </md-tab>
-            <md-tab label="Advanced">
-              <div>Advanced content</div>
+            <md-tab label="Advanced" formArrayName="exceptions">
+              <div class="mat-caption">
+                This section is for advanced configuration of the assignment, including student exceptions, and more
+                customized parameters for accepting submissions (including file testing and pre-configuration).
+              </div>
+              <h3 class="mat-heading">Exceptions</h3>
+              <div *ngFor="let exception of exceptions.controls; index as i" [formGroupName]="i">
+                <span>Exception {{i+1}}</span>
+              </div>
+              <button md-button (click)="addException(currentStep)">ADD EXCEPTION</button>
             </md-tab>
           </md-tab-group>
         </md-card>
@@ -135,25 +156,24 @@
     </div>
     <md-sidenav #stepsNav mode="side" opened="true" align="end" style="width: 250px; min-width: 250px; max-width: 250px">
       <div class="md-padding" fxLayout="column" fxLayoutGap="10px" fxFlex>
+        <h3 class="mat-heading" fxLayoutAlign="start center">Create Assignment</h3>
         <div fxLayoutGap="15px">
           <md-input-container>
             <input mdInput placeholder="Assignment Name" formControlName="name">
           </md-input-container>
         </div>
+        <div fxLayoutGap="15px">
+          <md-input-container>
+            <textarea mdInput mdTextareaAutosize placeholder="Description" formControlName="description"></textarea>
+          </md-input-container>
+        </div>
+        <div fxLayout="row" fxLayoutAlign="center center">
+          <span class="mat-body">or </span>
+          <span fxFlex="10px"></span>
+          <button md-raised-button>UPLOAD</button>
+        </div>
         <div style="overflow-y: auto;" class="accordion-inside" formArrayName="steps">
-          <!--<md-accordion displayMode="default" multi="true">-->
-            <!--<md-expansion-panel *ngFor="let step of steps.controls; index as i; last as end"-->
-                                <!--[formGroupName]="i"-->
-                                <!--[expanded]="end">-->
-              <!--<md-expansion-panel-header>{{i+1}}. {{step.get('name').value}}</md-expansion-panel-header>-->
-              <!--<div>-->
-                <!--<button md-button (click)="select(i)">SELECT</button>-->
-              <!--</div>-->
-              <!--<md-action-row>-->
-                <!--<button md-button (click)="removeStep(i)" type="button">DELETE</button>-->
-              <!--</md-action-row>-->
-            <!--</md-expansion-panel>-->
-          <!--</md-accordion>-->
+          <h4 class="mat-heading" fxLayoutAlign="start center">Submission Steps</h4>
           <div fxLayout="row" *ngFor="let step of steps.controls; index as i">
             <button md-button (click)="select(i)" type="button">
               {{i+1}}. {{step.get('name').value}}

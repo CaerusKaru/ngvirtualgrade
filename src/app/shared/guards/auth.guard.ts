@@ -6,7 +6,7 @@ import {first} from 'rxjs/operator/first';
 import {map} from 'rxjs/operator/map';
 
 @Injectable()
-export class CanLoadGrades implements CanLoad {
+export class CanLoadCourses implements CanLoad {
 
   constructor (
     private _authService: AuthService,

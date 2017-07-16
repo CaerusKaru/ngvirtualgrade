@@ -7,6 +7,7 @@ import { AdminCreateComponent } from './admin-create/admin-create.component';
 import {AdminMaterialModule} from './admin-material/admin-material.module';
 import {FlexLayoutModule} from '@angular/flex-layout';
 import {ReactiveFormsModule} from '@angular/forms';
+import { AdminCourseComponent } from './admin-course/admin-course.component';
 
 @NgModule({
   imports: [
@@ -16,6 +17,6 @@ import {ReactiveFormsModule} from '@angular/forms';
     AdminMaterialModule,
     AdminRoutingModule
   ],
-  declarations: [AdminHomeComponent, AdminItemComponent, AdminCreateComponent]
+  declarations: [AdminHomeComponent, AdminItemComponent, AdminCreateComponent, AdminCourseComponent]
 })
 export class AdminModule { }

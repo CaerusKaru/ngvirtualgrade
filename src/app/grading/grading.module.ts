@@ -14,6 +14,7 @@ import { TextComponent } from './grading-item/svg/text/text.component';
 import { LineComponent } from './grading-item/svg/line/line.component';
 import {SvgService} from './grading-item/svg/shared/svg.service';
 import {GradingMaterialModule} from './grading-material/grading-material.module';
+import { GradingCourseComponent } from './grading-course/grading-course.component';
 
 @NgModule({
   imports: [
@@ -33,7 +34,8 @@ import {GradingMaterialModule} from './grading-material/grading-material.module'
     SvgDragDirective,
     WrapperComponent,
     TextComponent,
-    LineComponent
+    LineComponent,
+    GradingCourseComponent
   ],
   providers: [
     SvgService

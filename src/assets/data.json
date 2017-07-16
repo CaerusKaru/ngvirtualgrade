@@ -33,5 +33,11 @@
       "assigns": ["hw1", "hw2"]
     }
   ],
+  "inactive": [
+    {
+      "name": "COMP40",
+      "assigns": ["Final", "Midterm"]
+    }
+  ],
   "user": "aplume01"
 }

@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import {HomeComponent} from './home/home.component';
-import {CanLoadAdmin, CanLoadGrades, CanLoadGrading} from './shared/guards/auth.guard';
+import {CanLoadAdmin, CanLoadCourses, CanLoadGrading} from './shared/guards/auth.guard';
 
 export const appRoutes: Routes = [
   {
@@ -12,7 +12,7 @@ export const appRoutes: Routes = [
         path: '', loadChildren: './landing/landing.module#LandingModule'
       },
       {
-        path: 'grades', loadChildren: './grades/grades.module#GradesModule', canLoad: [CanLoadGrades]
+        path: 'courses', loadChildren: './courses/courses.module#CoursesModule', canLoad: [CanLoadCourses]
       },
       {
         path: 'grading', loadChildren: './grading/grading.module#GradingModule', canLoad: [CanLoadGrading]

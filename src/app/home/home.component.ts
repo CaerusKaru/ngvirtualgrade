@@ -20,10 +20,11 @@ export class HomeComponent implements OnInit, OnDestroy {
 
   mode: string;
   courses$: Observable<string[]>;
+  inCourses$: Observable<string[]>;
   activeLinkIndex = -1;
   adminTab = {route: '/admin', label: 'Admin', show: false};
   graderTab = {route: '/grading', label: 'Grading', show: false};
-  gradesTab = {route: '/grades', label: 'Grades', show: false};
+  gradesTab = {route: '/courses', label: 'Courses', show: false};
 
   navLinks = [
     {route: '/', label: 'Home', show: true},
@@ -38,6 +39,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   private _grades: Observable<string[]>;
   private _grading: Observable<string[]>;
   private _admin: Observable<string[]>;
+  private _inactive: Observable<string[]>;
   private _sideBySideWidth = 875;
   private _isOpen = false;
 
@@ -56,6 +58,7 @@ export class HomeComponent implements OnInit, OnDestroy {
     this._grading = this._userService.grading;
     this._admin = this._userService.admin;
     this._grades = this._userService.courses;
+    this._inactive = this._userService.inactive;
   }
 
   ngOnInit () {
@@ -102,15 +105,17 @@ export class HomeComponent implements OnInit, OnDestroy {
       return this._location.path().indexOf(nav.route) !== -1;
     };
 
-    this.activeLinkIndex =
-      this.navLinks.indexOf(this.navLinks.find(findTab));
+    const idx = this.navLinks.indexOf(this.navLinks.find(findTab));
+    this.activeLinkIndex = (idx === -1) ? 0 : idx;
     this.mode = this.navLinks[this.activeLinkIndex].route;
+    this.inCourses$ = null;
     if (this.mode === '/admin') {
       this.courses$ = this._admin;
     } else if (this.mode === '/grading') {
       this.courses$ = this._grading;
-    } else if (this.mode === '/grades') {
+    } else if (this.mode === '/courses') {
       this.courses$ = this._grades;
+      this.inCourses$ = this._inactive;
     } else {
       this.courses$ = null;
     }

@@ -1,0 +1,67 @@
+<div class="md-padding" *ngIf="course" fxLayout="column">
+  <a class="mat-caption" routerLink="../">Back</a>
+  <h2 class="mat-heading">{{course['name']}}</h2>
+
+  <h4 class="mat-heading">Course Actions</h4>
+  <md-card fxLayout="row" fxLayoutGap="20px">
+    <button md-raised-button color="primary">GRADEBOOK</button>
+    <button md-raised-button color="primary">CALENDAR</button>
+  </md-card>
+
+  <span fxFlex="10px"></span>
+
+  <h4 class="mat-heading">Assignments</h4>
+  <div fxLayout="column" fxLayoutGap="35px">
+    <md-card fxLayout="row" fxLayout="row" *ngFor="let assign of course['assigns']" fxLayoutGap="20px"
+             md-ripple class="grading-box" routerLink="{{assign}}">
+      <div fxLayout="column" fxLayoutGap="5px" fxLayoutAlign="center center">
+        <div class="mat-caption">
+          Name
+        </div>
+        <div class="mat-body-2">
+          {{assign}}
+        </div>
+      </div>
+      <div fxLayout="column" fxLayoutGap="5px" fxLayoutAlign="center center">
+        <div class="mat-caption">
+          Submissions
+        </div>
+        <div class="mat-body-2">
+          25
+        </div>
+      </div>
+      <div fxLayout="column" fxLayoutGap="5px" fxLayoutAlign="center center">
+        <div class="mat-caption">
+          Complete
+        </div>
+        <div class="mat-body-2">
+          12
+        </div>
+      </div>
+      <div fxLayout="column" fxLayoutGap="5px" fxLayoutAlign="center center">
+        <div class="mat-caption">
+          Remaining
+        </div>
+        <div class="mat-body-2">
+          13
+        </div>
+      </div>
+      <div fxLayout="column" fxLayoutGap="5px" fxLayoutAlign="center center">
+        <div class="mat-caption">
+          Start Date
+        </div>
+        <div class="mat-body-2">
+          Thurs Jan 13, 2017 12:12pm
+        </div>
+      </div>
+      <div fxLayout="column" fxLayoutGap="5px" fxLayoutAlign="center center">
+        <div class="mat-caption">
+          End Date
+        </div>
+        <div class="mat-body-2">
+          Fri Jan 14, 2017 12:15pm
+        </div>
+      </div>
+    </md-card>
+  </div>
+</div>
