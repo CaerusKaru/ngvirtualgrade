@@ -1,6 +1,8 @@
 <div class="md-padding" *ngIf="course" fxLayout="column">
-  <a class="mat-caption" routerLink="../">Back</a>
-  <h2 class="mat-heading">{{course['name']}}</h2>
+  <div fxLayout="row" fxLayoutAlign="start center">
+    <a md-icon-button routerLink="../" title="Back button"><md-icon>arrow_back</md-icon></a>
+    <h2 class="mat-heading">{{course['name']}}</h2>
+  </div>
 
   <h4 class="mat-heading">Course Actions</h4>
   <md-card fxLayout="row" fxLayoutGap="20px">
@@ -13,7 +15,7 @@
   <h4 class="mat-heading">Assignments</h4>
   <div fxLayout="column" fxLayoutGap="35px">
     <md-card fxLayout="row" fxLayout="row" *ngFor="let assign of course['assigns']" fxLayoutGap="20px"
-             md-ripple class="grading-box" routerLink="{{assign}}">
+             md-ripple class="grading-box" routerLink="{{assign}}" colorName="{{assign}}" borderLeft="true">
       <div fxLayout="column" fxLayoutGap="5px" fxLayoutAlign="center center">
         <div class="mat-caption">
           Name

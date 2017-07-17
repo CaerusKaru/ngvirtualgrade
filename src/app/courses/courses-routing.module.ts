@@ -8,15 +8,24 @@ import {CoursesCourseComponent} from './courses-course/courses-course.component'
 const coursesRoutes: Routes = [
   {
     path: '',
-    component: CoursesHomeComponent
+    component: CoursesHomeComponent,
+    data: {
+      depth: 1
+    }
   },
   {
     path: ':course',
-    component: CoursesCourseComponent
+    component: CoursesCourseComponent,
+    data: {
+      depth: 2
+    }
   },
   {
     path: ':course/:id',
-    component: CoursesItemComponent
+    component: CoursesItemComponent,
+    data: {
+      depth: 3
+    }
   }
 ];
 

@@ -15,6 +15,7 @@ import { LineComponent } from './grading-item/svg/line/line.component';
 import {SvgService} from './grading-item/svg/shared/svg.service';
 import {GradingMaterialModule} from './grading-material/grading-material.module';
 import { GradingCourseComponent } from './grading-course/grading-course.component';
+import {ColorNameModule} from '../color-name/index';
 
 @NgModule({
   imports: [
@@ -23,7 +24,8 @@ import { GradingCourseComponent } from './grading-course/grading-course.componen
     CommonModule,
     FlexLayoutModule,
     GradingMaterialModule,
-    GradingRoutingModule
+    GradingRoutingModule,
+    ColorNameModule
   ],
   declarations: [
     ScoringItemDialogComponent,

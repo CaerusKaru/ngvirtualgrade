@@ -80,7 +80,11 @@
         </div>
       </nav-menu-container>
     </md-sidenav>
-    <router-outlet></router-outlet>
+    <div [@routeAnimation]="prepRouteState(routerOutlet)">
+      <div class="router-container">
+        <router-outlet #routerOutlet="outlet"></router-outlet>
+      </div>
+    </div>
   </md-sidenav-container>
 </div>
 

@@ -8,15 +8,24 @@ import {GradingCourseComponent} from './grading-course/grading-course.component'
 export const gradingRoutes: Routes = [
   {
     path: '',
-    component: GradingHomeComponent
+    component: GradingHomeComponent,
+    data: {
+      depth: 1
+    }
   },
   {
     path: ':course',
-    component: GradingCourseComponent
+    component: GradingCourseComponent,
+    data: {
+      depth: 2
+    }
   },
   {
     path: ':course/:id',
-    component: GradingItemComponent
+    component: GradingItemComponent,
+    data: {
+      depth: 3
+    }
   }
 ];
 

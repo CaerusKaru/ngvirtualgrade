@@ -7,7 +7,8 @@
                fxLayoutGap="40px"
                md-ripple
                class="course-box"
-               routerLink="{{course['name']}}">
+               routerLink="{{course['name']}}"
+               colorName="{{course['name']}}" borderLeft="true">
         <div fxLayout="column" fxLayoutGap="5px" fxLayoutAlign="center center">
           <div class="mat-caption">
             Name
@@ -35,9 +36,6 @@
         <span fxFlex></span>
         <div>
           <button md-raised-button>GRADEBOOK</button>
-        </div>
-        <div>
-          <button md-raised-button routerLink="{{course['name']}}/create">ADD</button>
         </div>
       </md-card>
     </div>
@@ -51,7 +49,8 @@
                fxLayoutGap="40px"
                md-ripple
                class="course-box"
-               routerLink="{{course['name']}}">
+               routerLink="{{course['name']}}"
+               colorName="{{course['name']}}" borderLeft="true">
         <div fxLayout="column" fxLayoutGap="5px" fxLayoutAlign="center center">
           <div class="mat-caption">
             Name
@@ -79,9 +78,6 @@
         <span fxFlex></span>
         <div>
           <button md-raised-button>GRADEBOOK</button>
-        </div>
-        <div>
-          <button md-raised-button routerLink="{{course['name']}}/create">ADD</button>
         </div>
       </md-card>
     </div>

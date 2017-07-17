@@ -1,7 +1,7 @@
 <div fxFlex class="md-padding" fxLayout="column">
-  <div>
-    <a class="mat-caption" routerLink="../">Back</a>
-    <h1 class="mat-heading">Assignment: {{id}}</h1>
+  <div fxLayout="row" fxLayoutAlign="start center">
+    <a md-icon-button routerLink="../" title="Back button"><md-icon>arrow_back</md-icon></a>
+    <h2 class="mat-heading">Assignment: {{id}}</h2>
   </div>
   <div class="mat-elevation-z8">
     <md-table #table [dataSource]="dataSource" mdSort>

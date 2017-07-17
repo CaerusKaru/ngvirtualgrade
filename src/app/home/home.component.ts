@@ -1,5 +1,5 @@
 import {Component, HostListener, OnDestroy, OnInit, ViewEncapsulation} from '@angular/core';
-import {NavigationEnd, Router} from '@angular/router';
+import {NavigationEnd, Router, RouterOutlet} from '@angular/router';
 import {UserService} from '../shared/services/user.service';
 import {Location} from '@angular/common';
 import {AuthService} from '../shared/services/auth.service';
@@ -9,12 +9,38 @@ import {environment} from '../../environments/environment';
 import {NgForm} from '@angular/forms';
 import {Subject} from 'rxjs/Subject';
 import {takeUntil} from 'rxjs/operator/takeUntil';
+import {group, query, transition, trigger, style, animate, animateChild} from '@angular/animations';
 
 @Component({
   selector: 'vg-home',
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss'],
-  encapsulation: ViewEncapsulation.None
+  encapsulation: ViewEncapsulation.None,
+  animations: [
+    trigger('routeAnimation', [
+      transition(':enter', []),
+      transition('1 => 2, 2 => 3, 1 => 3', [
+        query('.router-container', style({ position: 'relative '})),
+        query(':enter, :leave', style({ position: 'absolute', top: 0, left: 0, right: 0 })),
+        query(':enter', style({ opacity: 0, transform: 'translateX(100%)' })),
+
+        group([
+          query(':leave', animate('400ms cubic-bezier(.35,0,.25,1)', style({ transform: 'translateX(-100%)', opacity: 0 }))),
+          query(':enter', animate('400ms cubic-bezier(.35,0,.25,1)', style({ transform: 'translateX(0)' })))
+        ])
+      ]),
+      transition('3 => 2, 2 => 1, 3 => 1', [
+        query('.router-container', style({ position: 'relative '})),
+        query(':enter, :leave', style({ position: 'absolute', top: 0, left: 0, right: 0 })),
+        query(':enter', style({ opacity: 0, transform: 'translateX(-100%)' })),
+
+        group([
+          query(':leave', animate('400ms cubic-bezier(.35,0,.25,1)', style({ transform: 'translateX(100%)', opacity: 0 }))),
+          query(':enter', animate('400ms cubic-bezier(.35,0,.25,1)', style({ transform: 'translateX(0)' })))
+        ])
+      ])
+    ])
+  ]
 })
 export class HomeComponent implements OnInit, OnDestroy {
 
@@ -78,6 +104,11 @@ export class HomeComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     this._destroy.next();
     this._destroy.complete();
+  }
+
+  prepRouteState(outlet: RouterOutlet) {
+    const data = outlet.activatedRouteData;
+    return data ? data['depth'] : '';
   }
 
   @HostListener('window:resize', ['$event.target.innerWidth'])

@@ -9,19 +9,31 @@ import {AdminCourseComponent} from './admin-course/admin-course.component';
 const adminRoutes: Routes = [
   {
     path: '',
-    component: AdminHomeComponent
+    component: AdminHomeComponent,
+    data: {
+      depth: 1
+    }
   },
   {
     path: ':course/create',
-    component: AdminCreateComponent
+    component: AdminCreateComponent,
+    data: {
+      depth: 3
+    }
   },
   {
     path: ':course',
-    component: AdminCourseComponent
+    component: AdminCourseComponent,
+    data: {
+      depth: 2
+    }
   },
   {
     path: ':course/:id',
-    component: AdminItemComponent
+    component: AdminItemComponent,
+    data: {
+      depth: 3
+    }
   }
 ];
 

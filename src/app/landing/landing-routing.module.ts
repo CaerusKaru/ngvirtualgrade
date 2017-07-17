@@ -5,17 +5,26 @@ import {LandingHelpComponent} from './landing-help/landing-help.component';
 import {LandingAboutComponent} from './landing-about/landing-about.component';
 
 export const landingRoutes: Routes = [
-    {
-      path: '',
-      component: LandingHomeComponent
-    },
+  {
+    path: '',
+    component: LandingHomeComponent,
+    data: {
+      depth: 1
+    }
+  },
   {
     path: 'help',
-    component: LandingHelpComponent
+    component: LandingHelpComponent,
+    data: {
+      depth: 1
+    }
   },
   {
     path: 'about',
-    component: LandingAboutComponent
+    component: LandingAboutComponent,
+    data: {
+      depth: 1
+    }
   }
 ];
 

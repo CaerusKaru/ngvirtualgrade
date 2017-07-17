@@ -1,39 +1,56 @@
-<div fxLayout="column" class="md-padding" fxLayoutGap="25px">
-  <div *ngFor="let course of courses | async">
-    <md-card fxLayout="row"
-             fxLayoutAlign="start center"
-             fxLayoutGap="40px"
-             md-ripple
-             class="grading-box"
-             routerLink="{{course['name']}}">
-      <div fxLayout="column" fxLayoutGap="5px" fxLayoutAlign="center center">
-        <div class="mat-caption">
-          Name
-        </div>
-        <div class="mat-body-2">
-          {{course['name']}}
-        </div>
-      </div>
-      <div fxLayout="column" fxLayoutGap="5px" fxLayoutAlign="center center">
-        <div class="mat-caption">
-          Assignments
-        </div>
-        <div class="mat-body-2">
-          {{course['assigns'].length}}
-        </div>
-      </div>
-      <div fxLayout="column" fxLayoutGap="5px" fxLayoutAlign="center center">
-        <div class="mat-caption">
-          Enrollment
-        </div>
-        <div class="mat-body-2">
-          97
-        </div>
-      </div>
-      <span fxFlex></span>
-      <div>
-        <button md-raised-button>GRADEBOOK</button>
-      </div>
+<div fxLayout="column" class="md-padding">
+  <h3 class="mat-heading">Grading Central</h3>
+  <div fxLayout="row" *ngIf="true" fxLayoutGap="15px">
+    <md-card md-ripple class="grading-box" fxLayout="column" fxLayoutAlign="space-around center" colorName="COMP15" borderLeft="true">
+      <span class="mat-body-2">COMP00</span>
+      <span class="mat-body-1">hw1, Design Doc</span>
+      <span class="mat-caption">Syntax</span>
     </md-card>
+    <md-card md-ripple class="grading-box" fxLayout="column" fxLayoutAlign="space-around center" colorName="COMP15" borderLeft="true">
+      <span class="mat-body-2">COMP15</span>
+      <span class="mat-body-1">hw2, Final Submission</span>
+      <span class="mat-caption">Code Review</span>
+    </md-card>
+  </div>
+  <h3 class="mat-heading">Courses</h3>
+  <div fxLayout="column" fxLayoutGap="25px">
+    <div *ngFor="let course of courses | async">
+      <md-card fxLayout="row"
+               fxLayoutAlign="start center"
+               fxLayoutGap="40px"
+               md-ripple
+               class="grading-box"
+               routerLink="{{course['name']}}"
+               colorName="{{course['name']}}" borderLeft="true">
+        <div fxLayout="column" fxLayoutGap="5px" fxLayoutAlign="center center">
+          <div class="mat-caption">
+            Name
+          </div>
+          <div class="mat-body-2">
+            {{course['name']}}
+          </div>
+        </div>
+        <div fxLayout="column" fxLayoutGap="5px" fxLayoutAlign="center center">
+          <div class="mat-caption">
+            Assignments
+          </div>
+          <div class="mat-body-2">
+            {{course['assigns'].length}}
+          </div>
+        </div>
+        <div fxLayout="column" fxLayoutGap="5px" fxLayoutAlign="center center">
+          <div class="mat-caption">
+            Enrollment
+          </div>
+          <div class="mat-body-2">
+            97
+          </div>
+        </div>
+        <span fxFlex></span>
+        <div>
+          <button md-raised-button>GRADEBOOK</button>
+        </div>
+      </md-card>
+    </div>
   </div>
 </div>
