@@ -1,43 +1,37 @@
 <div fxLayout="column" class="md-padding" fxLayoutGap="25px">
+  <h3 class="mat-heading">Admin Portal</h3>
   <div *ngFor="let course of courses | async">
-    <md-card fxLayout="row"
-             fxLayoutAlign="start center"
-             fxLayoutGap="40px"
-             md-ripple
-             class="admin-box"
-             routerLink="{{course['name']}}"
-             colorName="{{course['name']}}" borderLeft="true">
-      <div fxLayout="column" fxLayoutGap="5px" fxLayoutAlign="center center">
-        <div class="mat-caption">
-          Name
+    <card-button [color]="course['name']" [left]="true">
+      <div fxFlex fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="40px" [routerLink]="course['name']">
+        <div fxLayout="column" fxLayoutGap="5px" fxLayoutAlign="center center">
+          <div class="mat-caption">
+            Name
+          </div>
+          <div class="mat-body-2">
+            {{course['name']}}
+          </div>
         </div>
-        <div class="mat-body-2">
-          {{course['name']}}
+        <div fxLayout="column" fxLayoutGap="5px" fxLayoutAlign="center center">
+          <div class="mat-caption">
+            Assignments
+          </div>
+          <div class="mat-body-2">
+            {{course['assigns'].length}}
+          </div>
         </div>
-      </div>
-      <div fxLayout="column" fxLayoutGap="5px" fxLayoutAlign="center center">
-        <div class="mat-caption">
-          Assignments
-        </div>
-        <div class="mat-body-2">
-          {{course['assigns'].length}}
-        </div>
-      </div>
-      <div fxLayout="column" fxLayoutGap="5px" fxLayoutAlign="center center">
-        <div class="mat-caption">
-          Enrollment
-        </div>
-        <div class="mat-body-2">
-          97
+        <div fxLayout="column" fxLayoutGap="5px" fxLayoutAlign="center center">
+          <div class="mat-caption">
+            Enrollment
+          </div>
+          <div class="mat-body-2">
+            97
+          </div>
         </div>
       </div>
-      <span fxFlex></span>
-      <div>
-        <button md-raised-button>GRADEBOOK</button>
+      <div fxLayoutAlign="center center" fxLayoutGap="20px">
+        <button md-button>GRADEBOOK</button>
+        <button md-button routerLink="{{course['name']}}/create">ADD</button>
       </div>
-      <div>
-        <button md-raised-button routerLink="{{course['name']}}/create">ADD</button>
-      </div>
-    </md-card>
+    </card-button>
   </div>
 </div>

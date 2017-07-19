@@ -6,7 +6,7 @@ import {FlexLayoutModule} from '@angular/flex-layout';
 import { CoursesItemComponent } from './courses-item/courses-item.component';
 import {CoursesMaterialModule} from './courses-material/courses-material.module';
 import { CoursesCourseComponent } from './courses-course/courses-course.component';
-import {ColorNameModule} from '../color-name/index';
+import {CardButtonModule} from '../card-button/index';
 
 @NgModule({
   imports: [
@@ -14,7 +14,7 @@ import {ColorNameModule} from '../color-name/index';
     CoursesRoutingModule,
     FlexLayoutModule,
     CoursesMaterialModule,
-    ColorNameModule
+    CardButtonModule
   ],
   declarations: [CoursesHomeComponent, CoursesItemComponent, CoursesCourseComponent]
 })

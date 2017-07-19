@@ -25,8 +25,8 @@ import {group, query, transition, trigger, style, animate, animateChild} from '@
         query(':enter', style({ opacity: 0, transform: 'translateX(100%)' })),
 
         group([
-          query(':leave', animate('400ms cubic-bezier(.35,0,.25,1)', style({ transform: 'translateX(-100%)', opacity: 0 }))),
-          query(':enter', animate('400ms cubic-bezier(.35,0,.25,1)', style({ transform: 'translateX(0)' })))
+          query(':leave', animate('500ms cubic-bezier(.35,0,.25,1)', style({ transform: 'translateX(-100%)', opacity: 0 }))),
+          query(':enter', animate('500ms cubic-bezier(.35,0,.25,1)', style({ transform: 'translateX(0)' })))
         ])
       ]),
       transition('3 => 2, 2 => 1, 3 => 1', [
@@ -35,8 +35,8 @@ import {group, query, transition, trigger, style, animate, animateChild} from '@
         query(':enter', style({ opacity: 0, transform: 'translateX(-100%)' })),
 
         group([
-          query(':leave', animate('400ms cubic-bezier(.35,0,.25,1)', style({ transform: 'translateX(100%)', opacity: 0 }))),
-          query(':enter', animate('400ms cubic-bezier(.35,0,.25,1)', style({ transform: 'translateX(0)' })))
+          query(':leave', animate('500ms cubic-bezier(.35,0,.25,1)', style({ transform: 'translateX(100%)', opacity: 0 }))),
+          query(':enter', animate('500ms cubic-bezier(.35,0,.25,1)', style({ transform: 'translateX(0)' })))
         ])
       ])
     ])

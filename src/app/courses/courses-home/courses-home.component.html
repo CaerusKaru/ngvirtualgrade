@@ -2,84 +2,74 @@
   <h3 class="mat-heading">Active Courses</h3>
   <div fxLayout="column" fxLayoutGap="25px">
     <div *ngFor="let course of courses | async">
-      <md-card fxLayout="row"
-               fxLayoutAlign="start center"
-               fxLayoutGap="40px"
-               md-ripple
-               class="course-box"
-               routerLink="{{course['name']}}"
-               colorName="{{course['name']}}" borderLeft="true">
-        <div fxLayout="column" fxLayoutGap="5px" fxLayoutAlign="center center">
-          <div class="mat-caption">
-            Name
+      <card-button [color]="course['name']" [left]="true">
+        <div [routerLink]="course['name']" fxFlex fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="40px">
+          <div fxLayout="column" fxLayoutGap="5px" fxLayoutAlign="center center">
+            <div class="mat-caption">
+              Name
+            </div>
+            <div class="mat-body-2">
+              {{course['name']}}
+            </div>
           </div>
-          <div class="mat-body-2">
-            {{course['name']}}
+          <div fxLayout="column" fxLayoutGap="5px" fxLayoutAlign="center center">
+            <div class="mat-caption">
+              Assignments
+            </div>
+            <div class="mat-body-2">
+              {{course['assigns'].length}}
+            </div>
           </div>
-        </div>
-        <div fxLayout="column" fxLayoutGap="5px" fxLayoutAlign="center center">
-          <div class="mat-caption">
-            Assignments
-          </div>
-          <div class="mat-body-2">
-            {{course['assigns'].length}}
-          </div>
-        </div>
-        <div fxLayout="column" fxLayoutGap="5px" fxLayoutAlign="center center">
-          <div class="mat-caption">
-            Enrollment
-          </div>
-          <div class="mat-body-2">
-            97
+          <div fxLayout="column" fxLayoutGap="5px" fxLayoutAlign="center center">
+            <div class="mat-caption">
+              Enrollment
+            </div>
+            <div class="mat-body-2">
+              97
+            </div>
           </div>
         </div>
-        <span fxFlex></span>
-        <div>
-          <button md-raised-button>GRADEBOOK</button>
+        <div fxLayoutAlign="center center">
+          <button md-button>GRADEBOOK</button>
         </div>
-      </md-card>
+      </card-button>
     </div>
   </div>
   <span fxFlex="20px"></span>
   <h3 class="mat-heading">Inactive Courses</h3>
   <div fxLayout="column" fxLayoutGap="25px">
     <div *ngFor="let course of inCourses | async">
-      <md-card fxLayout="row"
-               fxLayoutAlign="start center"
-               fxLayoutGap="40px"
-               md-ripple
-               class="course-box"
-               routerLink="{{course['name']}}"
-               colorName="{{course['name']}}" borderLeft="true">
-        <div fxLayout="column" fxLayoutGap="5px" fxLayoutAlign="center center">
-          <div class="mat-caption">
-            Name
+      <card-button [color]="course['name']" [left]="true">
+        <div [routerLink]="course['name']" fxFlex fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="40px">
+          <div fxLayout="column" fxLayoutGap="5px" fxLayoutAlign="center center">
+            <div class="mat-caption">
+              Name
+            </div>
+            <div class="mat-body-2">
+              {{course['name']}}
+            </div>
           </div>
-          <div class="mat-body-2">
-            {{course['name']}}
+          <div fxLayout="column" fxLayoutGap="5px" fxLayoutAlign="center center">
+            <div class="mat-caption">
+              Assignments
+            </div>
+            <div class="mat-body-2">
+              {{course['assigns'].length}}
+            </div>
           </div>
-        </div>
-        <div fxLayout="column" fxLayoutGap="5px" fxLayoutAlign="center center">
-          <div class="mat-caption">
-            Assignments
-          </div>
-          <div class="mat-body-2">
-            {{course['assigns'].length}}
-          </div>
-        </div>
-        <div fxLayout="column" fxLayoutGap="5px" fxLayoutAlign="center center">
-          <div class="mat-caption">
-            Enrollment
-          </div>
-          <div class="mat-body-2">
-            97
+          <div fxLayout="column" fxLayoutGap="5px" fxLayoutAlign="center center">
+            <div class="mat-caption">
+              Enrollment
+            </div>
+            <div class="mat-body-2">
+              97
+            </div>
           </div>
         </div>
-        <span fxFlex></span>
-        <div>
-          <button md-raised-button>GRADEBOOK</button>
+        <div fxLayoutAlign="center center">
+          <button md-button>GRADEBOOK</button>
         </div>
-      </md-card>
+      </card-button>
     </div>
   </div>
 </div>

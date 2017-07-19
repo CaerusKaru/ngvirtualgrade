@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, ElementRef, OnInit} from '@angular/core';
 import {UserService} from '../../shared/services/user.service';
 
 @Component({
@@ -6,7 +6,7 @@ import {UserService} from '../../shared/services/user.service';
   templateUrl: './courses-home.component.html',
   styleUrls: ['./courses-home.component.scss']
 })
-export class CoursesHomeComponent implements OnInit {
+export class CoursesHomeComponent {
 
   courses = this._userService.courses;
   inCourses = this._userService.inactive;
@@ -14,7 +14,4 @@ export class CoursesHomeComponent implements OnInit {
   constructor(
     private _userService: UserService
   ) { }
-
-  ngOnInit() {
-  }
 }

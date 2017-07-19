@@ -8,7 +8,7 @@ import {AdminMaterialModule} from './admin-material/admin-material.module';
 import {FlexLayoutModule} from '@angular/flex-layout';
 import {ReactiveFormsModule} from '@angular/forms';
 import { AdminCourseComponent } from './admin-course/admin-course.component';
-import {ColorNameModule} from '../color-name/index';
+import {CardButtonModule} from '../card-button/index';
 
 @NgModule({
   imports: [
@@ -17,7 +17,7 @@ import {ColorNameModule} from '../color-name/index';
     FlexLayoutModule,
     AdminMaterialModule,
     AdminRoutingModule,
-    ColorNameModule
+    CardButtonModule
   ],
   declarations: [AdminHomeComponent, AdminItemComponent, AdminCreateComponent, AdminCourseComponent]
 })

@@ -16,56 +16,67 @@
 
   <h4 class="mat-heading">Assignments</h4>
   <div fxLayout="column" fxLayoutGap="35px">
-    <md-card fxLayout="row" fxLayout="row" *ngFor="let assign of course['assigns']" fxLayoutGap="20px"
-             md-ripple class="admin-box" routerLink="{{assign}}" colorName="{{assign}}" borderLeft="true">
-      <div fxLayout="column" fxLayoutGap="5px" fxLayoutAlign="center center">
-        <div class="mat-caption">
-          Name
+    <div *ngFor="let assign of course['assigns']">
+      <card-button [color]="assign" [left]="true">
+        <div fxFlex fxLayout="row"  fxLayoutGap="20px" [routerLink]="assign">
+          <div fxLayout="column" fxLayoutGap="5px" fxLayoutAlign="center center">
+            <div class="mat-caption">
+              Name
+            </div>
+            <div class="mat-body-2">
+              {{assign}}
+            </div>
+          </div>
+          <div fxLayout="column" fxLayoutGap="5px" fxLayoutAlign="center center">
+            <div class="mat-caption">
+              Submissions
+            </div>
+            <div class="mat-body-2">
+              25
+            </div>
+          </div>
+          <div fxLayout="column" fxLayoutGap="5px" fxLayoutAlign="center center">
+            <div class="mat-caption">
+              Complete
+            </div>
+            <div class="mat-body-2">
+              12
+            </div>
+          </div>
+          <div fxLayout="column" fxLayoutGap="5px" fxLayoutAlign="center center">
+            <div class="mat-caption">
+              Remaining
+            </div>
+            <div class="mat-body-2">
+              13
+            </div>
+          </div>
+          <div fxLayout="column" fxLayoutGap="5px" fxLayoutAlign="center center">
+            <div class="mat-caption">
+              Start Date
+            </div>
+            <div class="mat-body-2">
+              Thurs Jan 13, 2017 12:12pm
+            </div>
+          </div>
+          <div fxLayout="column" fxLayoutGap="5px" fxLayoutAlign="center center">
+            <div class="mat-caption">
+              End Date
+            </div>
+            <div class="mat-body-2">
+              Fri Jan 14, 2017 12:15pm
+            </div>
+          </div>
         </div>
-        <div class="mat-body-2">
-          {{assign}}
+        <div fxLayout="column" fxLayoutGap="5px" fxLayoutAlign="center center">
+          <div class="mat-caption">
+            Publish Grades
+          </div>
+          <div>
+            <md-slide-toggle></md-slide-toggle>
+          </div>
         </div>
-      </div>
-      <div fxLayout="column" fxLayoutGap="5px" fxLayoutAlign="center center">
-        <div class="mat-caption">
-          Submissions
-        </div>
-        <div class="mat-body-2">
-          25
-        </div>
-      </div>
-      <div fxLayout="column" fxLayoutGap="5px" fxLayoutAlign="center center">
-        <div class="mat-caption">
-          Complete
-        </div>
-        <div class="mat-body-2">
-          12
-        </div>
-      </div>
-      <div fxLayout="column" fxLayoutGap="5px" fxLayoutAlign="center center">
-        <div class="mat-caption">
-          Remaining
-        </div>
-        <div class="mat-body-2">
-          13
-        </div>
-      </div>
-      <div fxLayout="column" fxLayoutGap="5px" fxLayoutAlign="center center">
-        <div class="mat-caption">
-          Start Date
-        </div>
-        <div class="mat-body-2">
-          Thurs Jan 13, 2017 12:12pm
-        </div>
-      </div>
-      <div fxLayout="column" fxLayoutGap="5px" fxLayoutAlign="center center">
-        <div class="mat-caption">
-          End Date
-        </div>
-        <div class="mat-body-2">
-          Fri Jan 14, 2017 12:15pm
-        </div>
-      </div>
-    </md-card>
+      </card-button>
+    </div>
   </div>
 </div>

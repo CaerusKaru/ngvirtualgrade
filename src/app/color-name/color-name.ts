@@ -11,33 +11,35 @@ export class ColorNameDirective implements OnInit {
   @Input() borderTop: boolean;
   @Input() borderLeft: boolean;
 
-  @HostBinding('style.borderRightColor')
+  @HostBinding('style.borderRight')
   get borderRightColor() {
     return this.borderRight ? this.color : '';
   }
 
-  @HostBinding('style.borderBottomColor')
+  @HostBinding('style.borderBottom')
   get borderBottomColor() {
     return this.borderBottom ? this.color : '';
   }
 
-  @HostBinding('style.borderTopColor')
+  @HostBinding('style.borderTop')
   get borderTopColor() {
     return this.borderTop ? this.color : '';
   }
 
-  @HostBinding('style.borderLeftColor')
+  @HostBinding('style.borderLeft')
   get borderLeftColor() {
     return this.borderLeft ? this.color : '';
   }
 
   color: string;
 
+  private _defaultScheme = '5px solid';
+
   constructor() {
   }
 
   ngOnInit() {
-    this.color = '#' + this._intToRGB(this._hashCode(this.colorName)).toString();
+    this.color = this._defaultScheme + ' ' + '#' + this._intToRGB(this._hashCode(this.colorName)).toString();
   }
 
   private _hashCode(str) {
