@@ -1,13 +1,17 @@
-import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
-import {MdPaginator, MdSort} from '@angular/material';
+import {Component, ElementRef, OnDestroy, OnInit, ViewChild} from '@angular/core';
+import {MdPaginator, MdSort, SelectionModel} from '@angular/material';
 import {BehaviorSubject} from 'rxjs/BehaviorSubject';
 import {DataSource} from '@angular/cdk';
 import {Observable} from 'rxjs/Observable';
-import 'rxjs/add/observable/merge';
-import 'rxjs/add/operator/map';
 import {ActivatedRoute} from '@angular/router';
 import {Subject} from 'rxjs/Subject';
 import {takeUntil} from 'rxjs/operator/takeUntil';
+import 'rxjs/add/operator/startWith';
+import 'rxjs/add/observable/fromEvent';
+import 'rxjs/add/operator/distinctUntilChanged';
+import 'rxjs/add/operator/debounceTime';
+import 'rxjs/add/observable/merge';
+import 'rxjs/add/operator/map';
 
 @Component({
   selector: 'vg-archon-item',
@@ -16,15 +20,17 @@ import {takeUntil} from 'rxjs/operator/takeUntil';
 })
 export class AdminItemComponent implements OnInit, OnDestroy {
 
-  displayedColumns = ['userId', 'progress', 'userName', 'color'];
+  displayedColumns = ['select', 'userId', 'progress', 'userName', 'color'];
   exampleDatabase = new ExampleDatabase();
+  selection = new SelectionModel<string>(true, []);
   dataSource: ExampleDataSource | null;
-
-  course;
-  id;
 
   @ViewChild(MdPaginator) paginator: MdPaginator;
   @ViewChild(MdSort) sort: MdSort;
+  @ViewChild('filter') filter: ElementRef;
+
+  course;
+  id;
 
   private _destroy = new Subject<void>();
 
@@ -36,11 +42,41 @@ export class AdminItemComponent implements OnInit, OnDestroy {
       this.course = params['course'];
       this.id = params['id'];
     });
+    Observable.fromEvent(this.filter.nativeElement, 'keyup')
+      .debounceTime(150)
+      .distinctUntilChanged()
+      .subscribe(() => {
+        if (!this.dataSource) { return; }
+        this.dataSource.filter = this.filter.nativeElement.value;
+      });
   }
 
   ngOnDestroy() {
     this._destroy.next();
     this._destroy.complete();
+  }
+
+  isAllSelected(): boolean {
+    if (!this.dataSource) { return false; }
+    if (this.selection.isEmpty()) { return false; }
+
+    if (this.filter.nativeElement.value) {
+      return this.selection.selected.length === this.dataSource.renderedData.length;
+    } else {
+      return this.selection.selected.length === this.exampleDatabase.data.length;
+    }
+  }
+
+  masterToggle() {
+    if (!this.dataSource) { return; }
+
+    if (this.isAllSelected()) {
+      this.selection.clear();
+    } else if (this.filter.nativeElement.value) {
+      this.dataSource.renderedData.forEach(data => this.selection.select(data.id));
+    } else {
+      this.exampleDatabase.data.forEach(data => this.selection.select(data.id));
+    }
   }
 }
 
@@ -99,35 +135,52 @@ export class ExampleDatabase {
  * should be rendered.
  */
 export class ExampleDataSource extends DataSource<any> {
-  constructor(
-    private _exampleDatabase: ExampleDatabase,
-    private _paginator: MdPaginator,
-    private _sort: MdSort) {
+  _filterChange = new BehaviorSubject('');
+  get filter(): string { return this._filterChange.value; }
+  set filter(filter: string) { this._filterChange.next(filter); }
+
+  filteredData: UserData[] = [];
+  renderedData: UserData[] = [];
+
+  constructor(private _exampleDatabase: ExampleDatabase,
+              private _paginator: MdPaginator,
+              private _sort: MdSort) {
     super();
+
+    this._filterChange.subscribe(() => this._paginator.pageIndex = 0);
   }
 
   /** Connect function called by the table to retrieve one stream containing the data to render. */
   connect(): Observable<UserData[]> {
+    // Listen for any changes in the base data, sorting, filtering, or pagination
     const displayDataChanges = [
       this._exampleDatabase.dataChange,
+      this._sort.mdSortChange,
+      this._filterChange,
       this._paginator.page,
-      this._sort.mdSortChange
     ];
 
     return Observable.merge(...displayDataChanges).map(() => {
-      const data = this.getSortedData();
+      // Filter data
+      this.filteredData = this._exampleDatabase.data.slice().filter((item: UserData) => {
+        const searchStr = (item.name + item.color).toLowerCase();
+        return searchStr.indexOf(this.filter.toLowerCase()) !== -1;
+      });
 
-      // Grab the page's slice of data.
+      // Sort filtered data
+      const sortedData = this.sortData(this.filteredData.slice());
+
+      // Grab the page's slice of the filtered sorted data.
       const startIndex = this._paginator.pageIndex * this._paginator.pageSize;
-      return data.splice(startIndex, this._paginator.pageSize);
+      this.renderedData = sortedData.splice(startIndex, this._paginator.pageSize);
+      return this.renderedData;
     });
   }
 
   disconnect() {}
 
   /** Returns a sorted copy of the database data. */
-  getSortedData(): UserData[] {
-    const data = this._exampleDatabase.data.slice();
+  sortData(data: UserData[]): UserData[] {
     if (!this._sort.active || this._sort.direction === '') { return data; }
 
     return data.sort((a, b) => {

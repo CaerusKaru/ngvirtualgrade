@@ -9,6 +9,10 @@ import {FlexLayoutModule} from '@angular/flex-layout';
 import {ReactiveFormsModule} from '@angular/forms';
 import { AdminCourseComponent } from './admin-course/admin-course.component';
 import {CardButtonModule} from '../card-button/index';
+import {ColorNameModule} from '../color-name';
+import { AdminGradersComponent } from './admin-graders/admin-graders.component';
+import { AdminGradebookComponent } from './admin-gradebook/admin-gradebook.component';
+import { AdminCalendarComponent } from './admin-calendar/admin-calendar.component';
 
 @NgModule({
   imports: [
@@ -17,8 +21,10 @@ import {CardButtonModule} from '../card-button/index';
     FlexLayoutModule,
     AdminMaterialModule,
     AdminRoutingModule,
-    CardButtonModule
+    CardButtonModule,
+    ColorNameModule
   ],
-  declarations: [AdminHomeComponent, AdminItemComponent, AdminCreateComponent, AdminCourseComponent]
+  declarations: [AdminHomeComponent, AdminItemComponent, AdminCreateComponent, AdminCourseComponent,
+    AdminGradersComponent, AdminGradebookComponent, AdminCalendarComponent]
 })
 export class AdminModule { }

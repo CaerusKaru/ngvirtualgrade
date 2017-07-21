@@ -56,6 +56,11 @@
                            link="{{mode}}/{{course['name']}}/{{link}}">
               {{link}}
             </nav-menu-link>
+
+            <nav-menu-link *ngIf="mode === '/admin'" link="/admin/{{course['name']}}/create">Create New</nav-menu-link>
+            <nav-menu-link *ngIf="mode === '/admin'" link="/admin/{{course['name']}}/gradebook">Gradebook</nav-menu-link>
+            <nav-menu-link *ngIf="mode === '/admin'" link="/admin/{{course['name']}}/calendar">Calendar</nav-menu-link>
+            <nav-menu-link *ngIf="mode === '/admin'" link="/admin/{{course['name']}}/graders">Graders</nav-menu-link>
           </nav-menu-toggle>
         </nav-menu-header>
         <nav-menu-header label="Inactive Courses" *ngIf="inCourses$ | async as courses">
@@ -80,11 +85,10 @@
         </div>
       </nav-menu-container>
     </md-sidenav>
-    <div [@routeAnimation]="prepRouteState(routerOutlet)">
-      <div class="router-container">
+    <div [@routeAnimation]="prepRouteState(routerOutlet)" style="height: 100%;">
+      <div class="router-container" style="height: 100%">
         <router-outlet #routerOutlet="outlet"></router-outlet>
       </div>
     </div>
   </md-sidenav-container>
 </div>
-

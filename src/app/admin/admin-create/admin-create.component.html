@@ -6,7 +6,7 @@
           <md-tab-group dynamicHeight="true" [(selectedIndex)]="tabIndex" md-stretch-tabs>
             <md-tab label="Basic Info">
               <div class="mat-caption md-padding">
-                This section sets the basic information for this submission step. As submission step is only one factor
+                This section sets the basic information for this submission step. A submission step is only one factor
                 in the composite assignment, and can be made up of multiple components itself. The settings below
                 allows you to configure when/what to accept from students, and it is what students will see when
                 submitting. If any custom alterations need to be made, they can be adjusted in the Advanced section.
@@ -17,7 +17,7 @@
                     <input mdInput placeholder="Step Name" formControlName="name">
                   </md-input-container>
                 </div>
-                <div>
+                <div fxLayoutGap="20px">
                   <md-input-container>
                     <input mdInput [mdDatepicker]="startDate" placeholder="Start Date" formControlName="start_date">
                     <button mdSuffix [mdDatepickerToggle]="startDate" type="button"></button>
@@ -30,7 +30,7 @@
                   <md-datepicker #endDate></md-datepicker>
                 </div>
                 <div>
-                  <md-radio-group formControlName="submission_type" fxLayoutGap="10px">
+                  <md-radio-group formControlName="submission_type" fxLayoutGap="20px">
                     <md-radio-button value="student">Student Upload</md-radio-button>
                     <md-radio-button value="instructor">Instructor Upload</md-radio-button>
                   </md-radio-group>
@@ -61,7 +61,7 @@
             </md-tab>
             <md-tab label="Components">
               <div fxFlex class="accordion-inside" fxLayout="column">
-                <div class="mat-caption">
+                <div class="md-padding mat-caption">
                   A component is a tool for organizing grading of an assignment. Students submitting are not aware of
                   the individual components, but you can assign certain parts of the assignment to different components,
                   and then assign graders to grade each component. Likewise, each component can have an individual score
@@ -155,15 +155,15 @@
       </div>
     </div>
     <md-sidenav #stepsNav mode="side" opened="true" align="end" style="width: 250px; min-width: 250px; max-width: 250px">
-      <div class="md-padding" fxLayout="column" fxLayoutGap="10px" fxFlex>
+      <div class="md-padding" fxLayout="column" fxLayoutGap="10px" fxFlex fxLayoutAlign="start start">
         <h3 class="mat-heading" fxLayoutAlign="start center">Create Assignment</h3>
-        <div fxLayoutGap="15px">
-          <md-input-container>
+        <div fxLayout="row" style="width: 100%">
+          <md-input-container fxFlex>
             <input mdInput placeholder="Assignment Name" formControlName="name">
           </md-input-container>
         </div>
-        <div fxLayoutGap="15px">
-          <md-input-container>
+        <div fxLayout="row" style="width: 100%">
+          <md-input-container fxFlex>
             <textarea mdInput mdTextareaAutosize placeholder="Description" formControlName="description"></textarea>
           </md-input-container>
         </div>
@@ -185,9 +185,9 @@
           </div>
         </div>
         <span fxFlex></span>
-        <div fxLayout="row" fxLayoutAlign="space-around start">
+        <div fxLayout="row" fxLayoutAlign="space-around start" style="width: 100%">
           <button md-raised-button color="primary" type="button" (click)="addStep()">ADD STEP</button>
-          <button md-raised-button color="primary" type="submit">SAVE</button>
+          <button md-raised-button color="primary">SAVE</button>
         </div>
       </div>
     </md-sidenav>

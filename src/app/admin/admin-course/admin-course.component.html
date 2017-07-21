@@ -5,11 +5,11 @@
   </div>
 
   <h4 class="mat-heading">Course Actions</h4>
-  <md-card fxLayout="row" fxLayoutGap="20px">
-    <button md-raised-button color="primary" routerLink="create">ADD</button>
-    <button md-raised-button color="primary">GRADEBOOK</button>
-    <button md-raised-button color="primary">GRADERS</button>
-    <button md-raised-button color="primary">CALENDAR</button>
+  <md-card fxLayout="row" fxLayoutGap="20px" [colorName]="course['name']" [borderBottom]="true">
+    <button md-button routerLink="create">ADD</button>
+    <button md-button routerLink="gradebook">GRADEBOOK</button>
+    <button md-button routerLink="graders">GRADERS</button>
+    <button md-button routerLink="calendar">CALENDAR</button>
   </md-card>
 
   <span fxFlex="10px"></span>
