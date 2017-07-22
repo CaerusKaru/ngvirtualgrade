@@ -57,7 +57,7 @@ export class AuthService {
 
   public logout () {
     this.userService.depopulate();
-    this._loggedIn.next(false);
+    this._logOut();
     this._router.navigate(['']);
     // this.http.post(this._url + 'logout', { }, this._options).subscribe();
   }
@@ -75,15 +75,19 @@ export class AuthService {
           obs.complete();
         },
         error => {
-          this._loggedIn.next(false);
-          this._grader.next(false);
-          this._admin.next(false);
-          this._manage.next(false);
+          this._logOut();
           obs.next(false);
           obs.complete();
         }
       );
     });
+  }
+
+  private _logOut() {
+    this._loggedIn.next(false);
+    this._grader.next(false);
+    this._admin.next(false);
+    this._manage.next(false);
   }
 
   private _tempLogIn() {
