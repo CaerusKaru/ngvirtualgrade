@@ -10,13 +10,20 @@ import {FlexLayoutModule} from '@angular/flex-layout';
 import 'hammerjs';
 import 'd3';
 import {AuthService} from './shared/services/auth.service';
-import {CanLoadAdmin, CanLoadCourses, CanLoadGrading} from './shared/guards/auth.guard';
+import {CanLoadAdmin, CanLoadCourses, CanLoadGrading, CanLoadManage} from './shared/guards/auth.guard';
 import {HomeComponent, SigninDialogComponent} from './home/home.component';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {AppMaterialModule} from './app-material/app-material.module';
 import {NavMenuModule} from './nav-menu/index';
 import {SortByPipe} from './shared/pipes/sort-by.pipe';
 import {SortPipe} from './shared/pipes/sort.pipe';
+import {SwUpdatesModule} from './sw-updates/sw-updates.module';
+import {HomeMenuService} from './home/home-menu.service';
+import {AdminResolver} from './shared/resolvers/admin-resolver';
+import {CoursesResolver} from './shared/resolvers/courses-resolver';
+import {GradingResolver} from './shared/resolvers/grading-resolver';
+import {LandingResolver} from './shared/resolvers/landing-resolver';
+import {ManageResolver} from './shared/resolvers/manage-resolver';
 
 @NgModule({
   declarations: [
@@ -34,9 +41,23 @@ import {SortPipe} from './shared/pipes/sort.pipe';
     FlexLayoutModule,
     NavMenuModule,
     AppMaterialModule,
-    AppRoutingModule
+    AppRoutingModule,
+    SwUpdatesModule
   ],
-  providers: [UserService, AuthService, CanLoadCourses, CanLoadGrading, CanLoadAdmin],
+  providers: [
+    UserService,
+    AuthService,
+    CanLoadCourses,
+    CanLoadGrading,
+    CanLoadAdmin,
+    CanLoadManage,
+    HomeMenuService,
+    AdminResolver,
+    CoursesResolver,
+    GradingResolver,
+    LandingResolver,
+    ManageResolver,
+  ],
   bootstrap: [AppComponent],
   entryComponents: [SigninDialogComponent]
 })

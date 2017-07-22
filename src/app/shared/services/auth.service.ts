@@ -14,9 +14,11 @@ export class AuthService {
   private _loggedIn = new ReplaySubject<boolean>(1);
   private _loggedIn$ = this._loggedIn.asObservable();
   private _grader = new ReplaySubject<boolean>(1);
-  private _grader$ = this._loggedIn.asObservable();
+  private _grader$ = this._grader.asObservable();
   private _admin = new ReplaySubject<boolean>(1);
-  private _admin$ = this._loggedIn.asObservable();
+  private _admin$ = this._admin.asObservable();
+  private _manage = new ReplaySubject<boolean>(1);
+  private _manage$ = this._manage.asObservable();
 
   constructor(
     private _router: Router,
@@ -37,6 +39,10 @@ export class AuthService {
 
   get isGrader(): Observable<boolean> {
     return this._grader$;
+  }
+
+  get isManager(): Observable<boolean> {
+    return this._manage$;
   }
 
   public login (username: string, password: string) {
@@ -63,6 +69,7 @@ export class AuthService {
           this._loggedIn.next(true);
           this._grader.next(data['grading'].length !== 0);
           this._admin.next(data['admin'].length !== 0);
+          this._manage.next(data['manage']['privileges'].length !== 0);
           this.userService.populate(data, data['user']);
           obs.next(true);
           obs.complete();
@@ -71,6 +78,7 @@ export class AuthService {
           this._loggedIn.next(false);
           this._grader.next(false);
           this._admin.next(false);
+          this._manage.next(false);
           obs.next(false);
           obs.complete();
         }

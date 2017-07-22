@@ -70,3 +70,25 @@ export class CanLoadAdmin implements CanLoad {
     }));
   }
 }
+
+@Injectable()
+export class CanLoadManage implements CanLoad {
+
+  constructor (
+    private _router: Router,
+    private _authService: AuthService
+  ) {
+  }
+
+  canLoad(route: Route): Observable<boolean> | Promise<boolean> | boolean {
+
+    return first.call(map.call(this._authService.isManager, d => {
+      if (d) {
+        return true;
+      } else {
+        this._router.navigate(['/ausi']);
+        return false;
+      }
+    }));
+  }
+}

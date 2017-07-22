@@ -1,6 +1,4 @@
-:host {
-  font-family: Roboto, "Helvetica Neue", sans-serif;
-}
+@import '~@angular/material/theming';
 
 .md-visually-hidden {
   border: 0;

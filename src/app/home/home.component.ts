@@ -3,13 +3,14 @@ import {NavigationEnd, Router, RouterOutlet} from '@angular/router';
 import {UserService} from '../shared/services/user.service';
 import {Location} from '@angular/common';
 import {AuthService} from '../shared/services/auth.service';
-import {Observable} from 'rxjs/Observable';
 import {MdDialog, MdDialogRef} from '@angular/material';
 import {environment} from '../../environments/environment';
 import {NgForm} from '@angular/forms';
 import {Subject} from 'rxjs/Subject';
 import {takeUntil} from 'rxjs/operator/takeUntil';
 import {group, query, transition, trigger, style, animate, animateChild} from '@angular/animations';
+import {SwUpdatesService} from '../sw-updates/sw-updates.service';
+import {HomeMenuService} from './home-menu.service';
 
 @Component({
   selector: 'vg-home',
@@ -44,28 +45,25 @@ import {group, query, transition, trigger, style, animate, animateChild} from '@
 })
 export class HomeComponent implements OnInit, OnDestroy {
 
-  mode: string;
-  courses$: Observable<string[]>;
-  inCourses$: Observable<string[]>;
+  navs$ = this._homeService.navs$;
+  utln$ = this._userService.utln;
+  isSideBySide = true;
   activeLinkIndex = -1;
   adminTab = {route: '/admin', label: 'Admin', show: false};
   graderTab = {route: '/grading', label: 'Grading', show: false};
   gradesTab = {route: '/courses', label: 'Courses', show: false};
+  manageTab = {route: '/manage', label: 'Manage', show: false};
 
   navLinks = [
     {route: '/', label: 'Home', show: true},
     this.gradesTab,
     this.graderTab,
-    this.adminTab
+    this.adminTab,
+    this.manageTab
   ];
 
-  utln$: Observable<string> = this._userService.utln;
-  isSideBySide = true;
-
-  private _grades: Observable<string[]>;
-  private _grading: Observable<string[]>;
-  private _admin: Observable<string[]>;
-  private _inactive: Observable<string[]>;
+  private _tabWidth = 160;
+  private _baseWidth = 220;
   private _sideBySideWidth = 875;
   private _isOpen = false;
 
@@ -76,15 +74,13 @@ export class HomeComponent implements OnInit, OnDestroy {
     private _location: Location,
     private _userService: UserService,
     private _authService: AuthService,
+    private _homeService: HomeMenuService,
+    swUpdates: SwUpdatesService,
     public dialog: MdDialog
   ) {
     takeUntil.call(this._router.events
       .filter(event => event instanceof NavigationEnd), this._destroy)
       .subscribe((event) => this.changeTab());
-    this._grading = this._userService.grading;
-    this._admin = this._userService.admin;
-    this._grades = this._userService.courses;
-    this._inactive = this._userService.inactive;
   }
 
   ngOnInit () {
@@ -96,6 +92,9 @@ export class HomeComponent implements OnInit, OnDestroy {
     });
     takeUntil.call(this._authService.isLoggedIn, this._destroy).subscribe(data => {
       this.navLinks[this.navLinks.indexOf(this.gradesTab)].show = data;
+    });
+    takeUntil.call(this._authService.isManager, this._destroy).subscribe(data => {
+      this.navLinks[this.navLinks.indexOf(this.manageTab)].show = data;
     });
 
     this.onResize(window.innerWidth);
@@ -113,7 +112,13 @@ export class HomeComponent implements OnInit, OnDestroy {
 
   @HostListener('window:resize', ['$event.target.innerWidth'])
   onResize(width) {
-    this.isSideBySide = width > this._sideBySideWidth;
+    const calcSize = () => {
+      return this.navLinks.reduce((a, d) => {
+        return a + (d.show ? this._tabWidth : 0);
+      }, 0) + this._baseWidth;
+    };
+
+    this.isSideBySide = width > Math.max(this._sideBySideWidth, calcSize());
   }
 
   get isOpen() {
@@ -138,18 +143,6 @@ export class HomeComponent implements OnInit, OnDestroy {
 
     const idx = this.navLinks.indexOf(this.navLinks.find(findTab));
     this.activeLinkIndex = (idx === -1) ? 0 : idx;
-    this.mode = this.navLinks[this.activeLinkIndex].route;
-    this.inCourses$ = null;
-    if (this.mode === '/admin') {
-      this.courses$ = this._admin;
-    } else if (this.mode === '/grading') {
-      this.courses$ = this._grading;
-    } else if (this.mode === '/courses') {
-      this.courses$ = this._grades;
-      this.inCourses$ = this._inactive;
-    } else {
-      this.courses$ = null;
-    }
   }
 }
 

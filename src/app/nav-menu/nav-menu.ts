@@ -148,7 +148,6 @@ export class NavMenuHeaderComponent {
   host: {
     '[class.nav-menu]': 'true',
     '[class.site-sidenav]': 'true',
-    '[class.mat-elevation-z2]': 'true',
     '[attr.hide-print]': 'true'
   },
   selector: 'nav-menu-container',

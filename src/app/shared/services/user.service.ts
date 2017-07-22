@@ -10,12 +10,16 @@ export class UserService {
   admin: Observable<string[]>;
   courses: Observable<string[]>;
   inactive: Observable<string[]>;
+  manage: Observable<string[]>;
+  managePerms: Observable<string[]>;
 
   private _utln: BehaviorSubject<string> = new BehaviorSubject('');
   private _grading: BehaviorSubject<string[]> = new BehaviorSubject([]);
   private _admin: BehaviorSubject<string[]> = new BehaviorSubject([]);
   private _courses: BehaviorSubject<string[]> = new BehaviorSubject([]);
   private _inactive: BehaviorSubject<string[]> = new BehaviorSubject([]);
+  private _manage: BehaviorSubject<string[]> = new BehaviorSubject([]);
+  private _managePerms: BehaviorSubject<string[]> = new BehaviorSubject([]);
 
   constructor() {
     this.utln = this._utln.asObservable();
@@ -23,6 +27,8 @@ export class UserService {
     this.admin = this._admin.asObservable();
     this.courses = this._courses.asObservable();
     this.inactive = this._inactive.asObservable();
+    this.manage = this._manage.asObservable();
+    this.managePerms = this._managePerms.asObservable();
   }
 
   public populate (data, utln) {
@@ -32,6 +38,8 @@ export class UserService {
       this._courses.next(data.courses);
       this._inactive.next(data.inactive);
       this._utln.next(data.user);
+      this._manage.next(data.manage.departments);
+      this._managePerms.next(data.manage.permissions);
     }
   }
 
@@ -41,5 +49,7 @@ export class UserService {
     this._courses.next([]);
     this._inactive.next([]);
     this._utln.next(null);
+    this._manage.next([]);
+    this._managePerms.next([]);
   }
 }

@@ -39,5 +39,18 @@
       "assigns": ["Final", "Midterm"]
     }
   ],
+  "manage": {
+    "departments": [
+      {
+        "name": "COMP",
+        "courses": ["COMP15", "COMP20"]
+      },
+      {
+        "name": "MATH",
+        "courses": ["MATH71", "MATH61"]
+      }
+    ],
+    "privileges": ["CREATE", "READ", "UPDATE", "DELETE"]
+  },
   "user": "aplume01"
 }

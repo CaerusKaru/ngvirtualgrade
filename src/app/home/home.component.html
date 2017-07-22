@@ -42,44 +42,27 @@
   </div>
   <md-sidenav-container fxFlex>
     <md-sidenav #sidenav
-                class="dark-theme"
+                class="dark-theme mat-elevation-z16"
                 [mode]="isSideBySide ? 'side' : 'over'"
                 [opened]="isSideBySide || isOpen">
-      <nav-menu-container fxFlex class="mat-app-background">
-        <nav-menu-header label="Courses" *ngIf="courses$ | async as courses">
-          <nav-menu-toggle *ngFor="let course of courses | sortBy: ''"
-                           label="{{course['name']}}">
-            <nav-menu-link link="{{mode}}/{{course['name']}}">
-              Home
-            </nav-menu-link>
-            <nav-menu-link *ngFor="let link of course['assigns'] | sort"
-                           link="{{mode}}/{{course['name']}}/{{link}}">
-              {{link}}
-            </nav-menu-link>
-
-            <nav-menu-link *ngIf="mode === '/admin'" link="/admin/{{course['name']}}/create">Create New</nav-menu-link>
-            <nav-menu-link *ngIf="mode === '/admin'" link="/admin/{{course['name']}}/gradebook">Gradebook</nav-menu-link>
-            <nav-menu-link *ngIf="mode === '/admin'" link="/admin/{{course['name']}}/calendar">Calendar</nav-menu-link>
-            <nav-menu-link *ngIf="mode === '/admin'" link="/admin/{{course['name']}}/graders">Graders</nav-menu-link>
+      <nav-menu-container fxFlex class="mat-app-background" *ngIf="navs$ | async as navs">
+        <div *ngFor="let nav of navs" [ngSwitch]="nav['type']">
+          <nav-menu-header *ngSwitchCase="'header'" [label]="nav['label']">
+            <div *ngFor="let child of nav['children']" [ngSwitch]="child['type']">
+              <nav-menu-toggle *ngSwitchCase="'toggle'" [label]="child['label']">
+                <nav-menu-link *ngFor="let link of child['children']" [link]="link['link']">{{link['label']}}</nav-menu-link>
+              </nav-menu-toggle>
+              <nav-menu-link *ngSwitchCase="'link'" [link]="child['link']">{{child['label']}}</nav-menu-link>
+            </div>
+          </nav-menu-header>
+          <nav-menu-toggle *ngSwitchCase="'toggle'" [label]="nav['label']">
+            <nav-menu-link *ngFor="let link of nav['children']" [link]="link['link']">{{link['label']}}</nav-menu-link>
           </nav-menu-toggle>
-        </nav-menu-header>
-        <nav-menu-header label="Inactive Courses" *ngIf="inCourses$ | async as courses">
-          <nav-menu-toggle *ngFor="let course of courses | sortBy: ''"
-                           label="{{course['name']}}">
-            <nav-menu-link link="{{mode}}/{{course['name']}}">
-              Home
-            </nav-menu-link>
-            <nav-menu-link *ngFor="let link of course['assigns'] | sort"
-                           link="{{mode}}/{{course['name']}}/{{link}}">
-              {{link}}
-            </nav-menu-link>
-          </nav-menu-toggle>
-        </nav-menu-header>
-        <nav-menu-header label="Pages" *ngIf="!courses$">
-          <nav-menu-link link="/" *ngIf="isSideBySide">Home</nav-menu-link>
-          <nav-menu-link link="/about">About</nav-menu-link>
-          <nav-menu-link link="/help">Help</nav-menu-link>
-        </nav-menu-header>
+          <ng-container *ngSwitchCase="'link'">
+            <nav-menu-link *ngFor="let link of nav['children']"
+                           [link]="link['link']">{{link['label']}}</nav-menu-link>
+          </ng-container>
+        </div>
         <div *ngFor="let link of navLinks">
           <nav-menu-link [link]="link.route" *ngIf="!isSideBySide && link.show">{{link.label}}</nav-menu-link>
         </div>
