@@ -1,0 +1,78 @@
+<div fxLayout="column" class="step-child mat-elevation-z2" [formGroup]="comp">
+  <md-toolbar>
+    <span>Default Component</span>
+    <button md-icon-button fxFlexOffset="10px" type="button" mdTooltip="Edit Component"><md-icon>edit</md-icon></button>
+    <button md-icon-button fxFlexOffset="10px" type="button" mdTooltip="Advanced"><md-icon>settings</md-icon></button>
+    <span fxFlex></span>
+    <button md-icon-button fxFlexOffset="10px" type="button" mdTooltip="Delete Component"
+            (click)="removeComp()"><md-icon>delete</md-icon></button>
+    <button md-icon-button fxFlexOffset="10px" type="button" (click)="show = !show">
+      <span class="md-toggle-icon"
+            fxLayoutAlign="center center"
+            [ngClass]="{'toggled' : show}">
+        <md-icon>keyboard_arrow_down</md-icon>
+      </span>
+    </button>
+  </md-toolbar>
+  <div class="md-padding comp-content" fxLayout="row" [@hideAnimation]="show ? 'show' : 'hide'">
+    <div class="options-section left-section" fxLayout="column">
+      <md-input-container>
+        <input mdInput placeholder="Score">
+      </md-input-container>
+      <md-input-container>
+        <!--formControlName="due_date"-->
+        <input mdInput disabled="true"
+               [mdDatepicker]="dueDate" placeholder="Due Date" >
+        <button mdSuffix [mdDatepickerToggle]="dueDate" type="button"></button>
+      </md-input-container>
+      <md-datepicker #dueDate></md-datepicker>
+      <span><button md-button>UPLOAD RUBRIC</button></span>
+    </div>
+    <div class="options-section middle-section" fxFlex fxLayout="column">
+      <div>
+        <h2 class="mat-h2">Files</h2>
+        <div fxLayout="row" fxLayoutGap="15px" fxLayoutAlign="start center">
+          <md-input-container>
+            <input mdInput placeholder="File Name" formControlName="new_file">
+          </md-input-container>
+          <button md-button (click)="addFile(comp)" type="button">Add File</button>
+        </div>
+      </div>
+      <div>
+        <md-chip-list mdSuffix formArrayName="files">
+          <md-chip *ngFor="let file of comp.get('files')['controls']; index as i"
+                   fxLayoutAlign="center center"
+                   fxLayoutGap="5px"
+                   removable="true"
+                   (remove)="removeFile(comp, i)"
+                   selected="true">
+            <span>{{file.value}}</span>
+            <md-icon mdChipRemove>cancel</md-icon>
+          </md-chip>
+        </md-chip-list>
+      </div>
+    </div>
+    <div fxFlex fxLayout="column" class="right-section">
+      <h2 class="mat-h2">Graders</h2>
+      <div div fxLayout="row" fxLayoutGap="15px" fxLayoutAlign="start center">
+        <md-input-container>
+          <input mdInput placeholder="Grader" formControlName="new_grader">
+        </md-input-container>
+        <button md-button (click)="addGrader(comp)" type="button">Add Grader</button>
+      </div>
+      <div>
+        <md-chip-list formArrayName="graders">
+          <md-chip *ngFor="let grader of comp.get('graders')['controls']; index as i"
+                   fxLayoutAlign="center center"
+                   fxLayoutGap="5px"
+                   removable="true"
+                   (remove)="removeGrader(comp, i)"
+                   selected="true">
+            {{grader.value}}
+            <md-icon mdChipRemove>cancel</md-icon>
+          </md-chip>
+        </md-chip-list>
+      </div>
+    </div>
+  </div>
+</div>

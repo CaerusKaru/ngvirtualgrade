@@ -1,0 +1,29 @@
+.options-section {
+  border-right: 1px solid rgba(0, 0, 0, 0.12);
+}
+
+.left-section {
+  padding-right: 16px;
+  width: 150px;
+}
+
+.middle-section {
+  padding: 0 16px;
+}
+
+.right-section {
+  padding-left: 16px;
+}
+
+.md-toggle-icon {
+  display: block;
+  margin-left: auto;
+  speak: none;
+  vertical-align: middle;
+  transform: rotate(180deg);
+  transition: transform 0.3s ease-in-out;
+}
+
+.md-toggle-icon.toggled {
+  transform: rotate(0deg);
+}

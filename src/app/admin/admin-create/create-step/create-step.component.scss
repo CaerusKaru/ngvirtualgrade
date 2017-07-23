@@ -1,0 +1,16 @@
+.md-toggle-icon {
+  display: block;
+  margin-left: auto;
+  speak: none;
+  vertical-align: middle;
+  transform: rotate(180deg);
+  transition: transform 0.3s ease-in-out;
+}
+
+.md-toggle-icon.toggled {
+  transform: rotate(0deg);
+}
+
+.step-main {
+  padding-bottom: 16px;
+}

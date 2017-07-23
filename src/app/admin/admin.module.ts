@@ -13,6 +13,8 @@ import {ColorNameModule} from '../color-name';
 import { AdminGradersComponent } from './admin-graders/admin-graders.component';
 import { AdminGradebookComponent } from './admin-gradebook/admin-gradebook.component';
 import { AdminCalendarComponent } from './admin-calendar/admin-calendar.component';
+import { CreateStepComponent } from './admin-create/create-step/create-step.component';
+import { CreateComponentComponent } from './admin-create/create-component/create-component.component';
 
 @NgModule({
   imports: [
@@ -25,6 +27,6 @@ import { AdminCalendarComponent } from './admin-calendar/admin-calendar.componen
     ColorNameModule
   ],
   declarations: [AdminHomeComponent, AdminItemComponent, AdminCreateComponent, AdminCourseComponent,
-    AdminGradersComponent, AdminGradebookComponent, AdminCalendarComponent]
+    AdminGradersComponent, AdminGradebookComponent, AdminCalendarComponent, CreateStepComponent, CreateComponentComponent]
 })
 export class AdminModule { }

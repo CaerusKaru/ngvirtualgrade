@@ -6,24 +6,24 @@ import {ActivatedRoute} from '@angular/router';
 import {Subject} from 'rxjs/Subject';
 import {Grader} from '../../shared/classes/grader';
 import {Assignment} from '../../shared/classes/assignment';
-import {FormArray, FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {FormArray, FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
+import {slideAnimation} from '../../shared/animations/slide.animation';
 
 @Component({
   selector: 'vg-archon-create',
   templateUrl: './admin-create.component.html',
-  styleUrls: ['./admin-create.component.scss']
+  styleUrls: ['./admin-create.component.scss'],
+  animations: [slideAnimation]
 })
 export class AdminCreateComponent implements OnInit, OnDestroy {
 
   newStep = 'New Step';
   newComp = 'New Component';
   course: string;
-  tabIndex = 0;
 
   createForm: FormGroup;
 
   private _destroy = new Subject<void>();
-  private _currentIndex = 0;
 
   constructor(
     private _route: ActivatedRoute,
@@ -47,35 +47,8 @@ export class AdminCreateComponent implements OnInit, OnDestroy {
     return this.createForm.get('steps') as FormArray;
   };
 
-  get comps(): FormArray {
-    if (this.currentStep === null) {
-      return null;
-    }
-    return this.currentStep.get('components') as FormArray;
-  }
-
-  get exceptions(): FormArray {
-    if (this.currentStep === null) {
-      return null;
-    }
-    return this.currentStep.get('exceptions') as FormArray;
-  }
-
-  get currentStep(): FormGroup {
-    return this.steps.at(this._currentIndex) as FormGroup;
-  }
-
-  get files(): FormArray {
-    if (this.currentStep === null) {
-      return null;
-    }
-    return this.currentStep.get('files') as FormArray;
-  }
-
   addStep() {
     this.steps.push(this._setSteps());
-    this.tabIndex = 0;
-    this._currentIndex = this.steps.length - 1;
   }
 
   addException(step) {
@@ -86,41 +59,12 @@ export class AdminCreateComponent implements OnInit, OnDestroy {
     step.get('components').push(this._setComps());
   }
 
-  addFile(group) {
-    group.get('files').push(this._fb.control(group.get('new_file').value));
-  }
-
-  addGrader(group) {
-    group.get('graders').push(this._fb.control(group.get('new_grader').value));
-  }
-
-  removeComp(step, index) {
-    step.get('components').removeAt(index);
-  }
-
   removeStep(index) {
     this.steps.removeAt(index);
-    if (this._currentIndex >= this.steps.length) {
-      this._currentIndex = this.steps.length - 1;
-    }
-    this.tabIndex = 0;
-  }
-
-  removeFile(step, index) {
-    step.get('files').removeAt(index);
-  }
-
-  removeGrader(step, index) {
-    step.get('graders').removeAt(index);
   }
 
   onSubmit() {
     console.log(this.createForm.value);
-  }
-
-  select(index) {
-    this.tabIndex = 0;
-    this._currentIndex = index;
   }
 
   private _createForm() {
@@ -134,8 +78,8 @@ export class AdminCreateComponent implements OnInit, OnDestroy {
   private _setSteps() {
     return this._fb.group({
       name: [this.newStep, [Validators.required]],
-      start_date: new Date(),
-      end_date: new Date(),
+      start_date: new FormControl({value: new Date(), disabled: false}, Validators.required),
+      end_date: new FormControl({value: new Date(), disabled: false}, Validators.required),
       submission_type: '',
       new_file: '',
       files: this._fb.array([]),
