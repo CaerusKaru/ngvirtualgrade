@@ -47,6 +47,15 @@ export class AdminCreateComponent implements OnInit, OnDestroy {
     return this.createForm.get('steps') as FormArray;
   };
 
+  get score(): number {
+    return this.steps.controls.reduce((a: number, d) => {
+      const comps = d.get('components') as FormArray;
+      return a + comps.controls.reduce((b: number, e) => {
+        return b + (e.get('is_extra_credit').value ? 0 : e.get('max_score').value);
+      }, 0);
+    }, 0)
+  }
+
   addStep() {
     this.steps.push(this._setSteps());
   }
@@ -79,11 +88,17 @@ export class AdminCreateComponent implements OnInit, OnDestroy {
     return this._fb.group({
       name: [this.newStep, [Validators.required]],
       start_date: new FormControl({value: new Date(), disabled: false}, Validators.required),
-      end_date: new FormControl({value: new Date(), disabled: false}, Validators.required),
+      end_date: new FormControl(
+        {
+          value: new Date(new Date().getTime() + (5 * 24 * 60 * 60 * 1000)),
+          disabled: false
+        },
+        Validators.required
+      ),
       submission_type: '',
       new_file: '',
       files: this._fb.array([]),
-      allow_other_files: false,
+      allow_other_files: new FormControl(false),
       components: this._fb.array([this._setComps()]),
       exceptions: this._fb.array([])
     })
@@ -93,11 +108,12 @@ export class AdminCreateComponent implements OnInit, OnDestroy {
     return this._fb.group({
       name: [this.newComp, [Validators.required]],
       max_score: [0, [Validators.min(0)]],
-      is_extra_credit: false,
+      is_extra_credit: new FormControl(false),
       new_file: '',
       new_grader: '',
       files: this._fb.array([]),
-      graders: this._fb.array([])
+      graders: this._fb.array([]),
+      due_date: new Date()
     });
   }
 

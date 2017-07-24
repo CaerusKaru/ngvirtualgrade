@@ -8,7 +8,7 @@
               (click)="addStep()" mdTooltip="Add Step"><md-icon>add</md-icon></button>
       <button md-icon-button fxFlexOffset="10px" mdTooltip="Save"><md-icon>save</md-icon></button>
       <span fxFlex></span>
-      <span>Total Points: 0</span>
+      <span>Total Points: {{score}}</span>
     </md-toolbar>
     <span fxFlex="16px"></span>
     <div fxLayout="column" fxLayoutGap="16px" *ngFor="let step of steps.controls; index as i">

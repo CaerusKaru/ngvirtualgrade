@@ -14,6 +14,7 @@ export class CreateComponentComponent implements OnInit {
   @Output() remove = new EventEmitter();
 
   show = true;
+  minDate = new Date();
 
   constructor(private _fb: FormBuilder) { }
 

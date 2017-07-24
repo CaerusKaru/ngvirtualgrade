@@ -3,10 +3,12 @@
     <md-toolbar>
       <span>Default Submission Step</span>
       <button md-icon-button fxFlexOffset="10px" type="button" mdTooltip="Edit Step"><md-icon>edit</md-icon></button>
-      <button md-icon-button fxFlexOffset="10px" type="button" mdTooltip="Advanced"><md-icon>settings</md-icon></button>
       <button md-icon-button fxFlexOffset="10px" type="button" mdTooltip="Add Component"
               (click)="addComp()"><md-icon>add</md-icon></button>
       <span fxFlex></span>
+      <span class="mat-body-1">Total Points: {{score}}</span>
+      <span fxFlex></span>
+      <button md-icon-button fxFlexOffset="10px" type="button" mdTooltip="Advanced"><md-icon>settings</md-icon></button>
       <button md-icon-button fxFlexOffset="10px" type="button" mdTooltip="Delete Step"
               (click)="removeStep()"><md-icon>delete</md-icon></button>
       <button md-icon-button fxFlexOffset="10px" type="button" (click)="show = !show">
@@ -18,27 +20,46 @@
       </button>
     </md-toolbar>
     <div class="md-padding step-content" fxLayout="column" [@hideAnimation]="show ? 'show' : 'hide'">
-      <h4 class="mat-header">Upload Options</h4>
-      <div fxLayout="row" fxLayout.lt-sm="column" fxLayoutAlign="start center" fxLayoutGap="32px">
-        <div fxLayout="column" fxLayoutAlign="center start" fxLayoutGap="10px">
+      <div fxLayout="row" fxLayout.lt-sm="column" fxLayoutGap="32px">
+        <div fxLayout="column" fxLayoutAlign="start start" fxLayoutGap="32px" class="upload-options">
+          <h4 class="mat-header">Upload Options</h4>
           <md-radio-group fxLayout="row" fxLayoutGap="20px" formControlName="submission_type">
             <md-radio-button value="student">Student</md-radio-button>
             <md-radio-button value="instructor">Instructor</md-radio-button>
           </md-radio-group>
-          <md-checkbox align="start" formControlName="allow_other_files"><span class="mat-body-1">Allow any files</span></md-checkbox>
+          <md-checkbox align="start" formControlName="allow_other_files"
+                       mdTooltip="If not, only files specified below will be allowed">
+            <span class="mat-body-1">Allow any files</span>
+          </md-checkbox>
         </div>
-        <md-input-container>
-          <input mdInput formControlName="start_date"
-                 [mdDatepicker]="startDate" placeholder="Start Date" >
-          <button mdSuffix [mdDatepickerToggle]="startDate" type="button"></button>
-        </md-input-container>
-        <md-datepicker #startDate></md-datepicker>
-        <md-input-container>
-          <input mdInput formControlName="end_date"
-                 [mdDatepicker]="endDate" placeholder="Due Date" >
-          <button mdSuffix [mdDatepickerToggle]="endDate" type="button"></button>
-        </md-input-container>
-        <md-datepicker #endDate></md-datepicker>
+        <div fxLayout="column" fxLayoutGap="10px">
+          <div fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="16px">
+            <md-input-container>
+              <input mdInput formControlName="start_date" [min]="minDate" [max]="step.controls['end_date'].value"
+                     [mdDatepicker]="startDate" placeholder="Start Date" >
+              <button mdSuffix [mdDatepickerToggle]="startDate" type="button"></button>
+            </md-input-container>
+
+            <md-input-container>
+              <input mdInput type="time" placeholder="Start Time" [formControl]="startTime"
+                     class="input-time">
+            </md-input-container>
+            <md-datepicker #startDate></md-datepicker>
+          </div>
+          <div fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="16px">
+            <md-input-container>
+              <input mdInput formControlName="end_date" [min]="minDate"
+                     [mdDatepicker]="endDate" placeholder="Due Date" >
+              <button mdSuffix [mdDatepickerToggle]="endDate" type="button"></button>
+            </md-input-container>
+
+            <md-input-container>
+              <input mdInput type="time" placeholder="End Time" [formControl]="endTime"
+                     class="input-time">
+            </md-input-container>
+            <md-datepicker #endDate></md-datepicker>
+          </div>
+        </div>
       </div>
     </div>
   </div>
