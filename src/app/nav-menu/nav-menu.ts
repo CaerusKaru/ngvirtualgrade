@@ -1,13 +1,13 @@
 import {
   Component, Input, ViewEncapsulation, QueryList,
-  OnDestroy, ContentChildren, AfterViewInit, ElementRef, Renderer2, ViewChild, OnInit
+  OnDestroy, ContentChildren, AfterViewInit, ElementRef, Renderer2, ChangeDetectionStrategy,
+  ChangeDetectorRef
 } from '@angular/core';
 import {NavMenuService} from './shared/nav-menu.service';
-import {animate, style, AnimationBuilder, AnimationPlayer} from '@angular/animations';
-import {Router} from '@angular/router';
+import {
+  animate, style, transition, state, trigger
+} from '@angular/animations';
 import {Observable} from 'rxjs/Observable';
-import {Subject} from 'rxjs/Subject';
-import {takeUntil} from 'rxjs/operator/takeUntil';
 
 let uniqueId = 0;
 
@@ -18,35 +18,20 @@ let uniqueId = 0;
   },
   selector: 'nav-menu-link',
   templateUrl: './nav-menu-link.html',
-  encapsulation: ViewEncapsulation.None
+  encapsulation: ViewEncapsulation.None,
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class NavMenuLinkComponent implements OnInit, OnDestroy {
+export class NavMenuLinkComponent implements AfterViewInit {
 
   @Input() link: string;
   @Input() id: number = uniqueId++;
 
-  public isSelected: Observable<boolean> = this.menuService.openPage.map(i => i === this.id);
-  private _isSelected: boolean;
+  public isSelected$: Observable<boolean>;
 
-  private _destroy = new Subject<void>();
+  constructor(private menuService: NavMenuService) { }
 
-  constructor(
-    private router: Router,
-    private menuService: NavMenuService
-  ) {
-  }
-
-  ngOnInit() {
-    takeUntil.call(this.menuService.openPage, this._destroy).subscribe(data => this._isSelected = data === this.id);
-  }
-
-  ngOnDestroy() {
-    this._destroy.next();
-    this._destroy.complete();
-  }
-
-  public navigate(url) {
-    this.router.navigate([url]);
+  ngAfterViewInit() {
+    this.isSelected$ = this.menuService.openPage.map(i => i === this.id);
   }
 }
 
@@ -56,73 +41,34 @@ export class NavMenuLinkComponent implements OnInit, OnDestroy {
   },
   selector: 'nav-menu-toggle',
   templateUrl: './nav-menu-toggle.html',
-  encapsulation: ViewEncapsulation.None
+  animations: [
+    trigger('toggleExpansion', [
+      state('collapsed', style({height: '0', visibility: 'hidden'})),
+      state('expanded', style({height: '*', visibility: 'visible'})),
+      transition('expanded <=> collapsed', animate('750ms cubic-bezier(0.35, 0, 0.25, 1)'))
+    ])
+  ],
+  encapsulation: ViewEncapsulation.None,
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class NavMenuToggleComponent implements OnInit, AfterViewInit, OnDestroy {
+export class NavMenuToggleComponent implements AfterViewInit, OnDestroy {
 
-  @Input () public label: string;
+  @Input () label: string;
   @Input () private id: number = uniqueId++;
   @ContentChildren(NavMenuLinkComponent) private links: QueryList<NavMenuLinkComponent>;
-  @ViewChild('ul') public ul: ElementRef;
-  public open = false;
-  public player: AnimationPlayer;
 
-  private _finalLinks: NavMenuLinkComponent[];
-  private _openSection: boolean;
+  isOpen: Observable<boolean>;
 
-  private _destroy = new Subject<void>();
-
-  constructor(
-    private builder: AnimationBuilder,
-    private menuService: NavMenuService
-  ) { }
-
-  ngOnInit () {
-    takeUntil.call(this.menuService.openSection, this._destroy).subscribe(data => {
-      this._openSection = data === this.id;
-      if (data === this.id && !this.open) {
-        if (this.player) {
-          this.player.finish();
-        }
-        const targetHeight = this.ul.nativeElement.scrollHeight + 'px';
-        const animation = this.builder.build([
-          style({height: '*'}),
-          animate('750ms cubic-bezier(0.35, 0, 0.25, 1)', style({ height: targetHeight, visibility: 'visible' }))
-        ]);
-
-        this.player = animation.create(this.ul.nativeElement);
-        this.player.play();
-        this.open = true;
-      } else if (data !== this.id && this.open) {
-        if (this.player) {
-          this.player.finish();
-        }
-        const animation = this.builder.build([
-          style({height: '*'}),
-          animate('750ms cubic-bezier(0.35, 0, 0.25, 1)', style({ height: 0, visibility: 'hidden' }))
-        ]);
-
-        this.player = animation.create(this.ul.nativeElement);
-        this.player.play();
-        this.open = false;
-      }
-    });
-  }
+  constructor(private menuService: NavMenuService, private _changeDetectorRef: ChangeDetectorRef) { }
 
   ngAfterViewInit () {
-    this._finalLinks = this.links.toArray();
-    // TODO change this to how Material handles md-chips
-    setTimeout(_ => this.initLinks(), 500);
+    this.isOpen = this.menuService.openSection.map(d => d === this.id);
+    this.initLinks();
+    this._changeDetectorRef.detectChanges();
   }
 
   ngOnDestroy () {
-    this._finalLinks.map(c => this.menuService.removeLink(c.id, c.link, this.id));
-    this._destroy.next();
-    this._destroy.complete();
-  }
-
-  public isOpen () {
-    return this._openSection;
+    this.links.toArray().map(c => this.menuService.removeLink(c.id, c.link, this.id));
   }
 
   public toggle ()  {
@@ -130,14 +76,15 @@ export class NavMenuToggleComponent implements OnInit, AfterViewInit, OnDestroy 
   }
 
   private initLinks () {
-    this._finalLinks.map(c => this.menuService.addLink(c.id, c.link, this.id));
+    this.links.toArray().map(c => this.menuService.addLink(c.id, c.link, this.id));
   }
 }
 
 @Component({
   selector: 'nav-menu-header',
   templateUrl: './nav-menu-header.html',
-  encapsulation: ViewEncapsulation.None
+  encapsulation: ViewEncapsulation.None,
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class NavMenuHeaderComponent {
   @Input() label: string;
@@ -153,7 +100,8 @@ export class NavMenuHeaderComponent {
   selector: 'nav-menu-container',
   templateUrl: './nav-menu-container.html',
   styleUrls: ['./nav-menu.scss'],
-  encapsulation: ViewEncapsulation.None
+  encapsulation: ViewEncapsulation.None,
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class NavMenuContainerComponent {
   private _color: string;

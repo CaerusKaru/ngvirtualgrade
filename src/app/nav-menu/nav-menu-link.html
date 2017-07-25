@@ -5,7 +5,7 @@
           [routerLinkActiveOptions]="{exact: true}">
     <ng-content></ng-content>
     <span class="md-visually-hidden"
-          *ngIf="isSelected | async">
+          *ngIf="isSelected$ | async as isSelected">
       current page
     </span>
   </button>

@@ -138,7 +138,9 @@ body[dir=rtl] .menu-heading {
   overflow: hidden;
   position: relative;
   z-index: 1;
-  height: 0;
+  &.menu-toggle-open {
+    height: auto !important;
+  }
 }
 
 .course-menu .menu-toggle-list button.mat-button {

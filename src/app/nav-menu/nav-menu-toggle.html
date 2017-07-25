@@ -10,17 +10,18 @@
       <span fxFlex></span>
       <span class="md-toggle-icon"
             fxLayoutAlign="center center"
-            [ngClass]="{'toggled' : isOpen()}">
+            [ngClass]="{'toggled' : isOpen | async}">
         <md-icon>keyboard_arrow_up</md-icon>
       </span>
     </div>
     <span class="md-visually-hidden">
-      Toggle {{isOpen() ? 'expanded' : 'collapsed'}}
+      Toggle {{(isOpen | async) ? 'expanded' : 'collapsed'}}
     </span>
   </button>
 
   <ul id="course-menu-{{label | nospace}}"
-      class="menu-toggle-list" #ul>
+      class="menu-toggle-list" [ngClass]="{'menu-toggle-open': isOpen | async}"
+      [@toggleExpansion]="(isOpen | async) ? 'expanded' : 'collapsed'">
     <ng-content select="nav-menu-link"></ng-content>
   </ul>
 </li>
