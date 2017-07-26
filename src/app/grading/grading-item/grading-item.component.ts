@@ -7,10 +7,10 @@ import {NgForm} from '@angular/forms';
 import {takeUntil} from 'rxjs/operator/takeUntil';
 import {Subject} from 'rxjs/Subject';
 import {Observable} from 'rxjs/Observable';
-import {DataSource} from '@angular/cdk';
 import {BehaviorSubject} from 'rxjs/BehaviorSubject';
 import {ActivatedRoute} from '@angular/router';
 import 'rxjs/add/operator/map';
+import {DataSource} from '@angular/cdk/table';
 
 @Component({
   selector: 'vg-grading-item',

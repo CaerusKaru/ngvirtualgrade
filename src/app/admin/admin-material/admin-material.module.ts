@@ -5,7 +5,7 @@ import {
   MdProgressBarModule, MdExpansionModule, MdRadioModule, MdTableModule, MdPaginatorModule, MdSortModule, MdIconModule,
   MdTabsModule, MdRippleModule, MdSlideToggleModule, MdToolbarModule, MdListModule, MdTooltipModule
 } from '@angular/material';
-import {CdkTableModule} from '@angular/cdk';
+import {CdkTableModule} from '@angular/cdk/table';
 
 @NgModule({
   imports: [

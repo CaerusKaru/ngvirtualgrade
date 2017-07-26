@@ -1,6 +1,6 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { MenuContainerComponent } from './nav-menu';
+import { MenuContainerComponent } from './nav-drawer';
 
 describe('MenuContainerComponent', () => {
   let component: MenuContainerComponent;

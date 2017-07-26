@@ -1,31 +1,30 @@
-// Import all the tools needed to customize the theme and extract parts of it
 @import '~@angular/material/theming';
 
-@mixin _nav-menu-color($palette) {
+@mixin _nav-drawer-color($palette) {
   background: mat-color($palette);
   color: mat-color($palette, default-contrast);
 }
 
-@mixin nav-menu-theme($theme) {
+@mixin nav-drawer-theme($theme) {
   $primary: map-get($theme, primary);
   $accent: map-get($theme, accent);
   $warn: map-get($theme, warn);
   $background: map-get($theme, background);
   $foreground: map-get($theme, foreground);
 
-  .nav-menu {
+  .mat-nav-drawer {
     color: mat-color($foreground, text);
 
     &.mat-primary {
-      @include _nav-menu-color($primary);
+      @include _nav-drawer-color($primary);
     }
 
     &.mat-accent {
-      @include _nav-menu-color($accent);
+      @include _nav-drawer-color($accent);
     }
 
     &.mat-warn {
-      @include _nav-menu-color($warn);
+      @include _nav-drawer-color($warn);
     }
   }
   .mat-button {
@@ -36,5 +35,13 @@
     &:focus {
       background: rgba(mat-color($foreground, text), 0.4);
     }
+  }
+
+  .mat-nav-drawer-header {
+    border-bottom: 1px solid mat-color($foreground, divider);
+  }
+
+  .mat-nav-drawer-toggle {
+     border-bottom: 1px solid mat-color($foreground, divider);
   }
 }

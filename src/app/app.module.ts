@@ -14,7 +14,7 @@ import {CanLoadAdmin, CanLoadCourses, CanLoadGrading, CanLoadManage} from './sha
 import {HomeComponent, SigninDialogComponent} from './home/home.component';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {AppMaterialModule} from './app-material/app-material.module';
-import {NavMenuModule} from './nav-menu/index';
+import {NavDrawerModule} from './nav-drawer/index';
 import {SortByPipe} from './shared/pipes/sort-by.pipe';
 import {SortPipe} from './shared/pipes/sort.pipe';
 import {SwUpdatesModule} from './sw-updates/sw-updates.module';
@@ -39,7 +39,7 @@ import {ManageResolver} from './shared/resolvers/manage-resolver';
     FormsModule,
     HttpClientModule,
     FlexLayoutModule,
-    NavMenuModule,
+    NavDrawerModule,
     AppMaterialModule,
     AppRoutingModule,
     SwUpdatesModule

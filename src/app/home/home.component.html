@@ -45,28 +45,26 @@
                 class="dark-theme mat-elevation-z16"
                 [mode]="isSideBySide ? 'side' : 'over'"
                 [opened]="isSideBySide || isOpen">
-      <nav-menu-container fxFlex class="mat-app-background" *ngIf="navs$ | async as navs">
+      <md-nav-drawer fxFlex class="mat-app-background drawer-size" *ngIf="navs$ | async as navs">
         <div *ngFor="let nav of navs" [ngSwitch]="nav['type']">
-          <nav-menu-header *ngSwitchCase="'header'" [label]="nav['label']">
-            <div *ngFor="let child of nav['children']" [ngSwitch]="child['type']">
-              <nav-menu-toggle *ngSwitchCase="'toggle'" [label]="child['label']">
-                <nav-menu-link *ngFor="let link of child['children']" [link]="link['link']">{{link['label']}}</nav-menu-link>
-              </nav-menu-toggle>
-              <nav-menu-link *ngSwitchCase="'link'" [link]="child['link']">{{child['label']}}</nav-menu-link>
-            </div>
-          </nav-menu-header>
-          <nav-menu-toggle *ngSwitchCase="'toggle'" [label]="nav['label']">
-            <nav-menu-link *ngFor="let link of nav['children']" [link]="link['link']">{{link['label']}}</nav-menu-link>
-          </nav-menu-toggle>
+          <h2 mdNavDrawerHeader *ngSwitchCase="'header'">{{nav['label']}}</h2>
+          <div *ngFor="let child of nav['children']" [ngSwitch]="child['type']">
+            <ul mdNavDrawerToggle *ngSwitchCase="'toggle'" [label]="child['label']">
+              <li mdNavDrawerLink *ngFor="let link of child['children']" [link]="link['link']">{{link['label']}}</li>
+            </ul>
+            <a mdNavDrawerLink *ngSwitchCase="'link'" [link]="child['link']">{{child['label']}}</a>
+          </div>
+          <ul mdNavDrawerToggle *ngSwitchCase="'toggle'" [label]="nav['label']">
+            <li mdNavDrawerLink *ngFor="let link of nav['children']" [link]="link['link']">{{link['label']}}</li>
+          </ul>
           <ng-container *ngSwitchCase="'link'">
-            <nav-menu-link *ngFor="let link of nav['children']"
-                           [link]="link['link']">{{link['label']}}</nav-menu-link>
+            <a mdNavDrawerLink *ngFor="let link of nav['children']" [link]="link['link']">{{link['label']}}</a>
           </ng-container>
         </div>
         <div *ngFor="let link of navLinks">
-          <nav-menu-link [link]="link.route" *ngIf="!isSideBySide && link.show">{{link.label}}</nav-menu-link>
+          <a mdNavDrawerLink [link]="link.route" *ngIf="!isSideBySide && link.show">{{link.label}}</a>
         </div>
-      </nav-menu-container>
+      </md-nav-drawer>
     </md-sidenav>
     <div [@routeAnimation]="prepRouteState(routerOutlet)" style="height: 100%;">
       <div class="router-container" style="height: 100%">

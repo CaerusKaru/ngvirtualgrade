@@ -3,7 +3,7 @@ import {Subject} from 'rxjs/Subject';
 import {NgServiceWorker} from '@angular/service-worker';
 import {concat} from 'rxjs/operator/concat';
 import {Observable} from 'rxjs/Observable';
-import {debounceTime, RxChain, startWith, takeUntil} from '@angular/cdk';
+import {debounceTime, RxChain, startWith, takeUntil} from '@angular/cdk/rxjs';
 
 /**
  * credit to Angular Core team and their work on angular.io

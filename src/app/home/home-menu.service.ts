@@ -14,11 +14,11 @@ export class HomeMenuService {
   }
 
   /**
-   * very opinionated constructor from course data to nav-menu data
+   * very opinionated constructor from course data to nav-drawer data
    * @param courses - a list of courses in course data format
    * @param mode - the current nav mode or top-level nav name
    * @param active - whether the course heading should be active or inactive
-   * @return the list of courses in nav-menu data format
+   * @return the list of courses in nav-drawer data format
    */
   public constructCourses(courses, mode, active) {
 
@@ -81,8 +81,8 @@ export class HomeMenuService {
   }
 
   /**
-   * set the nav menu courses with nav-menu data formatted array
-   * @param courses - a list of courses in nav-menu data format
+   * set the nav menu courses with nav-drawer data formatted array
+   * @param courses - a list of courses in nav-drawer data format
    */
   public setCourses(courses: any[]) {
     this._navs.next(courses);

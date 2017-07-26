@@ -1,0 +1,16 @@
+<button md-button (click)="toggle()">
+  <div class="wrapper-toggle-label">
+    <span>{{label}}</span>
+    <span class="wrapper-toggle-spacing"></span>
+    <span class="md-toggle-icon" [ngClass]="{'toggled' : isOpen | async}">
+      <md-icon>keyboard_arrow_up</md-icon>
+    </span>
+  </div>
+  <span class="md-visually-hidden">Toggle {{(isOpen | async) ? 'expanded' : 'collapsed'}}</span>
+</button>
+
+<ul id="nav-drawer-{{label | nospace}}" class="mat-nav-drawer-toggle-list"
+    [ngClass]="{'nav-drawer-toggle-open': isOpen | async}"
+    [@toggleExpansion]="(isOpen | async) ? 'expanded' : 'collapsed'">
+  <ng-content select="[mdNavDrawerLink]"></ng-content>
+</ul>

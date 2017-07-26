@@ -1,6 +1,4 @@
-:host {
-  font-family: Roboto, "Helvetica Neue", sans-serif;
-}
+@import '~@angular/material/theming';
 
 .md-visually-hidden {
   border: 0;
@@ -14,40 +12,13 @@
   width: 1px;
 }
 
-$font-size:   10px !default;
-
-@function rem($multiplier) {
-  @return $multiplier * $font-size;
-}
-
-$subhead-font-size-base:   rem(1.600) !default;
-
-@mixin md-subhead() {
-  font-size: $subhead-font-size-base;
+.md-subhead {
+  font-size: 16px;
   font-weight: 400;
   letter-spacing: 0.010em;
-  line-height: rem(2.4);
-}
-
-.md-subhead {
-  @include md-subhead();
-}
-
-a.mat-tab-link {
   line-height: 24px;
-  height: 100%;
 }
 
-.drawer-size,
-.drawer-size.md-locked-open-add-active,
-.drawer-size.md-locked-open {
-  width:     153px;
-  min-width: 153px;
-  max-width: 153px;
-}
-.drawer-size > * {
-  min-width: 125px;
-}
 .mat-nav-drawer-header {
   display: block;
   line-height: 32px;
@@ -57,26 +28,28 @@ a.mat-tab-link {
   width: 100%;
   opacity: 0.54;
 }
+
 .mat-nav-drawer,
 .mat-nav-drawer ul {
   list-style: none;
   padding: 0;
   max-width: 100%;
   overflow-x: hidden;
+  margin: 0;
 }
+
 .mat-nav-drawer li {
   margin: 0;
 }
-.mat-nav-drawer > li:nth-child(1) {
+
+.mat-nav-drawer-toggle-list > li:nth-child(1) {
   border-top: none;
 }
+
 .md-whiteframe-glow-z1 {
-  box-shadow: 0px 0px 1px 1px rgba(0, 0, 0, 0.14),
-  0px 0px 2px 2px rgba(0, 0, 0, 0.098),
-  0px 0px 5px 1px rgba(0, 0, 0, 0.084);
-}
-.mat-nav-drawer > li {
-  // border-bottom: 1px solid #267ED5;
+  box-shadow: 0 0 1px 1px rgba(0, 0, 0, 0.14),
+  0 0 2px 2px rgba(0, 0, 0, 0.098),
+  0 0 5px 1px rgba(0, 0, 0, 0.084);
 }
 
 .mat-nav-drawer {
@@ -89,7 +62,7 @@ a.mat-tab-link {
     margin: 0;
     max-height: 40px;
     overflow: hidden;
-    padding: 0px 16px;
+    padding: 0 16px;
     text-align: left;
     text-decoration: none;
     white-space: normal;
@@ -101,29 +74,6 @@ html[dir=rtl] .mat-nav-drawer .mat-button,
 body[dir=rtl] .mat-nav-drawer .mat-button {
   unicode-bidi: embed;
   text-align: right;
-}
-
-.mat-nav-drawer md-select {
-
-  /* Override md-select margins.  With margins the nav-drawer will look incorrect and causes mobile list
-     to not be scrollable.
-   */
-  margin: 0;
-  width: 100%;
-}
-
-.mat-nav-drawer md-select md-select-label {
-  justify-content: flex-end;
-  padding-top: 10px;
-}
-
-.mat-nav-drawer md-select md-select-label span {
-  margin-right: auto;
-  padding-left: 13px;
-}
-
-.mat-nav-drawer md-select .md-select-icon {
-  margin-right: 28px;
 }
 
 .mat-nav-drawer button.mat-button::-moz-focus-inner {
@@ -140,7 +90,9 @@ body[dir=rtl] .mat-nav-drawer-header {
   overflow: hidden;
   position: relative;
   z-index: 1;
-  height: 0;
+  &.nav-drawer-toggle-open {
+    height: auto !important;
+  }
 }
 
 .mat-nav-drawer .mat-nav-drawer-toggle-list button.mat-button {
@@ -152,22 +104,36 @@ body[dir=rtl] .mat-nav-drawer-header {
   white-space: nowrap;
 }
 
-.parent-list-item:last-child {
-  margin-bottom: 20px;
-
-  /* Prevent the hidden License link from causing a double bottom-border */
-  border-bottom: none;
-}
 .mat-nav-drawer-toggle .md-toggle-icon {
-  display: block;
   margin-left: auto;
   speak: none;
   vertical-align: middle;
   transform: rotate(180deg);
   transition: transform 0.3s ease-in-out;
+  place-content: center;
+  align-items: center;
+  display: flex;
+  flex-direction: row;
+  box-sizing: border-box;
+  -webkit-box-pack: center;
+  -webkit-box-align: center;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal
 }
 
 .mat-nav-drawer-toggle .md-toggle-icon.toggled {
   transform: rotate(0deg);
 }
 
+.wrapper-toggle-label {
+  display: flex;
+  box-sizing: border-box;
+  flex-direction: row;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+}
+
+.wrapper-toggle-spacing {
+  box-sizing: border-box;
+  flex: 1;
+}

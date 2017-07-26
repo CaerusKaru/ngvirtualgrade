@@ -1,12 +1,9 @@
 import {
-  Component, Input, ViewEncapsulation, QueryList,
-  OnDestroy, ContentChildren, AfterViewInit, ElementRef, Renderer2, ChangeDetectionStrategy,
-  ChangeDetectorRef
+  Component, Input, ViewEncapsulation, QueryList, OnDestroy, ContentChildren, AfterViewInit, ElementRef, Renderer2,
+  ChangeDetectionStrategy, ChangeDetectorRef, Directive
 } from '@angular/core';
 import {NavMenuService} from './shared/nav-menu.service';
-import {
-  animate, style, transition, state, trigger
-} from '@angular/animations';
+import {animate, style, transition, state, trigger} from '@angular/animations';
 import {Observable} from 'rxjs/Observable';
 
 let uniqueId = 0;
@@ -16,17 +13,17 @@ let uniqueId = 0;
     '[attr.id]': 'id',
     '[class.nav-link]': 'true'
   },
-  selector: 'nav-menu-link',
-  templateUrl: './nav-menu-link.html',
+  selector: 'li[mdNavDrawerLink], a[mdNavDrawerLink]',
+  templateUrl: './nav-drawer-link.html',
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class NavMenuLinkComponent implements AfterViewInit {
+export class NavDrawerLinkComponent implements AfterViewInit {
 
   @Input() link: string;
   @Input() id: number = uniqueId++;
 
-  public isSelected$: Observable<boolean>;
+  isSelected$: Observable<boolean>;
 
   constructor(private menuService: NavMenuService) { }
 
@@ -37,10 +34,10 @@ export class NavMenuLinkComponent implements AfterViewInit {
 
 @Component({
   host: {
-    '[attr.id]': 'id'
+    '[class.mat-nav-drawer-toggle]': 'true'
   },
-  selector: 'nav-menu-toggle',
-  templateUrl: './nav-menu-toggle.html',
+  selector: 'ul[mdNavDrawerToggle]',
+  templateUrl: './nav-drawer-toggle.html',
   animations: [
     trigger('toggleExpansion', [
       state('collapsed', style({height: '0', visibility: 'hidden'})),
@@ -51,64 +48,63 @@ export class NavMenuLinkComponent implements AfterViewInit {
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class NavMenuToggleComponent implements AfterViewInit, OnDestroy {
+export class NavDrawerToggleComponent implements AfterViewInit, OnDestroy {
 
-  @Input () label: string;
-  @Input () private id: number = uniqueId++;
-  @ContentChildren(NavMenuLinkComponent) private links: QueryList<NavMenuLinkComponent>;
+  @Input() label: string;
+  @ContentChildren(NavDrawerLinkComponent) private links: QueryList<NavDrawerLinkComponent>;
 
   isOpen: Observable<boolean>;
 
+  private _id: number = uniqueId++;
+
   constructor(private menuService: NavMenuService, private _changeDetectorRef: ChangeDetectorRef) { }
 
-  ngAfterViewInit () {
-    this.isOpen = this.menuService.openSection.map(d => d === this.id);
+  ngAfterViewInit() {
+    this.isOpen = this.menuService.openSection.map(d => d === this._id);
     this.initLinks();
     this._changeDetectorRef.detectChanges();
   }
 
-  ngOnDestroy () {
-    this.links.toArray().map(c => this.menuService.removeLink(c.id, c.link, this.id));
+  ngOnDestroy() {
+    this.links.toArray().map(c => this.menuService.removeLink(c.id, c.link, this._id));
   }
 
-  public toggle ()  {
-    this.menuService.toggleSelectSection(this.id);
+  toggle()  {
+    this.menuService.toggleSelectSection(this._id);
   }
 
-  private initLinks () {
-    this.links.toArray().map(c => this.menuService.addLink(c.id, c.link, this.id));
+  private initLinks() {
+    this.links.toArray().map(c => this.menuService.addLink(c.id, c.link, this._id));
   }
 }
 
-@Component({
-  selector: 'nav-menu-header',
-  templateUrl: './nav-menu-header.html',
-  encapsulation: ViewEncapsulation.None,
-  changeDetection: ChangeDetectionStrategy.OnPush
+@Directive({
+  selector: '[mdNavDrawerHeader]',
+  host: {
+    '[class.mat-nav-drawer-header]': 'true',
+    '[class.md-subhead]': 'true'
+  }
 })
-export class NavMenuHeaderComponent {
-  @Input() label: string;
-  constructor() { }
-}
+export class NavDrawerHeaderDirective { }
 
 @Component({
   host: {
-    '[class.nav-menu]': 'true',
-    '[class.site-sidenav]': 'true',
-    '[attr.hide-print]': 'true'
+    '[class.mat-nav-drawer]': 'true',
+    '[attr.hide-print]': 'true',
+    'role': '"navigation"'
   },
-  selector: 'nav-menu-container',
-  templateUrl: './nav-menu-container.html',
-  styleUrls: ['./nav-menu.scss'],
+  selector: 'md-nav-drawer',
+  template: '<ng-content></ng-content>',
+  styleUrls: ['./nav-drawer.scss'],
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class NavMenuContainerComponent {
+export class NavDrawerContainerComponent {
   private _color: string;
 
   constructor(private elementRef: ElementRef, private renderer: Renderer2) { }
 
-  /** The color of the nav-menu. Can be primary, accent, or warn. */
+  /** The color of the nav-drawer. Can be primary, accent, or warn. */
   @Input()
   get color(): string {
     return this._color;
