@@ -4,6 +4,7 @@ import { RouterModule, Routes } from '@angular/router';
 import {GradingHomeComponent} from './grading-home/grading-home.component';
 import {GradingItemComponent} from './grading-item/grading-item.component';
 import {GradingCourseComponent} from './grading-course/grading-course.component';
+import {GradingGuard} from './shared/grading.guard';
 
 export const gradingRoutes: Routes = [
   {
@@ -16,6 +17,7 @@ export const gradingRoutes: Routes = [
   {
     path: ':course',
     component: GradingCourseComponent,
+    canActivate: [GradingGuard],
     data: {
       depth: 2
     }
@@ -23,6 +25,7 @@ export const gradingRoutes: Routes = [
   {
     path: ':course/:id',
     component: GradingItemComponent,
+    canActivate: [GradingGuard],
     data: {
       depth: 3
     }

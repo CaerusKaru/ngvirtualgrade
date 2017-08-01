@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import {ActivatedRouteSnapshot, Resolve} from '@angular/router';
 import { Observable } from 'rxjs/Observable';
-import {UserService} from '../services/user.service';
+import {ManagePerms, UserService} from '../services/user.service';
 import {HomeMenuService} from '../../home/home-menu.service';
 
 @Injectable()
@@ -45,9 +45,38 @@ export class ManageResolver implements Resolve<boolean> {
           }, [])
         };
 
-        this._homeService.setCourses([deps]);
-        obs.next(true);
-        obs.complete();
+        this._userService.managePerms.subscribe(perms => {
+
+          const createOption = {
+            type: 'link',
+            label: 'Add Dept',
+            link: '/manage/create'
+          };
+
+          const userOption = {
+            type: 'link',
+            label: 'Users',
+            link: '/manage/users'
+          };
+
+          const options = {
+            type: 'header',
+            label: 'Actions',
+            children: []
+          };
+
+          if (perms.includes(ManagePerms.CREATE)) {
+            options.children.push(createOption);
+          }
+
+          if (perms.includes(ManagePerms.UPDATE)) {
+            options.children.push(userOption);
+          }
+
+          this._homeService.setCourses([deps, options]);
+          obs.next(true);
+          obs.complete();
+        });
       });
     });
   }

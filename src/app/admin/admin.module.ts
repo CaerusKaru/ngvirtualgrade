@@ -15,6 +15,7 @@ import { AdminGradebookComponent } from './admin-gradebook/admin-gradebook.compo
 import { AdminCalendarComponent } from './admin-calendar/admin-calendar.component';
 import { CreateStepComponent } from './admin-create/create-step/create-step.component';
 import { CreateComponentComponent } from './admin-create/create-component/create-component.component';
+import {AdminGuard} from './shared/admin.guard';
 
 @NgModule({
   imports: [
@@ -26,7 +27,19 @@ import { CreateComponentComponent } from './admin-create/create-component/create
     CardButtonModule,
     ColorNameModule
   ],
-  declarations: [AdminHomeComponent, AdminItemComponent, AdminCreateComponent, AdminCourseComponent,
-    AdminGradersComponent, AdminGradebookComponent, AdminCalendarComponent, CreateStepComponent, CreateComponentComponent]
+  declarations: [
+    AdminHomeComponent,
+    AdminItemComponent,
+    AdminCreateComponent,
+    AdminCourseComponent,
+    AdminGradersComponent,
+    AdminGradebookComponent,
+    AdminCalendarComponent,
+    CreateStepComponent,
+    CreateComponentComponent,
+  ],
+  providers: [
+    AdminGuard
+  ]
 })
 export class AdminModule { }

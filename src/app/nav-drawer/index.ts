@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {RouterModule} from '@angular/router';
-import {NavMenuService} from './shared/nav-menu.service';
+import {NavDrawerService} from './shared/nav-drawer.service';
 import {NospacePipe} from './shared/nospace.pipe';
 import {
   NavDrawerContainerComponent, NavDrawerHeaderDirective, NavDrawerLinkComponent,
@@ -23,7 +23,7 @@ import {MdButtonModule, MdIconModule} from '@angular/material';
     NavDrawerLinkComponent,
     NavDrawerContainerComponent
   ],
-  providers: [NavMenuService],
+  providers: [NavDrawerService],
   exports: [
     NavDrawerHeaderDirective,
     NavDrawerLinkComponent,

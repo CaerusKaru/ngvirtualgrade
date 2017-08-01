@@ -5,7 +5,7 @@ import {NavigationEnd, Router} from '@angular/router';
 import {Location} from '@angular/common';
 
 @Injectable()
-export class NavMenuService {
+export class NavDrawerService {
 
   openPage: Observable<number>;
   openSection: Observable<number>;

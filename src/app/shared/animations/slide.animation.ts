@@ -35,6 +35,5 @@ export const hideAnimation =
   trigger('hideAnimation', [
     state('show', style({ height: '*', visibility: 'visible', opacity: 1 })),
     state('hide', style({ height: '0', visibility: 'hidden', opacity: 0 })),
-    transition('show <=> hide', animate('500ms 100ms cubic-bezier(.35,0,.25,1)')
-    )
+    transition('show <=> hide', animate('500ms 100ms cubic-bezier(.35,0,.25,1)'))
   ]);

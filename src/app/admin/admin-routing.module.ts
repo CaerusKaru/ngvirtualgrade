@@ -8,6 +8,7 @@ import {AdminCourseComponent} from './admin-course/admin-course.component';
 import {AdminGradebookComponent} from './admin-gradebook/admin-gradebook.component';
 import {AdminCalendarComponent} from './admin-calendar/admin-calendar.component';
 import {AdminGradersComponent} from './admin-graders/admin-graders.component';
+import {AdminGuard} from './shared/admin.guard';
 
 const adminRoutes: Routes = [
   {
@@ -20,6 +21,7 @@ const adminRoutes: Routes = [
   {
     path: ':course',
     component: AdminCourseComponent,
+    canActivate: [AdminGuard],
     data: {
       depth: 2
     }
@@ -27,6 +29,7 @@ const adminRoutes: Routes = [
   {
     path: ':course/create',
     component: AdminCreateComponent,
+    canActivate: [AdminGuard],
     data: {
       depth: 3
     }
@@ -34,6 +37,7 @@ const adminRoutes: Routes = [
   {
     path: ':course/gradebook',
     component: AdminGradebookComponent,
+    canActivate: [AdminGuard],
     data: {
       depth: 3
     }
@@ -41,6 +45,7 @@ const adminRoutes: Routes = [
   {
     path: ':course/calendar',
     component: AdminCalendarComponent,
+    canActivate: [AdminGuard],
     data: {
       depth: 3
     }
@@ -48,6 +53,7 @@ const adminRoutes: Routes = [
   {
     path: ':course/graders',
     component: AdminGradersComponent,
+    canActivate: [AdminGuard],
     data: {
       depth: 3
     }
@@ -55,6 +61,7 @@ const adminRoutes: Routes = [
   {
     path: ':course/:id',
     component: AdminItemComponent,
+    canActivate: [AdminGuard],
     data: {
       depth: 3
     }

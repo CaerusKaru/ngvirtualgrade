@@ -2,55 +2,64 @@
   "grading": [
     {
       "name": "COMP105",
-      "assigns": ["hw1", "hw2"]
+      "assigns": ["hw1", "hw2"],
+      "term": "2017u"
     },
     {
       "name": "COMP20",
-      "assigns": ["hw1", "hw2"]
+      "assigns": ["hw1", "hw2"],
+      "term": "2017u"
     },
     {
       "name": "COMP00",
-      "assigns": ["hw1", "hw2"]
+      "assigns": ["hw1", "hw2"],
+      "term": "2017u"
     }
   ],
   "admin": [
     {
       "name": "COMP20",
-      "assigns": ["hw1", "hw2"]
+      "assigns": ["hw1", "hw2"],
+      "term": "2017u"
     },
     {
       "name": "COMP00",
-      "assigns": ["hw1", "hw2"]
+      "assigns": ["hw1", "hw2"],
+      "term": "2017u"
     }
   ],
   "courses": [
     {
       "name": "COMP11",
-      "assigns": ["hw1", "hw2"]
+      "assigns": ["hw1", "hw2"],
+      "term": "2017u"
     },
     {
       "name": "COMP15",
-      "assigns": ["hw1", "hw2"]
-    }
-  ],
-  "inactive": [
+      "assigns": ["hw1", "hw2"],
+      "term": "2017u"
+    },
     {
       "name": "COMP40",
-      "assigns": ["Final", "Midterm"]
+      "assigns": ["Final", "Midterm"],
+      "term": "2015s"
     }
   ],
   "manage": {
     "departments": [
       {
         "name": "COMP",
-        "courses": ["COMP15", "COMP20"]
+        "courses": ["COMP15", "COMP20"],
+        "privileges": ["CREATE", "READ", "UPDATE", "DELETE"]
       },
       {
         "name": "MATH",
-        "courses": ["MATH71", "MATH61"]
+        "courses": ["MATH71", "MATH61"],
+        "privileges": ["CREATE", "READ", "UPDATE", "DELETE"]
       }
     ],
     "privileges": ["CREATE", "READ", "UPDATE", "DELETE"]
   },
-  "user": "aplume01"
+  "user": "aplume01",
+  "term": "2017u"
 }

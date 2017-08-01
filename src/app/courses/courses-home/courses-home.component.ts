@@ -1,4 +1,4 @@
-import {Component, ElementRef, OnInit} from '@angular/core';
+import {Component} from '@angular/core';
 import {UserService} from '../../shared/services/user.service';
 
 @Component({
@@ -8,8 +8,8 @@ import {UserService} from '../../shared/services/user.service';
 })
 export class CoursesHomeComponent {
 
-  courses = this._userService.courses;
-  inCourses = this._userService.inactive;
+  courses = this._userService.courses.map(v => v.filter(a => this._userService.isTerm(a['term'])));
+  inCourses = this._userService.courses.map(v => v.filter(a => !this._userService.isTerm(a['term'])));
 
   constructor(
     private _userService: UserService

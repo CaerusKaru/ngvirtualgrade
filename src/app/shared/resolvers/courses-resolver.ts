@@ -8,7 +8,6 @@ import {HomeMenuService} from '../../home/home-menu.service';
 export class CoursesResolver implements Resolve<boolean> {
 
   private _courses = this._userService.courses;
-  private _inCourses = this._userService.inactive;
 
   constructor(
     private _userService: UserService,
@@ -20,13 +19,15 @@ export class CoursesResolver implements Resolve<boolean> {
     return new Observable<boolean>(obs => {
       this._courses
         .subscribe(courses => {
-          this._inCourses
-            .subscribe(inactive => {
-              this._homeService.setCourses([this._homeService.constructCourses(courses, 'courses', true),
-              this._homeService.constructCourses(inactive, 'courses', false)]);
+          this._userService.term
+            .subscribe(term => {
+              const currentCourses = courses.filter(v => v['term'] === term);
+              const prevCourses = courses.filter(v => v['term'] !== term);
+              this._homeService.setCourses([this._homeService.constructCourses(currentCourses, 'courses', true),
+                this._homeService.constructCourses(prevCourses, 'courses', false)]);
               obs.next(true);
               obs.complete();
-            })
+            });
         });
     });
   }

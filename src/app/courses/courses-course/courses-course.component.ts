@@ -11,8 +11,8 @@ import {takeUntil} from 'rxjs/operator/takeUntil';
 })
 export class CoursesCourseComponent implements OnInit, OnDestroy {
 
-  courses = this._userService.courses;
-  inactive = this._userService.inactive;
+  courses = this._userService.courses.map(v => v.filter(a => this._userService.isTerm(a['term'])));
+  inactive = this._userService.courses.map(v => v.filter(a => !this._userService.isTerm(a['term'])));
 
   private _course: string;
   private _courses = [];
@@ -42,7 +42,7 @@ export class CoursesCourseComponent implements OnInit, OnDestroy {
   }
 
   get course() {
-    return this._courses.find(a => a['name'] === this._course) || this._inactive.find(a => a['name'] === this._course);
+    return this._courses.find(a => a['name'] === this._course) ||
+      this._inactive.find(a => a['name'] === this._course);
   }
-
 }

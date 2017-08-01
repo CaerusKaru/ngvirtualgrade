@@ -2,7 +2,7 @@ import {
   Component, Input, ViewEncapsulation, QueryList, OnDestroy, ContentChildren, AfterViewInit, ElementRef, Renderer2,
   ChangeDetectionStrategy, ChangeDetectorRef, Directive
 } from '@angular/core';
-import {NavMenuService} from './shared/nav-menu.service';
+import {NavDrawerService} from './shared/nav-drawer.service';
 import {animate, style, transition, state, trigger} from '@angular/animations';
 import {Observable} from 'rxjs/Observable';
 
@@ -25,7 +25,7 @@ export class NavDrawerLinkComponent implements AfterViewInit {
 
   isSelected$: Observable<boolean>;
 
-  constructor(private menuService: NavMenuService) { }
+  constructor(private menuService: NavDrawerService) { }
 
   ngAfterViewInit() {
     this.isSelected$ = this.menuService.openPage.map(i => i === this.id);
@@ -57,7 +57,7 @@ export class NavDrawerToggleComponent implements AfterViewInit, OnDestroy {
 
   private _id: number = uniqueId++;
 
-  constructor(private menuService: NavMenuService, private _changeDetectorRef: ChangeDetectorRef) { }
+  constructor(private menuService: NavDrawerService, private _changeDetectorRef: ChangeDetectorRef) { }
 
   ngAfterViewInit() {
     this.isOpen = this.menuService.openSection.map(d => d === this._id);

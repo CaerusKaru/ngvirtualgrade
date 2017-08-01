@@ -41,33 +41,31 @@
     </nav>
   </div>
   <md-sidenav-container fxFlex>
-    <md-sidenav #sidenav
-                class="dark-theme mat-elevation-z16"
-                [mode]="isSideBySide ? 'side' : 'over'"
-                [opened]="isSideBySide || isOpen">
+    <md-sidenav #sidenav class="dark-theme mat-elevation-z16"
+                [mode]="isSideBySide ? 'side' : 'over'" [opened]="isSideBySide || isOpen">
       <md-nav-drawer fxFlex class="mat-app-background drawer-size" *ngIf="navs$ | async as navs">
-        <div *ngFor="let nav of navs" [ngSwitch]="nav['type']">
+        <ng-container *ngFor="let nav of navs" [ngSwitch]="nav['type']">
           <h2 mdNavDrawerHeader *ngSwitchCase="'header'">{{nav['label']}}</h2>
-          <div *ngFor="let child of nav['children']" [ngSwitch]="child['type']">
+          <ng-container *ngFor="let child of nav['children']" [ngSwitch]="child['type']">
             <ul mdNavDrawerToggle *ngSwitchCase="'toggle'" [label]="child['label']">
               <li mdNavDrawerLink *ngFor="let link of child['children']" [link]="link['link']">{{link['label']}}</li>
             </ul>
             <a mdNavDrawerLink *ngSwitchCase="'link'" [link]="child['link']">{{child['label']}}</a>
-          </div>
+          </ng-container>
           <ul mdNavDrawerToggle *ngSwitchCase="'toggle'" [label]="nav['label']">
             <li mdNavDrawerLink *ngFor="let link of nav['children']" [link]="link['link']">{{link['label']}}</li>
           </ul>
           <ng-container *ngSwitchCase="'link'">
             <a mdNavDrawerLink *ngFor="let link of nav['children']" [link]="link['link']">{{link['label']}}</a>
           </ng-container>
-        </div>
-        <div *ngFor="let link of navLinks">
+        </ng-container>
+        <ng-container *ngFor="let link of navLinks">
           <a mdNavDrawerLink [link]="link.route" *ngIf="!isSideBySide && link.show">{{link.label}}</a>
-        </div>
+        </ng-container>
       </md-nav-drawer>
     </md-sidenav>
-    <div [@routeAnimation]="prepRouteState(routerOutlet)" style="height: 100%;">
-      <div class="router-container" style="height: 100%">
+    <div [@routeAnimation]="prepRouteState(routerOutlet)" class="router-animation-container">
+      <div class="router-container">
         <router-outlet #routerOutlet="outlet"></router-outlet>
       </div>
     </div>
