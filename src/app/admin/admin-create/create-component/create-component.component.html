@@ -23,7 +23,8 @@
       <md-input-container>
         <input mdInput [min]="minDate" formControlName="due_date"
                [mdDatepicker]="dueDate" placeholder="Due Date" >
-        <button mdSuffix [mdDatepickerToggle]="dueDate" type="button"></button>
+        <button mdSuffix type="button"></button>
+        <md-datepicker-toggle [for]="dueDate"></md-datepicker-toggle>
       </md-input-container>
       <md-datepicker #dueDate></md-datepicker>
       <span><button md-button>UPLOAD RUBRIC</button></span>

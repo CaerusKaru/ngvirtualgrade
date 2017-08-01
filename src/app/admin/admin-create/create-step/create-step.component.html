@@ -37,7 +37,8 @@
             <md-input-container>
               <input mdInput formControlName="start_date" [min]="minDate" [max]="step.controls['end_date'].value"
                      [mdDatepicker]="startDate" placeholder="Start Date" >
-              <button mdSuffix [mdDatepickerToggle]="startDate" type="button"></button>
+              <button mdSuffix type="button"></button>
+              <md-datepicker-toggle [for]="startDate"></md-datepicker-toggle>
             </md-input-container>
 
             <md-input-container>
@@ -50,7 +51,8 @@
             <md-input-container>
               <input mdInput formControlName="end_date" [min]="minDate"
                      [mdDatepicker]="endDate" placeholder="Due Date" >
-              <button mdSuffix [mdDatepickerToggle]="endDate" type="button"></button>
+              <button mdSuffix type="button"></button>
+              <md-datepicker-toggle [for]="endDate"]></md-datepicker-toggle>
             </md-input-container>
 
             <md-input-container>
