@@ -30,6 +30,19 @@
         "dev": "environments/environment.ts",
         "prod": "environments/environment.prod.ts"
       }
+    },
+    {
+      "name": "universal",
+      "platform": "server",
+      "root": "src",
+      "outDir": "dist-server",
+      "main": "main-server.ts",
+      "tsconfig": "tsconfig.server.json",
+      "environmentSource": "environments/environment.ts",
+      "environments": {
+        "dev": "environments/environment.ts",
+        "prod": "environments/environment.prod.ts"
+      }
     }
   ],
   "e2e": {
