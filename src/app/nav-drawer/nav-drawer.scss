@@ -90,9 +90,6 @@ body[dir=rtl] .mat-nav-drawer-header {
   overflow: hidden;
   position: relative;
   z-index: 1;
-  &.nav-drawer-toggle-open {
-    height: auto !important;
-  }
 }
 
 .mat-nav-drawer .mat-nav-drawer-toggle-list button.mat-button {

@@ -1,3 +1,9 @@
-<p>
-  manage-home works!
-</p>
+<div fxLayout="column" class="md-padding">
+  <h2 class="mat-headline">Departments</h2>
+  <div fxLayout="row">
+    <card-button color="m" *ngFor="let dept of depts | async">
+      <span class="mat-body-2">{{dept.name}}</span>
+    </card-button>
+  </div>
+  <h2 class="mat-headline">Site Controls</h2>
+</div>

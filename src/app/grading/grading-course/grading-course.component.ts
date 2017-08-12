@@ -14,6 +14,7 @@ export class GradingCourseComponent implements OnInit, OnDestroy {
   courses = this._userService.grading;
 
   private _course: string;
+  private _courseId: number;
   private _courses = [];
   private _destroy = new Subject<void>();
 
@@ -25,6 +26,7 @@ export class GradingCourseComponent implements OnInit, OnDestroy {
   ngOnInit() {
     takeUntil.call(this._route.params, this._destroy).subscribe(params => {
       this._course = params['course'];
+      this._courseId = +params['courseId'];
     });
     takeUntil.call(this.courses, this._destroy).subscribe(data => {
       this._courses = data;
@@ -37,7 +39,9 @@ export class GradingCourseComponent implements OnInit, OnDestroy {
   }
 
   get course() {
-    return this._courses.find(a => a['name'] === this._course);
+    return this._courses.find(a => {
+      return a.name === this._course && (!this._courseId || this._courseId === a.id);
+    });
   }
 
 }

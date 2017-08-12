@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import {UserService} from '../../shared/services/user.service';
 
 @Component({
   selector: 'vg-manage-home',
@@ -7,7 +8,9 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ManageHomeComponent implements OnInit {
 
-  constructor() { }
+  depts = this._userService.manage;
+
+  constructor(private _userService: UserService) { }
 
   ngOnInit() {
   }

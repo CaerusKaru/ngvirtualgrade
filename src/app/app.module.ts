@@ -15,7 +15,7 @@ import {AppMaterialModule} from './app-material/app-material.module';
 import {NavDrawerModule} from './nav-drawer/index';
 import {SortByPipe} from './shared/pipes/sort-by.pipe';
 import {SortPipe} from './shared/pipes/sort.pipe';
-import {SwUpdatesModule} from './sw-updates/sw-updates.module';
+// import {SwUpdatesModule} from './sw-updates/sw-updates.module';
 import {HomeMenuService} from './home/home-menu.service';
 import {AdminResolver} from './shared/resolvers/admin-resolver';
 import {CoursesResolver} from './shared/resolvers/courses-resolver';
@@ -35,14 +35,14 @@ import {BrowserPrebootModule} from 'preboot/src/browser/browser-preboot.module';
   imports: [
     BrowserAnimationsModule,
     BrowserModule.withServerTransition({ appId: 'universal' }),
-    BrowserPrebootModule.replayEvents(),
+    // BrowserPrebootModule.replayEvents(),
     FormsModule,
     HttpClientModule,
     FlexLayoutModule,
     NavDrawerModule,
     AppMaterialModule,
     AppRoutingModule,
-    SwUpdatesModule
+    // SwUpdatesModule
   ],
   providers: [
     UserService,

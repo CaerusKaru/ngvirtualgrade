@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import {FlexLayoutModule} from '@angular/flex-layout';
 import {
   CardButtonComponent
 } from './card-button';
@@ -13,7 +12,6 @@ import {ColorNameModule} from '../color-name';
     MdCardModule,
     MdRippleModule,
     ColorNameModule,
-    FlexLayoutModule
   ],
   declarations: [
     CardButtonComponent

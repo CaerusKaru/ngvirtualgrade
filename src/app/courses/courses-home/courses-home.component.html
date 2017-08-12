@@ -2,14 +2,14 @@
   <h3 class="mat-heading">Active Courses</h3>
   <div fxLayout="column" fxLayoutGap="25px">
     <div *ngFor="let course of courses | async">
-      <card-button [color]="course['name']" [left]="true">
-        <div [routerLink]="course['name']" fxFlex fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="40px">
+      <card-button [color]="course.name" [left]="true">
+        <div [routerLink]="course.name" fxFlex fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="40px">
           <div fxLayout="column" fxLayoutGap="5px" fxLayoutAlign="center center">
             <div class="mat-caption">
               Name
             </div>
             <div class="mat-body-2">
-              {{course['name']}}
+              {{course.name}}
             </div>
           </div>
           <div fxLayout="column" fxLayoutGap="5px" fxLayoutAlign="center center">
@@ -17,7 +17,7 @@
               Assignments
             </div>
             <div class="mat-body-2">
-              {{course['assigns'].length}}
+              {{course.assigns.length}}
             </div>
           </div>
           <div fxLayout="column" fxLayoutGap="5px" fxLayoutAlign="center center">
@@ -39,14 +39,14 @@
   <h3 class="mat-heading">Inactive Courses</h3>
   <div fxLayout="column" fxLayoutGap="25px">
     <div *ngFor="let course of inCourses | async">
-      <card-button [color]="course['name']" [left]="true">
-        <div [routerLink]="course['name']" fxFlex fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="40px">
+      <card-button [color]="course.name" [left]="true">
+        <div [routerLink]="course.name" fxFlex fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="40px">
           <div fxLayout="column" fxLayoutGap="5px" fxLayoutAlign="center center">
             <div class="mat-caption">
               Name
             </div>
             <div class="mat-body-2">
-              {{course['name']}}
+              {{course.name}}
             </div>
           </div>
           <div fxLayout="column" fxLayoutGap="5px" fxLayoutAlign="center center">
@@ -54,7 +54,7 @@
               Assignments
             </div>
             <div class="mat-body-2">
-              {{course['assigns'].length}}
+              {{course.assigns.length}}
             </div>
           </div>
           <div fxLayout="column" fxLayoutGap="5px" fxLayoutAlign="center center">

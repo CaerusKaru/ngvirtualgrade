@@ -1,4 +1,4 @@
-import {Component, HostListener, OnDestroy, OnInit, ViewEncapsulation} from '@angular/core';
+import {Component, OnDestroy, OnInit, ViewEncapsulation} from '@angular/core';
 import {NavigationEnd, Router, RouterOutlet} from '@angular/router';
 import {UserService} from '../shared/services/user.service';
 import {Location} from '@angular/common';
@@ -7,41 +7,21 @@ import {MdDialog, MdDialogRef} from '@angular/material';
 import {environment} from '../../environments/environment';
 import {NgForm} from '@angular/forms';
 import {Subject} from 'rxjs/Subject';
-import {takeUntil} from 'rxjs/operator/takeUntil';
-import {group, query, transition, trigger, style, animate, animateChild} from '@angular/animations';
-import {SwUpdatesService} from '../sw-updates/sw-updates.service';
+import {takeUntil as takeUntilOp} from 'rxjs/operator/takeUntil';
+// import {SwUpdatesService} from '../sw-updates/sw-updates.service';
 import {HomeMenuService} from './home-menu.service';
+import {routerAnimation} from '../shared/animations/router.animation';
+import {Platform} from '@angular/cdk/platform';
+import {Subscription} from 'rxjs/Subscription';
+import {debounceTime, filter, RxChain, takeUntil} from '@angular/cdk/rxjs';
+import {fromEvent} from 'rxjs/observable/fromEvent';
 
 @Component({
   selector: 'vg-home',
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss'],
   encapsulation: ViewEncapsulation.None,
-  animations: [
-    trigger('routeAnimation', [
-      transition(':enter', animateChild()),
-      transition('1 => 2, 2 => 3, 1 => 3', [
-        query('.router-container', style({ position: 'relative '})),
-        query(':enter, :leave', style({ position: 'absolute', top: 0, left: 0, right: 0 })),
-        query(':enter', style({ opacity: 0, transform: 'translateX(100%)' })),
-
-        group([
-          query(':leave', animate('500ms cubic-bezier(.35,0,.25,1)', style({ transform: 'translateX(-100%)', opacity: 0 }))),
-          query(':enter', animate('500ms cubic-bezier(.35,0,.25,1)', style({ transform: 'translateX(0)' })))
-        ]),
-      ]),
-      transition('3 => 2, 2 => 1, 3 => 1', [
-        query('.router-container', style({ position: 'relative '})),
-        query(':enter, :leave', style({ position: 'absolute', top: 0, left: 0, right: 0 })),
-        query(':enter', style({ opacity: 0, transform: 'translateX(-100%)' })),
-
-        group([
-          query(':leave', animate('500ms cubic-bezier(.35,0,.25,1)', style({ transform: 'translateX(100%)', opacity: 0 }))),
-          query(':enter', animate('500ms cubic-bezier(.35,0,.25,1)', style({ transform: 'translateX(0)' })))
-        ])
-      ])
-    ])
-  ]
+  animations: [routerAnimation]
 })
 export class HomeComponent implements OnInit, OnDestroy {
 
@@ -67,6 +47,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   private _sideBySideWidth = 875;
   private _isOpen = false;
 
+  private _resizeSubscription: Subscription | null;;
   private _destroy = new Subject<void>();
 
   constructor(
@@ -75,29 +56,36 @@ export class HomeComponent implements OnInit, OnDestroy {
     private _userService: UserService,
     private _authService: AuthService,
     private _homeService: HomeMenuService,
-    swUpdates: SwUpdatesService,
+    // swUpdates: SwUpdatesService,
+    public platform: Platform,
     public dialog: MdDialog
   ) {
-    takeUntil.call(this._router.events
-      .filter(event => event instanceof NavigationEnd), this._destroy)
-      .subscribe((event) => this.changeTab());
+
+    RxChain.from(this._router.events)
+      .call(filter, event => event instanceof NavigationEnd)
+      .call(takeUntil, this._destroy)
+      .subscribe(e => this.changeTab());
   }
 
   ngOnInit () {
-    takeUntil.call(this._authService.isAdmin, this._destroy).subscribe(data => {
+    takeUntilOp.call(this._authService.isAdmin, this._destroy).subscribe(data => {
       this.navLinks[this.navLinks.indexOf(this.adminTab)].show = data;
     });
-    takeUntil.call(this._authService.isGrader, this._destroy).subscribe(data => {
+    takeUntilOp.call(this._authService.isGrader, this._destroy).subscribe(data => {
       this.navLinks[this.navLinks.indexOf(this.graderTab)].show = data;
     });
-    takeUntil.call(this._authService.isLoggedIn, this._destroy).subscribe(data => {
+    takeUntilOp.call(this._authService.isLoggedIn, this._destroy).subscribe(data => {
       this.navLinks[this.navLinks.indexOf(this.gradesTab)].show = data;
     });
-    takeUntil.call(this._authService.isManager, this._destroy).subscribe(data => {
+    takeUntilOp.call(this._authService.isManager, this._destroy).subscribe(data => {
       this.navLinks[this.navLinks.indexOf(this.manageTab)].show = data;
     });
 
-    this.onResize(window.innerWidth);
+    if (this.platform.isBrowser) {
+      this._resizeSubscription = RxChain.from(fromEvent(window, 'resize'))
+        .call(takeUntil, this._destroy)
+        .subscribe(e => this.onResize(e));
+    }
   }
 
   ngOnDestroy() {
@@ -110,8 +98,8 @@ export class HomeComponent implements OnInit, OnDestroy {
     return data ? data['depth'] : '';
   }
 
-  @HostListener('window:resize', ['$event.target.innerWidth'])
-  onResize(width) {
+  onResize(evt) {
+    const width = evt.target.innerWidth;
     const calcSize = () => {
       return this.navLinks.reduce((a, d) => {
         return a + (d.show ? this._tabWidth : 0);

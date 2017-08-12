@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
 import {Observable} from 'rxjs/Observable';
 import {BehaviorSubject} from 'rxjs/BehaviorSubject';
+import {Course} from '../classes/course';
+import {Department} from '../classes/department';
 
 export enum ManagePerms {
   CREATE = 'CREATE',
@@ -13,20 +15,21 @@ export enum ManagePerms {
 export class UserService {
 
   utln: Observable<string>;
-  grading: Observable<string[]>;
-  admin: Observable<string[]>;
-  courses: Observable<string[]>;
-  manage: Observable<string[]>;
-  managePerms: Observable<ManagePerms[]>;
   term: Observable<string>;
+  grading: Observable<Course[]>;
+  admin: Observable<Course[]>;
+  courses: Observable<Course[]>;
+  manage: Observable<Department[]>;
+  managePerms: Observable<ManagePerms[]>;
+
 
   private _utln: BehaviorSubject<string> = new BehaviorSubject(null);
-  private _grading: BehaviorSubject<string[]> = new BehaviorSubject([]);
-  private _admin: BehaviorSubject<string[]> = new BehaviorSubject([]);
-  private _courses: BehaviorSubject<string[]> = new BehaviorSubject([]);
-  private _manage: BehaviorSubject<string[]> = new BehaviorSubject([]);
-  private _managePerms: BehaviorSubject<ManagePerms[]> = new BehaviorSubject([]);
   private _term: BehaviorSubject<string> = new BehaviorSubject(null);
+  private _grading: BehaviorSubject<Course[]> = new BehaviorSubject([]);
+  private _admin: BehaviorSubject<Course[]> = new BehaviorSubject([]);
+  private _courses: BehaviorSubject<Course[]> = new BehaviorSubject([]);
+  private _manage: BehaviorSubject<Department[]> = new BehaviorSubject([]);
+  private _managePerms: BehaviorSubject<ManagePerms[]> = new BehaviorSubject([]);
 
   constructor() {
     this.utln = this._utln.asObservable();

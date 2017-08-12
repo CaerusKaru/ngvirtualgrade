@@ -2,7 +2,8 @@ import {Component, OnDestroy, OnInit} from '@angular/core';
 import {UserService} from '../../shared/services/user.service';
 import {Subject} from 'rxjs/Subject';
 import {takeUntil} from 'rxjs/operator/takeUntil';
-import {ActivatedRoute, Router} from '@angular/router';
+import {ActivatedRoute} from '@angular/router';
+import {Course} from '../../shared/classes/course';
 
 @Component({
   selector: 'vg-admin-course',
@@ -14,6 +15,7 @@ export class AdminCourseComponent implements OnInit, OnDestroy {
   courses = this._userService.admin;
 
   private _course: string;
+  private _courseId: number;
   private _courses = [];
   private _destroy = new Subject<void>();
 
@@ -25,6 +27,7 @@ export class AdminCourseComponent implements OnInit, OnDestroy {
   ngOnInit() {
     takeUntil.call(this._route.params, this._destroy).subscribe(params => {
       this._course = params['course'];
+      this._courseId = +params['courseId'];
     });
     takeUntil.call(this.courses, this._destroy).subscribe(data => {
       this._courses = data;
@@ -36,7 +39,9 @@ export class AdminCourseComponent implements OnInit, OnDestroy {
     this._destroy.complete();
   }
 
-  get course() {
-    return this._courses.find(a => a['name'] === this._course);
+  get course(): Course {
+    return this._courses.find(a => {
+      return a.name === this._course && (!this._courseId || this._courseId === a.id);
+    });
   }
 }

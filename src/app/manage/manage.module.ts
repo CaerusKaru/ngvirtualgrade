@@ -7,12 +7,16 @@ import { ManageCourseComponent } from './manage-course/manage-course.component';
 import { ManageDeptComponent } from './manage-dept/manage-dept.component';
 import { ManageUsersComponent } from './manage-users/manage-users.component';
 import { ManageCreateComponent } from './manage-create/manage-create.component';
+import {CardButtonModule} from '../card-button/index';
+import {FlexLayoutModule} from '@angular/flex-layout';
 
 @NgModule({
   imports: [
     CommonModule,
     ManageMaterialModule,
     ManageRoutingModule,
+    CardButtonModule,
+    FlexLayoutModule,
   ],
   declarations: [
     ManageHomeComponent,

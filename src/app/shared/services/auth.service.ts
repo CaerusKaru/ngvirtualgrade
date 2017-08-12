@@ -6,6 +6,17 @@ import {Observable} from 'rxjs/Observable';
 import {Router} from '@angular/router';
 import {MdSnackBar} from '@angular/material';
 import {ReplaySubject} from 'rxjs/ReplaySubject';
+import {Course} from '../classes/course';
+import {Manager} from '../classes/manager';
+
+interface AuthResponse {
+  grading: Course[];
+  admin: Course[];
+  courses: Course[];
+  manage: Manager;
+  user: string;
+  term: string;
+}
 
 @Injectable()
 export class AuthService {
@@ -64,13 +75,13 @@ export class AuthService {
 
   private _loadAuth(dataSource) {
     return new Observable<boolean>(obs => {
-      this._http.get(dataSource).subscribe(
+      this._http.get<AuthResponse>(dataSource).subscribe(
         data => {
           this._loggedIn.next(true);
-          this._grader.next(data['grading'].length !== 0);
-          this._admin.next(data['admin'].length !== 0);
-          this._manage.next(data['manage']['privileges'].length !== 0);
-          this.userService.populate(data, data['user']);
+          this._grader.next(data.grading.length !== 0);
+          this._admin.next(data.admin.length !== 0);
+          this._manage.next(data.manage.privileges.length !== 0);
+          this.userService.populate(data, data.user);
           obs.next(true);
           obs.complete();
         },

@@ -1,7 +1,7 @@
 <div class="md-padding" *ngIf="course" fxLayout="column">
   <div fxLayout="row" fxLayoutAlign="start center">
     <a md-icon-button routerLink="../" title="Back button"><md-icon>arrow_back</md-icon></a>
-    <h2 class="mat-heading">{{course['name']}}</h2>
+    <h2 class="mat-heading">{{course.name}}</h2>
   </div>
 
   <h4 class="mat-heading">Course Actions</h4>
@@ -14,9 +14,9 @@
 
   <h4 class="mat-heading">Assignments</h4>
   <div fxLayout="column" fxLayoutGap="35px">
-    <div *ngFor="let assign of course['assigns']; even as even">
+    <div *ngFor="let assign of course.assigns; even as even">
       <card-button [color]="assign" [left]="true">
-        <div fxFlex fxLayout="row" fxLayoutGap="40px" fxLayotuAlign="start center" [routerLink]="assign">
+        <div fxFlex fxLayout="row" fxLayoutGap="40px" fxLayoutAlign="start center" [routerLink]="assign">
           <div fxLayout="column" fxLayoutGap="5px" fxLayoutAlign="center center">
             <div class="mat-caption">
               Name

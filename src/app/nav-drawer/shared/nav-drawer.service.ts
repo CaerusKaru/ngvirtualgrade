@@ -3,6 +3,7 @@ import {BehaviorSubject} from 'rxjs/BehaviorSubject';
 import {Observable} from 'rxjs/Observable';
 import {NavigationEnd, Router} from '@angular/router';
 import {Location} from '@angular/common';
+import {filter} from 'rxjs/operator/filter';
 
 @Injectable()
 export class NavDrawerService {
@@ -16,10 +17,10 @@ export class NavDrawerService {
   private _currentPath: string;
 
   constructor(
-    private router: Router,
-    private location: Location,
+    private _router: Router,
+    private _location: Location,
   ) {
-    this._currentPath = location.path();
+    this._currentPath = _location.path();
     this.openPage = this._currentPage.asObservable();
     this.openSection = this._openedSection.asObservable();
     this.initRouter();
@@ -58,9 +59,11 @@ export class NavDrawerService {
   }
 
   private initRouter () {
-    this.router.events
-      .filter(event => event instanceof NavigationEnd)
-      .subscribe((event) => { this.updateSelection(); this._currentPath = this.location.path() });
+    filter.call(this._router.events, event => event instanceof NavigationEnd)
+      .subscribe(() => {
+        this.updateSelection();
+        this._currentPath = this._location.path();
+      });
   }
 
   private updateSelection () {
@@ -72,7 +75,7 @@ export class NavDrawerService {
   }
 
   private matchPage (page): boolean {
-    if (this.location.path().indexOf(page.link) !== -1) {
+    if (this._location.path().indexOf(page.link) !== -1) {
       this.selectSection(page.parent);
       this.selectPage(page.id);
       return true;

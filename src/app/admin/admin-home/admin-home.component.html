@@ -1,14 +1,14 @@
 <div fxLayout="column" class="md-padding" fxLayoutGap="25px">
   <h3 class="mat-heading">Admin Portal</h3>
   <div *ngFor="let course of courses | async">
-    <card-button [color]="course['name']" [left]="true">
-      <div fxFlex fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="40px" [routerLink]="course['name']">
+    <card-button [color]="course.name" [left]="true">
+      <div fxFlex fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="40px" [routerLink]="course.name">
         <div fxLayout="column" fxLayoutGap="5px" fxLayoutAlign="center center">
           <div class="mat-caption">
             Name
           </div>
           <div class="mat-body-2">
-            {{course['name']}}
+            {{course.name}}
           </div>
         </div>
         <div fxLayout="column" fxLayoutGap="5px" fxLayoutAlign="center center">
@@ -16,7 +16,7 @@
             Assignments
           </div>
           <div class="mat-body-2">
-            {{course['assigns'].length}}
+            {{course.assigns.length}}
           </div>
         </div>
         <div fxLayout="column" fxLayoutGap="5px" fxLayoutAlign="center center">
@@ -30,7 +30,7 @@
       </div>
       <div fxLayoutAlign="center center" fxLayoutGap="20px">
         <button md-button>GRADEBOOK</button>
-        <button md-button routerLink="{{course['name']}}/create">ADD</button>
+        <button md-button routerLink="{{course.name}}/create">ADD</button>
       </div>
     </card-button>
   </div>

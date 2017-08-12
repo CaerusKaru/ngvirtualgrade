@@ -2,6 +2,7 @@
 
 /* Server specific version of Zone.js */
 require('zone.js/dist/zone-node');
+require('reflect-metadata');
 
 const express = require('express');
 const ngUniversal = require('@nguniversal/express-engine');
@@ -12,7 +13,14 @@ const appServer = require('../../dist-server/main.bundle');
 /* Server-side rendering */
 function angularRouter(req, res) {
   /* Server-side rendering */
-  res.render('index', { req, res });
+  res.render('index', {
+    req,
+    res,
+    providers: [{
+      provide: 'serverUrl',
+      useValue: `${req.protocol}://${req.get('host')}`
+    }]
+  });
 }
 
 const app = express();

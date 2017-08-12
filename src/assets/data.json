@@ -1,16 +1,19 @@
 {
   "grading": [
     {
+      "id": 1,
       "name": "COMP105",
       "assigns": ["hw1", "hw2"],
       "term": "2017u"
     },
     {
+      "id": 2,
       "name": "COMP20",
       "assigns": ["hw1", "hw2"],
       "term": "2017u"
     },
     {
+      "id": 3,
       "name": "COMP00",
       "assigns": ["hw1", "hw2"],
       "term": "2017u"
@@ -18,11 +21,13 @@
   ],
   "admin": [
     {
+      "id": 2,
       "name": "COMP20",
       "assigns": ["hw1", "hw2"],
       "term": "2017u"
     },
     {
+      "id": 3,
       "name": "COMP00",
       "assigns": ["hw1", "hw2"],
       "term": "2017u"
@@ -30,16 +35,19 @@
   ],
   "courses": [
     {
+      "id": 4,
       "name": "COMP11",
       "assigns": ["hw1", "hw2"],
       "term": "2017u"
     },
     {
+      "id": 5,
       "name": "COMP15",
       "assigns": ["hw1", "hw2"],
       "term": "2017u"
     },
     {
+      "id": 6,
       "name": "COMP40",
       "assigns": ["Final", "Midterm"],
       "term": "2015s"
@@ -48,13 +56,41 @@
   "manage": {
     "departments": [
       {
+        "id": 1,
         "name": "COMP",
-        "courses": ["COMP15", "COMP20"],
+        "courses": [
+          {
+            "id": 5,
+            "name": "COMP15",
+            "assigns": ["hw1", "hw2"],
+            "term": "2017u"
+          },
+          {
+            "id": 2,
+            "name": "COMP20",
+            "assigns": ["hw1", "hw2"],
+            "term": "2017u"
+          }
+        ],
         "privileges": ["CREATE", "READ", "UPDATE", "DELETE"]
       },
       {
+        "id": 2,
         "name": "MATH",
-        "courses": ["MATH71", "MATH61"],
+        "courses": [
+          {
+            "id": 7,
+            "name": "MATH71",
+            "assigns": ["ps1"],
+            "term": "2017u"
+          },
+          {
+            "id": 8,
+            "name": "MATH61",
+            "assigns": ["star1"],
+            "term": "2017s"
+          }
+        ],
         "privileges": ["CREATE", "READ", "UPDATE", "DELETE"]
       }
     ],

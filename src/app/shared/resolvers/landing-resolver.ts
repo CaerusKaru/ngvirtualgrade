@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import {ActivatedRouteSnapshot, Resolve} from '@angular/router';
-import { Observable } from 'rxjs/Observable';
 import {HomeMenuService} from '../../home/home-menu.service';
+import {of} from 'rxjs/observable/of';
 
 @Injectable()
 export class LandingResolver implements Resolve<boolean> {
@@ -32,6 +32,6 @@ export class LandingResolver implements Resolve<boolean> {
 
   resolve(route: ActivatedRouteSnapshot) {
     this._homeService.setCourses([this._landing]);
-    return Observable.of(true);
+    return of.call(true);
   }
 }
