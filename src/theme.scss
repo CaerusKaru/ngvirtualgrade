@@ -36,7 +36,7 @@ $pdf-dark-background: (
   focused-button: $white-6-opacity,
   selected-button: map_get($mat-grey, 900),
   selected-disabled-button: map_get($mat-blue-grey, 800),
-  disabled-button-toggle: map_get($mat-grey, 1000), // there is no mat-blue-grey 1000 (grey-1000 == black)
+  disabled-button-toggle: black,
   unselected-chip: map_get($mat-blue-grey, 700),
   disabled-list-option: black,
 );
