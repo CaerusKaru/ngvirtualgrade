@@ -5,12 +5,14 @@ import {AppComponent} from './app.component';
 import {UniversalInterceptor} from 'app/shared/interceptors/universal.interceptor';
 import {HTTP_INTERCEPTORS} from '@angular/common/http';
 import {ServerPrebootModule} from 'preboot/src/server/server-preboot.module';
+import {ModuleMapLoaderModule} from '@nguniversal/module-map-ngfactory-loader';
 
 @NgModule({
   imports: [
-    AppModule,
     ServerModule,
-    ServerPrebootModule.recordEvents({ appRoot: 'vg-root' })
+    AppModule,
+    ServerPrebootModule.recordEvents({ appRoot: 'vg-root' }),
+    ModuleMapLoaderModule
   ],
   providers: [{
     provide: HTTP_INTERCEPTORS,

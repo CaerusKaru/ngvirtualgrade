@@ -21,6 +21,7 @@ $background: (
   selected-disabled-button: map_get($mat-grey, 400),
   disabled-button-toggle: map_get($mat-grey, 200),
   unselected-chip: map_get($mat-grey, 300),
+  disabled-list-option: black,
 );
 
 $pdf-dark-background: (
@@ -37,6 +38,7 @@ $pdf-dark-background: (
   selected-disabled-button: map_get($mat-blue-grey, 800),
   disabled-button-toggle: map_get($mat-grey, 1000), // there is no mat-blue-grey 1000 (grey-1000 == black)
   unselected-chip: map_get($mat-blue-grey, 700),
+  disabled-list-option: black,
 );
 
 @function md-app-theme($primary, $accent, $warn, $background, $foreground) {

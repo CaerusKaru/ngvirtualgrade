@@ -6,9 +6,8 @@ require('reflect-metadata');
 
 const express = require('express');
 const ngUniversal = require('@nguniversal/express-engine');
-
-/* The server bundle is loaded here, it's why you don't want a changing hash in it */
-const appServer = require('../../dist-server/main.bundle');
+const { provideModuleMap } = require('@nguniversal/module-map-ngfactory-loader');
+const { AppServerModuleNgFactory, LAZY_MODULE_MAP } = require('../../dist-server/main.bundle');
 
 /* Server-side rendering */
 function angularRouter(req, res) {
@@ -31,7 +30,10 @@ app.get('/', angularRouter);
 app.use(express.static(`${__dirname}/../../dist`));
 
 app.engine('html', ngUniversal.ngExpressEngine({
-  bootstrap: appServer.AppServerModuleNgFactory
+  bootstrap: AppServerModuleNgFactory,
+  providers: [
+    provideModuleMap(LAZY_MODULE_MAP)
+  ]
 }));
 app.set('view engine', 'html');
 app.set('views', 'dist');

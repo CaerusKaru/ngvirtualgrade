@@ -1,4 +1,4 @@
-import {Component, OnDestroy, OnInit, ViewEncapsulation} from '@angular/core';
+import {Component, OnDestroy, OnInit, Optional, ViewEncapsulation} from '@angular/core';
 import {NavigationEnd, Router, RouterOutlet} from '@angular/router';
 import {UserService} from '../shared/services/user.service';
 import {Location} from '@angular/common';
@@ -8,13 +8,13 @@ import {environment} from '../../environments/environment';
 import {NgForm} from '@angular/forms';
 import {Subject} from 'rxjs/Subject';
 import {takeUntil as takeUntilOp} from 'rxjs/operator/takeUntil';
-// import {SwUpdatesService} from '../sw-updates/sw-updates.service';
 import {HomeMenuService} from './home-menu.service';
 import {routerAnimation} from '../shared/animations/router.animation';
 import {Platform} from '@angular/cdk/platform';
 import {Subscription} from 'rxjs/Subscription';
-import {debounceTime, filter, RxChain, takeUntil} from '@angular/cdk/rxjs';
+import {filter, RxChain, takeUntil} from '@angular/cdk/rxjs';
 import {fromEvent} from 'rxjs/observable/fromEvent';
+import {SwUpdatesService} from '../sw-updates/sw-updates.service';
 
 @Component({
   selector: 'vg-home',
@@ -47,7 +47,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   private _sideBySideWidth = 875;
   private _isOpen = false;
 
-  private _resizeSubscription: Subscription | null;;
+  private _resizeSubscription: Subscription | null;
   private _destroy = new Subject<void>();
 
   constructor(
@@ -56,11 +56,10 @@ export class HomeComponent implements OnInit, OnDestroy {
     private _userService: UserService,
     private _authService: AuthService,
     private _homeService: HomeMenuService,
-    // swUpdates: SwUpdatesService,
     public platform: Platform,
-    public dialog: MdDialog
+    public dialog: MdDialog,
+    @Optional() public swUpdatesService: SwUpdatesService
   ) {
-
     RxChain.from(this._router.events)
       .call(filter, event => event instanceof NavigationEnd)
       .call(takeUntil, this._destroy)

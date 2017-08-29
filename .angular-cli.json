@@ -36,8 +36,22 @@
       "platform": "server",
       "root": "src",
       "outDir": "dist-server",
+      "assets": [
+        "assets",
+        "favicon.ico",
+        ".htaccess",
+        "manifest.json"
+      ],
+      "index": "index.html",
       "main": "main-server.ts",
+      "test": "test.ts",
       "tsconfig": "tsconfig.server.json",
+      "testTsconfig": "tsconfig.spec.json",
+      "prefix": "vg",
+      "styles": [
+        "styles.scss"
+      ],
+      "scripts": [],
       "environmentSource": "environments/environment.ts",
       "environments": {
         "dev": "environments/environment.ts",
