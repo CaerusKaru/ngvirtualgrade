@@ -16,7 +16,7 @@ script:
 - ng build --prod --build-optimizer --output-path=$TRAVIS_BUILD_DIR/public_html
 cache:
   directories:
-  - "$HOME/.npm"
+  - "./node_modules"
 addons:
   ssh_known_hosts: homework.cs.tufts.edu
 before_deploy:
