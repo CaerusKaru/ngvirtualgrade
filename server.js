@@ -5,9 +5,13 @@ require('zone.js/dist/zone-node');
 require('reflect-metadata');
 
 const express = require('express');
+const shrinkRay = require('shrink-ray');
 const ngUniversal = require('@nguniversal/express-engine');
 const { provideModuleMap } = require('@nguniversal/module-map-ngfactory-loader');
-const { AppServerModuleNgFactory, LAZY_MODULE_MAP } = require('../../dist-server/main.bundle');
+const { AppServerModuleNgFactory, LAZY_MODULE_MAP } = require('./dist-server/main.bundle');
+
+const app = express();
+app.use(shrinkRay());
 
 /* Server-side rendering */
 function angularRouter(req, res) {
@@ -22,12 +26,10 @@ function angularRouter(req, res) {
   });
 }
 
-const app = express();
-
 /* Root route before static files, or it will serve a static index.html, without pre-rendering */
 app.get('/', angularRouter);
 
-app.use(express.static(`${__dirname}/../../dist`));
+app.use(express.static(`${__dirname}/dist`));
 
 app.engine('html', ngUniversal.ngExpressEngine({
   bootstrap: AppServerModuleNgFactory,

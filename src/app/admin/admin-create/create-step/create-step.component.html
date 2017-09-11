@@ -34,31 +34,29 @@
         </div>
         <div fxLayout="column" fxLayoutGap="10px">
           <div fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="16px">
-            <md-input-container>
+            <md-form-field>
               <input mdInput formControlName="start_date" [min]="minDate" [max]="step.controls['end_date'].value"
-                     [mdDatepicker]="startDate" placeholder="Start Date" >
-              <button mdSuffix type="button"></button>
-              <md-datepicker-toggle [for]="startDate"></md-datepicker-toggle>
-            </md-input-container>
+                     [mdDatepicker]="startDate" placeholder="Start Date">
+              <md-datepicker-toggle mdSuffix [for]="startDate"></md-datepicker-toggle>
+            </md-form-field>
 
-            <md-input-container>
+            <md-form-field>
               <input mdInput type="time" placeholder="Start Time" [formControl]="startTime"
                      class="input-time">
-            </md-input-container>
+            </md-form-field>
             <md-datepicker #startDate></md-datepicker>
           </div>
           <div fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="16px">
-            <md-input-container>
+            <md-form-field>
               <input mdInput formControlName="end_date" [min]="minDate"
                      [mdDatepicker]="endDate" placeholder="Due Date" >
-              <button mdSuffix type="button"></button>
-              <md-datepicker-toggle [for]="endDate"]></md-datepicker-toggle>
-            </md-input-container>
+              <md-datepicker-toggle mdSuffix [for]="endDate"></md-datepicker-toggle>
+            </md-form-field>
 
-            <md-input-container>
+            <md-form-field>
               <input mdInput type="time" placeholder="End Time" [formControl]="endTime"
                      class="input-time">
-            </md-input-container>
+            </md-form-field>
             <md-datepicker #endDate></md-datepicker>
           </div>
         </div>

@@ -16,16 +16,15 @@
   </md-toolbar>
   <div class="md-padding comp-content" fxLayout="row" [@hideAnimation]="show ? 'show' : 'hide'">
     <div class="options-section left-section" fxLayout="column" fxLayoutGap="5px">
-      <md-input-container>
+      <md-form-field style="width: 134px">
         <input mdInput placeholder="Score" formControlName="max_score" type="number" min="0">
-      </md-input-container>
+      </md-form-field>
       <md-checkbox align="start" formControlName="is_extra_credit">Extra Credit</md-checkbox>
-      <md-input-container>
+      <md-form-field style="width: 134px">
         <input mdInput [min]="minDate" formControlName="due_date"
-               [mdDatepicker]="dueDate" placeholder="Due Date" >
-        <button mdSuffix type="button"></button>
-        <md-datepicker-toggle [for]="dueDate"></md-datepicker-toggle>
-      </md-input-container>
+               [mdDatepicker]="dueDate" placeholder="Due Date">
+        <md-datepicker-toggle mdSuffix [for]="dueDate"></md-datepicker-toggle>
+      </md-form-field>
       <md-datepicker #dueDate></md-datepicker>
       <span><button md-button>UPLOAD RUBRIC</button></span>
     </div>
@@ -33,9 +32,9 @@
       <div>
         <h2 class="mat-h2">Files</h2>
         <div fxLayout="row" fxLayoutGap="15px" fxLayoutAlign="start center">
-          <md-input-container>
+          <md-form-field>
             <input mdInput placeholder="File Name" formControlName="new_file">
-          </md-input-container>
+          </md-form-field>
           <button md-button (click)="addFile(comp)" type="button">Add File</button>
         </div>
       </div>
@@ -56,9 +55,9 @@
     <div fxFlex fxLayout="column" class="right-section">
       <h2 class="mat-h2">Graders</h2>
       <div div fxLayout="row" fxLayoutGap="15px" fxLayoutAlign="start center">
-        <md-input-container>
+        <md-form-field>
           <input mdInput placeholder="Grader" formControlName="new_grader">
-        </md-input-container>
+        </md-form-field>
         <button md-button (click)="addGrader(comp)" type="button">Add Grader</button>
       </div>
       <div>

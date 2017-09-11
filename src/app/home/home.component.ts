@@ -83,7 +83,8 @@ export class HomeComponent implements OnInit, OnDestroy {
     if (this.platform.isBrowser) {
       this._resizeSubscription = RxChain.from(fromEvent(window, 'resize'))
         .call(takeUntil, this._destroy)
-        .subscribe(e => this.onResize(e));
+        .subscribe((e: UIEvent) => this.onResize((<Window>e.target).innerWidth));
+      this.onResize(window.innerWidth);
     }
   }
 
@@ -97,8 +98,7 @@ export class HomeComponent implements OnInit, OnDestroy {
     return data ? data['depth'] : '';
   }
 
-  onResize(evt) {
-    const width = evt.target.innerWidth;
+  onResize(width) {
     const calcSize = () => {
       return this.navLinks.reduce((a, d) => {
         return a + (d.show ? this._tabWidth : 0);

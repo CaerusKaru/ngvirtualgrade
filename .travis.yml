@@ -13,7 +13,7 @@ before_install:
 install:
 - npm install
 script:
-- ng build --prod --build-optimizer --output-path=$TRAVIS_BUILD_DIR/public_html
+- npm run build
 cache:
   directories:
   - "./node_modules"
