@@ -37,7 +37,7 @@ export class AuthService {
     private _http: HttpClient,
     private _snackbar: MdSnackBar
   ) {
-    this._loadAuth('../assets/data.json').subscribe();
+    this._loadAuth('/assets/data.json').subscribe();
   }
 
   get isLoggedIn(): Observable<boolean> {

@@ -21,8 +21,9 @@
         <a md-tab-link
            *ngIf="isSideBySide && link.show"
            [routerLink]="link.route"
-           [active]="activeLinkIndex === i"
-           (click)="activeLinkIndex = i">
+           routerLinkActive
+           #rla="routerLinkActive"
+           [active]="rla.isActive">
           <span fxFill fxLayoutAlign="center center">{{link.label}}</span>
         </a>
       </div>

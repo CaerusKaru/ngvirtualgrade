@@ -1,7 +1,6 @@
 import {Component, OnDestroy, OnInit, Optional, ViewEncapsulation} from '@angular/core';
-import {NavigationEnd, Router, RouterOutlet} from '@angular/router';
+import {RouterOutlet} from '@angular/router';
 import {UserService} from '../shared/services/user.service';
-import {Location} from '@angular/common';
 import {AuthService} from '../shared/services/auth.service';
 import {MdDialog, MdDialogRef} from '@angular/material';
 import {environment} from '../../environments/environment';
@@ -12,7 +11,7 @@ import {HomeMenuService} from './home-menu.service';
 import {routerAnimation} from '../shared/animations/router.animation';
 import {Platform} from '@angular/cdk/platform';
 import {Subscription} from 'rxjs/Subscription';
-import {filter, RxChain, takeUntil} from '@angular/cdk/rxjs';
+import {RxChain, takeUntil} from '@angular/cdk/rxjs';
 import {fromEvent} from 'rxjs/observable/fromEvent';
 import {SwUpdatesService} from '../sw-updates/sw-updates.service';
 
@@ -51,20 +50,13 @@ export class HomeComponent implements OnInit, OnDestroy {
   private _destroy = new Subject<void>();
 
   constructor(
-    private _router: Router,
-    private _location: Location,
     private _userService: UserService,
     private _authService: AuthService,
     private _homeService: HomeMenuService,
     public platform: Platform,
     public dialog: MdDialog,
     @Optional() public swUpdatesService: SwUpdatesService
-  ) {
-    RxChain.from(this._router.events)
-      .call(filter, event => event instanceof NavigationEnd)
-      .call(takeUntil, this._destroy)
-      .subscribe(e => this.changeTab());
-  }
+  ) { }
 
   ngOnInit () {
     takeUntilOp.call(this._authService.isAdmin, this._destroy).subscribe(data => {
@@ -118,18 +110,6 @@ export class HomeComponent implements OnInit, OnDestroy {
 
   logOut() {
     this._authService.logout();
-  }
-
-  private changeTab() {
-    const findTab = (nav) => {
-      if (nav.route === '/') {
-        return this._router.url === '' || this._router.url === '/';
-      }
-      return this._location.path().indexOf(nav.route) !== -1;
-    };
-
-    const idx = this.navLinks.indexOf(this.navLinks.find(findTab));
-    this.activeLinkIndex = (idx === -1) ? 0 : idx;
   }
 }
 
