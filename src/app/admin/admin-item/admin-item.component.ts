@@ -1,5 +1,5 @@
 import {Component, ElementRef, OnDestroy, OnInit, ViewChild} from '@angular/core';
-import {MdPaginator, MdSort, SelectionModel} from '@angular/material';
+import {MdPaginator, MdSort} from '@angular/material';
 import {BehaviorSubject} from 'rxjs/BehaviorSubject';
 import {DataSource} from '@angular/cdk/table';
 import {Observable} from 'rxjs/Observable';
@@ -12,6 +12,7 @@ import 'rxjs/add/operator/distinctUntilChanged';
 import 'rxjs/add/operator/debounceTime';
 import 'rxjs/add/observable/merge';
 import 'rxjs/add/operator/map';
+import {SelectionModel} from '@angular/cdk/collections';
 
 @Component({
   selector: 'vg-archon-item',
