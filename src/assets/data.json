@@ -96,6 +96,6 @@
     ],
     "privileges": ["CREATE", "READ", "UPDATE", "DELETE"]
   },
-  "user": "aplume01",
+  "username": "aplume01",
   "term": "2017u"
 }

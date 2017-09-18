@@ -24,7 +24,7 @@ import {SwUpdatesService} from '../sw-updates/sw-updates.service';
 })
 export class HomeComponent implements OnInit, OnDestroy {
 
-  navs$ = this._homeService.navs$;
+  nav$ = this._homeService.nav$;
   utln$ = this._userService.utln;
   isSideBySide = true;
   activeLinkIndex = -1;
@@ -44,7 +44,6 @@ export class HomeComponent implements OnInit, OnDestroy {
   private _tabWidth = 160;
   private _baseWidth = 220;
   private _sideBySideWidth = 875;
-  private _isOpen = false;
 
   private _resizeSubscription: Subscription | null;
   private _destroy = new Subject<void>();
@@ -61,15 +60,27 @@ export class HomeComponent implements OnInit, OnDestroy {
   ngOnInit () {
     takeUntilOp.call(this._authService.isAdmin, this._destroy).subscribe(data => {
       this.navLinks[this.navLinks.indexOf(this.adminTab)].show = data;
+      if (this.platform.isBrowser) {
+        this.onResize(window.innerWidth);
+      }
     });
     takeUntilOp.call(this._authService.isGrader, this._destroy).subscribe(data => {
       this.navLinks[this.navLinks.indexOf(this.graderTab)].show = data;
+      if (this.platform.isBrowser) {
+        this.onResize(window.innerWidth);
+      }
     });
     takeUntilOp.call(this._authService.isLoggedIn, this._destroy).subscribe(data => {
       this.navLinks[this.navLinks.indexOf(this.gradesTab)].show = data;
+      if (this.platform.isBrowser) {
+        this.onResize(window.innerWidth);
+      }
     });
     takeUntilOp.call(this._authService.isManager, this._destroy).subscribe(data => {
       this.navLinks[this.navLinks.indexOf(this.manageTab)].show = data;
+      if (this.platform.isBrowser) {
+        this.onResize(window.innerWidth);
+      }
     });
 
     if (this.platform.isBrowser) {
@@ -98,10 +109,6 @@ export class HomeComponent implements OnInit, OnDestroy {
     };
 
     this.isSideBySide = width > Math.max(this._sideBySideWidth, calcSize());
-  }
-
-  get isOpen() {
-    return this._isOpen;
   }
 
   logIn() {

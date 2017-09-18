@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import {HttpClient} from '@angular/common/http';
 import {UserService} from './user.service';
 import {environment} from '../../../environments/environment';
 import {Observable} from 'rxjs/Observable';
@@ -8,15 +7,56 @@ import {MdSnackBar} from '@angular/material';
 import {ReplaySubject} from 'rxjs/ReplaySubject';
 import {Course} from '../classes/course';
 import {Manager} from '../classes/manager';
+// import {Apollo} from 'apollo-angular';
+// import gql from 'graphql-tag';
+import {HttpClient} from '@angular/common/http';
 
 interface AuthResponse {
   grading: Course[];
   admin: Course[];
   courses: Course[];
   manage: Manager;
-  user: string;
+  username: string;
   term: string;
 }
+
+// const CurrentUser = gql`
+//   query {
+//     user {
+//       username
+//       groups
+//       manage {
+//         departments {
+//           courses {
+//             id
+//             name
+//             assigns
+//             term
+//           }
+//         }
+//         privileges
+//       }
+//       admin {
+//         id
+//         name
+//         assigns
+//         term
+//       }
+//       grading {
+//         id
+//         name
+//         assigns
+//         term
+//       }
+//       courses {
+//         id
+//         name
+//         assigns
+//         term
+//       }
+//     }
+//   }
+// `;
 
 @Injectable()
 export class AuthService {
@@ -32,12 +72,13 @@ export class AuthService {
   private _manage$ = this._manage.asObservable();
 
   constructor(
+    // private _apollo: Apollo,
+    private _http: HttpClient,
     private _router: Router,
     private userService: UserService,
-    private _http: HttpClient,
     private _snackbar: MdSnackBar
   ) {
-    this._loadAuth('/assets/data.json').subscribe();
+    this._loadAuth().subscribe();
   }
 
   get isLoggedIn(): Observable<boolean> {
@@ -73,15 +114,29 @@ export class AuthService {
     // this.http.post(this._url + 'logout', { }, this._options).subscribe();
   }
 
-  private _loadAuth(dataSource) {
+  private _loadAuth() {
     return new Observable<boolean>(obs => {
-      this._http.get<AuthResponse>(dataSource).subscribe(
+      // this._apollo.watchQuery<AuthResponse>({query: CurrentUser}).subscribe(({data}) => {
+      //   this._loggedIn.next(true);
+      //   this._grader.next(data.grading.length !== 0);
+      //   this._admin.next(data.admin.length !== 0);
+      //   this._manage.next(data.manage.privileges.length !== 0);
+      //   this.userService.populate(data, data.username);
+      //   obs.next(true);
+      //   obs.complete();
+      // },
+      // error => {
+      //   this._logOut();
+      //   obs.next(false);
+      //   obs.complete();
+      // });
+      this._http.get<AuthResponse>('/assets/data.json').subscribe(
         data => {
           this._loggedIn.next(true);
           this._grader.next(data.grading.length !== 0);
           this._admin.next(data.admin.length !== 0);
           this._manage.next(data.manage.privileges.length !== 0);
-          this.userService.populate(data, data.user);
+          this.userService.populate(data, data.username);
           obs.next(true);
           obs.complete();
         },
@@ -102,7 +157,7 @@ export class AuthService {
   }
 
   private _tempLogIn() {
-    this._loadAuth('../assets/data.json').subscribe(data => {
+    this._loadAuth().subscribe(data => {
       if (data) {
         this._snackbar.open('Login successful', '', {
           duration: 1250

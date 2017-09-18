@@ -46,7 +46,7 @@ export class UserService {
       this._grading.next(data.grading);
       this._admin.next(data.admin);
       this._courses.next(data.courses);
-      this._utln.next(data.user);
+      this._utln.next(data.username);
       this._manage.next(data.manage.departments);
       this._managePerms.next(data.manage.privileges);
       this._term.next(data.term);

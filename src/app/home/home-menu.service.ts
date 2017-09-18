@@ -1,16 +1,16 @@
 import { Injectable } from '@angular/core';
 import {Observable} from 'rxjs/Observable';
-import {BehaviorSubject} from 'rxjs/BehaviorSubject';
+import {ReplaySubject} from 'rxjs/ReplaySubject';
 
 @Injectable()
 export class HomeMenuService {
 
-  navs$: Observable<any[]>;
+  nav$: Observable<any[]>;
 
-  private _navs: BehaviorSubject<any[]> = new BehaviorSubject([]);
+  private _navs: ReplaySubject<any[]> = new ReplaySubject(1);
 
   constructor() {
-    this.navs$ = this._navs.asObservable();
+    this.nav$ = this._navs.asObservable();
   }
 
   /**

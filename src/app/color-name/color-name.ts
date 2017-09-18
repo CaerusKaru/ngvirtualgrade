@@ -11,22 +11,22 @@ export class ColorNameDirective implements OnInit {
   @Input() borderTop: boolean;
   @Input() borderLeft: boolean;
 
-  @HostBinding('style.borderRight')
+  @HostBinding('style.border-right')
   get borderRightColor() {
     return this.borderRight ? this.color : '';
   }
 
-  @HostBinding('style.borderBottom')
+  @HostBinding('style.border-bottom')
   get borderBottomColor() {
     return this.borderBottom ? this.color : '';
   }
 
-  @HostBinding('style.borderTop')
+  @HostBinding('style.border-top')
   get borderTopColor() {
     return this.borderTop ? this.color : '';
   }
 
-  @HostBinding('style.borderLeft')
+  @HostBinding('style.border-left')
   get borderLeftColor() {
     return this.borderLeft ? this.color : '';
   }

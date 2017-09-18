@@ -43,8 +43,8 @@
   </div>
   <md-sidenav-container fxFlex>
     <md-sidenav #sidenav class="dark-theme mat-elevation-z16"
-                [mode]="isSideBySide ? 'side' : 'over'" [opened]="isSideBySide || isOpen">
-      <md-nav-drawer fxFlex class="mat-app-background drawer-size" *ngIf="navs$ | async as navs">
+                [mode]="isSideBySide ? 'side' : 'over'" [opened]="isSideBySide">
+      <md-nav-drawer fxFlex class="mat-app-background drawer-size" *ngIf="nav$ | async as navs">
         <ng-container *ngFor="let nav of navs" [ngSwitch]="nav['type']">
           <h2 mdNavDrawerHeader *ngSwitchCase="'header'">{{nav['label']}}</h2>
           <ng-container *ngFor="let child of nav['children']" [ngSwitch]="child['type']">
