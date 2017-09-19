@@ -27,6 +27,13 @@ app.use(helmet.contentSecurityPolicy({
   }
 }));
 
+app.use(helmet.frameguard({ action: 'deny' }));
+
+const sixtyDaysInSeconds = 5184000;
+app.use(helmet.hsts({
+  maxAge: sixtyDaysInSeconds
+}));
+
 /* Server-side rendering */
 function angularRouter(req, res) {
   /* Server-side rendering */
