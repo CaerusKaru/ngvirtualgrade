@@ -6,12 +6,26 @@ require('reflect-metadata');
 
 const express = require('express');
 const shrinkRay = require('shrink-ray');
+const helmet = require('helmet');
 const ngUniversal = require('@nguniversal/express-engine');
 const { provideModuleMap } = require('@nguniversal/module-map-ngfactory-loader');
 const { AppServerModuleNgFactory, LAZY_MODULE_MAP } = require('./dist-server/main.bundle');
 
 const app = express();
 app.use(shrinkRay());
+
+app.use(helmet.contentSecurityPolicy({
+  directives: {
+    defaultSrc: ["'none'"],
+    styleSrc: ["'self'", 'fonts.googleapis.com', "'unsafe-inline'"],
+    workerSrc: ["'self'"],
+    scriptSrc: ["'self'", "'unsafe-eval'"],
+    connectSrc: ["'self'", 'fonts.gstatic.com', 'fonts.googleapis.com'],
+    imgSrc: ["'self'", 'data:'],
+    manifestSrc: ["'self'"],
+    fontSrc: ["'self'", 'fonts.gstatic.com']
+  }
+}));
 
 /* Server-side rendering */
 function angularRouter(req, res) {
