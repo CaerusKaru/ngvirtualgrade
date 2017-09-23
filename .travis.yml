@@ -13,7 +13,7 @@ before_install:
 install:
 - npm install
 script:
-- npm run build
+- npm run build:dynamic
 cache:
   directories:
   - "./node_modules"

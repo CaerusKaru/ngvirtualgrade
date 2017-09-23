@@ -5,8 +5,9 @@ import {CoursesRoutingModule} from './courses-routing.module';
 import {FlexLayoutModule} from '@angular/flex-layout';
 import { CoursesItemComponent } from './courses-item/courses-item.component';
 import {CoursesMaterialModule} from './courses-material/courses-material.module';
-import { CoursesCourseComponent } from './courses-course/courses-course.component';
+import {CoursesCourseComponent, SubmitAssignmentDialogComponent} from './courses-course/courses-course.component';
 import {CardButtonModule} from '../card-button/index';
+import { FileUploadModule } from 'ng2-file-upload';
 
 @NgModule({
   imports: [
@@ -14,8 +15,19 @@ import {CardButtonModule} from '../card-button/index';
     CoursesRoutingModule,
     FlexLayoutModule,
     CoursesMaterialModule,
-    CardButtonModule
+    CardButtonModule,
+    FileUploadModule,
   ],
-  declarations: [CoursesHomeComponent, CoursesItemComponent, CoursesCourseComponent]
+  declarations: [
+    CoursesHomeComponent,
+    CoursesItemComponent,
+    CoursesCourseComponent,
+    SubmitAssignmentDialogComponent,
+  ],
+  entryComponents: [
+    SubmitAssignmentDialogComponent,
+  ],
+  bootstrap: [
+  ]
 })
 export class CoursesModule { }

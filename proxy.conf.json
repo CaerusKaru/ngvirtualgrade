@@ -1,0 +1,10 @@
+{
+  "/data/**": {
+    "target": "http://localhost:8000",
+    "pathRewrite": {
+      "^/data": ""
+    },
+    "changeOrigin": true,
+    "secure": false
+  }
+}

@@ -14,46 +14,65 @@
 
   <h4 class="mat-heading">Assignments</h4>
   <div fxLayout="column" fxLayoutGap="35px">
-    <div *ngFor="let assign of course.assigns; even as even">
-      <card-button [color]="assign" [left]="true">
-        <div fxFlex fxLayout="row" fxLayoutGap="40px" fxLayoutAlign="start center" [routerLink]="assign">
-          <div fxLayout="column" fxLayoutGap="5px" fxLayoutAlign="center center">
-            <div class="mat-caption">
-              Name
-            </div>
-            <div class="mat-body-2">
-              {{assign}}
-            </div>
-          </div>
-          <div fxLayout="column" fxLayoutGap="5px" fxLayoutAlign="center center">
-            <div class="mat-caption">
-              Submitted
-            </div>
-            <div *ngIf="even; else turnedIn">
-              <md-icon style="color: orange">error</md-icon>
-            </div>
-            <ng-template #turnedIn>
-              <md-icon style="color: green">check_circle</md-icon>
-            </ng-template>
-          </div>
-          <div fxLayout="column" fxLayoutGap="5px" fxLayoutAlign="center center">
-            <div class="mat-caption">
-              Start Date
-            </div>
-            <div class="mat-body-2">
-              Thurs Jan 13, 2017 12:12pm
-            </div>
-          </div>
-          <div fxLayout="column" fxLayoutGap="5px" fxLayoutAlign="center center">
-            <div class="mat-caption">
-              End Date
-            </div>
-            <div class="mat-body-2">
-              Fri Jan 14, 2017 12:15pm
-            </div>
-          </div>
+    <md-expansion-panel *ngFor="let assign of course.assigns; even as even">
+      <md-expansion-panel-header>
+        <md-panel-title fxLayoutAlign="space-between center">
+          {{assign}}
+        </md-panel-title>
+        <md-panel-description fxLayoutAlign="space-between center">
+          Due Date: Fri Jan 14, 2017 12:15pm
+          <md-icon style="color: orange">error</md-icon>
+        </md-panel-description>
+      </md-expansion-panel-header>
+      <div fxLayout="column" fxLayoutGap="10px">
+        <div>
+          <span>Time Remaining: 1hr</span>
+          <span fxFlex></span>
+          <span>Submissions Remaining: 3</span>
         </div>
-      </card-button>
-    </div>
+        <div>
+          <span>Late Penalty: 20%/day</span>
+          <span fxFlex></span>
+          <span>Tokens Remaining: 1</span>
+        </div>
+        <div>Required files: Table.h, Table.cpp, README, DESIGN, Makefile</div>
+      </div>
+      <md-action-row>
+        <button md-button color="primary" (click)="openSubmit()">SUBMIT</button>
+      </md-action-row>
+      <!--<card-button [color]="assign" [left]="true">-->
+        <!--<div fxFlex fxLayout="row" fxLayoutGap="40px" fxLayoutAlign="start center" [routerLink]="assign">-->
+          <!--<div fxLayout="column" fxLayoutGap="5px" fxLayoutAlign="center center">-->
+            <!--<div class="mat-caption">-->
+              <!--Name-->
+            <!--</div>-->
+            <!--<div class="mat-body-2">-->
+              <!--{{assign}}-->
+            <!--</div>-->
+          <!--</div>-->
+          <!--<div fxLayout="column" fxLayoutGap="5px" fxLayoutAlign="center center">-->
+            <!--<div class="mat-caption">-->
+              <!--Submitted-->
+            <!--</div>-->
+          <!--</div>-->
+          <!--<div fxLayout="column" fxLayoutGap="5px" fxLayoutAlign="center center">-->
+            <!--<div class="mat-caption">-->
+              <!--Start Date-->
+            <!--</div>-->
+            <!--<div class="mat-body-2">-->
+              <!--Thurs Jan 13, 2017 12:12pm-->
+            <!--</div>-->
+          <!--</div>-->
+          <!--<div fxLayout="column" fxLayoutGap="5px" fxLayoutAlign="center center">-->
+            <!--<div class="mat-caption">-->
+              <!--End Date-->
+            <!--</div>-->
+            <!--<div class="mat-body-2">-->
+              <!--Fri Jan 14, 2017 12:15pm-->
+            <!--</div>-->
+          <!--</div>-->
+        <!--</div>-->
+      <!--</card-button>-->
+    </md-expansion-panel>
   </div>
 </div>

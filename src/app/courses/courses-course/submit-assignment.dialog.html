@@ -1,0 +1,35 @@
+<div fxFill>
+  <md-card fxFlex fxLayout="column">
+    <md-card-title>Upload Files</md-card-title>
+    <md-card-content>
+      <table fxFlexFill>
+        <thead>
+          <tr>
+            <th width="50%">Name</th>
+            <th>Size</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let item of uploader.queue" style="border-bottom: 1px solid rgba(0,0,0,0.12)">
+            <td><strong>{{ item?.file?.name }}</strong></td>
+            <td *ngIf="uploader.isHTML5" nowrap>{{ item?.file?.size/1024/1024 }} MB</td>
+            <td nowrap>
+              <button md-icon-button (click)="item.remove()">
+                <md-icon>remove_circle</md-icon>
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </md-card-content>
+    <span fxFlex style="border-bottom: 1px solid rgba(0,0,0,0.12)"></span>
+    <md-card-actions>
+      <button md-button (click)="addFile()">+ ADD FILE</button>
+      <span fxFlex></span>
+      <button md-button color="primary">UPLOAD</button>
+      <button md-button md-dialog-close color="warn">CANCEL</button>
+    </md-card-actions>
+  </md-card>
+  <input type="file" ng2FileSelect [uploader]="uploader" multiple style="display: none" #fileInput />
+</div>

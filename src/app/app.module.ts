@@ -20,6 +20,9 @@ import {CoursesResolver} from './shared/resolvers/courses-resolver';
 import {GradingResolver} from './shared/resolvers/grading-resolver';
 import {LandingResolver} from './shared/resolvers/landing-resolver';
 import {ManageResolver} from './shared/resolvers/manage-resolver';
+import {ApolloModule} from 'apollo-angular';
+import {provideClient} from './client';
+
 
 @NgModule({
   declarations: [
@@ -37,6 +40,7 @@ import {ManageResolver} from './shared/resolvers/manage-resolver';
     NavDrawerModule,
     AppMaterialModule,
     AppRoutingModule,
+    ApolloModule.withClient(provideClient),
   ],
   providers: [
     UserService,

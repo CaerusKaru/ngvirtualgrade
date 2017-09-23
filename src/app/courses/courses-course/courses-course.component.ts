@@ -1,10 +1,14 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
+import {Component, ElementRef, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {Subject} from 'rxjs/Subject';
 import {ActivatedRoute} from '@angular/router';
 import {UserService} from '../../shared/services/user.service';
 import {takeUntil} from 'rxjs/operator/takeUntil';
 import {Course} from '../../shared/classes/course';
 import {map} from 'rxjs/operator/map';
+import { FileUploader } from 'ng2-file-upload';
+import {MdDialog, MdDialogRef} from '@angular/material';
+
+const URL = '/submissions/';
 
 @Component({
   selector: 'vg-courses-course',
@@ -23,6 +27,7 @@ export class CoursesCourseComponent implements OnInit, OnDestroy {
   private _destroy = new Subject<void>();
 
   constructor(
+    public dialog: MdDialog,
     private _userService: UserService,
     private _route: ActivatedRoute
   ) { }
@@ -52,5 +57,31 @@ export class CoursesCourseComponent implements OnInit, OnDestroy {
       this._inactive.find(a => {
         return a.name === this._course && (!this._courseId || this._courseId === a.id);
       });
+  }
+
+  openSubmit () {
+    const dialogRef = this.dialog.open(SubmitAssignmentDialogComponent, {
+      height: '500px',
+      width: '350px',
+    });
+  }
+}
+
+@Component({
+  selector: 'vg-submit-assignment-dialog',
+  templateUrl: './submit-assignment.dialog.html',
+  styleUrls: ['./submit-assignment.dialog.scss']
+})
+export class SubmitAssignmentDialogComponent {
+
+  @ViewChild('fileInput') inputRef: ElementRef;
+
+  uploader = new FileUploader({url: URL});
+
+  constructor (public dialogRef: MdDialogRef<SubmitAssignmentDialogComponent>) {
+  }
+
+  addFile () {
+    this.inputRef.nativeElement.click();
   }
 }

@@ -137,7 +137,7 @@ export class ExampleDataSource extends DataSource<any> {
     const displayDataChanges = [
       this._exampleDatabase.dataChange,
       this._paginator.page,
-      this._sort.mdSortChange
+      this._sort.sortChange
     ];
 
     return Observable.merge(...displayDataChanges).map(() => {
