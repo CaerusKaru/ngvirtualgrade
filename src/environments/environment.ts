@@ -6,5 +6,6 @@
 export const environment = {
   production: false,
   API_ENDPOINT: 'https://virtualgrade-dev.eecs.tufts.edu/cr/',
-  ENTITY_NAME: 'Tufts University'
+  ENTITY_NAME: 'Tufts University',
+  GRAPHQL_ENDPOINT: 'http://localhost:4000/graphql',
 };

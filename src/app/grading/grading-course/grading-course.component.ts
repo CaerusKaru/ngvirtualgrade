@@ -1,5 +1,5 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
-import {takeUntil} from 'rxjs/operator/takeUntil';
+import {takeUntil} from 'rxjs/operators';
 import {Subject} from 'rxjs/Subject';
 import {ActivatedRoute} from '@angular/router';
 import {UserService} from '../../shared/services/user.service';
@@ -24,11 +24,11 @@ export class GradingCourseComponent implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit() {
-    takeUntil.call(this._route.params, this._destroy).subscribe(params => {
+    this._route.params.pipe(takeUntil(this._destroy)).subscribe(params => {
       this._course = params['course'];
       this._courseId = +params['courseId'];
     });
-    takeUntil.call(this.courses, this._destroy).subscribe(data => {
+    this.courses.pipe(takeUntil(this._destroy)).subscribe(data => {
       this._courses = data;
     });
   }

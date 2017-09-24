@@ -2,7 +2,7 @@ import {Component, EventEmitter, Input, OnDestroy, OnInit, Output} from '@angula
 import {FormArray, FormControl, FormGroup} from '@angular/forms';
 import {hideAnimation, slideChildAnimation} from '../../../shared/animations/slide.animation';
 import {Subject} from 'rxjs/Subject';
-import {takeUntil} from 'rxjs/operator/takeUntil';
+import {takeUntil, filter} from 'rxjs/operators';
 
 @Component({
   selector: 'vg-create-step',
@@ -26,7 +26,7 @@ export class CreateStepComponent implements OnInit, OnDestroy {
   constructor() { }
 
   ngOnInit() {
-    takeUntil.call(this.startTime.valueChanges, this._destroy).subscribe(
+    this.startTime.valueChanges.pipe(takeUntil(this._destroy)).subscribe(
       data => {
         const curStart = this.step.get('start_date').value;
         const newTime = data.split(':');
@@ -35,7 +35,7 @@ export class CreateStepComponent implements OnInit, OnDestroy {
         this.step.get('start_date').setValue(curStart);
       }
     );
-    takeUntil.call(this.endTime.valueChanges, this._destroy).subscribe(
+    this.endTime.valueChanges.pipe(takeUntil(this._destroy)).subscribe(
       data => {
         const curStart = this.step.get('end_date').value;
         const newTime = data.split(':');
@@ -44,26 +44,26 @@ export class CreateStepComponent implements OnInit, OnDestroy {
         this.step.get('end_date').setValue(curStart);
       }
     );
-    takeUntil.call(this.step.get('start_date').valueChanges, this._destroy)
-      .filter(v => v.getHours() !== +this.startTime.value.split(':')[0] && v.getMinutes() !== +this.startTime.value.split(':')[1])
-      .subscribe(
+    this.step.get('start_date').valueChanges.pipe(
+      takeUntil(this._destroy),
+      filter(v => v.getHours() !== +this.startTime.value.split(':')[0] && v.getMinutes() !== +this.startTime.value.split(':')[1])
+    ).subscribe(
+    data => {
+      const newTime = this.startTime.value.split(':');
+      data.setHours(newTime[0]);
+      data.setMinutes(newTime[1]);
+      this.step.get('start_date').setValue(data);
+    });
+    this.step.get('end_date').valueChanges.pipe(
+      takeUntil(this._destroy),
+      filter(v => v.getHours() !== +this.endTime.value.split(':')[0] && v.getMinutes() !== +this.endTime.value.split(':')[1])
+    ).subscribe(
       data => {
-        const newTime = this.startTime.value.split(':');
-        data.setHours(newTime[0]);
-        data.setMinutes(newTime[1]);
-        this.step.get('start_date').setValue(data);
-      }
-    );
-    takeUntil.call(this.step.get('end_date').valueChanges, this._destroy)
-      .filter(v => v.getHours() !== +this.endTime.value.split(':')[0] && v.getMinutes() !== +this.endTime.value.split(':')[1])
-      .subscribe(
-        data => {
-          const newTime = this.endTime.value.split(':');
-          data.setHours(newTime[0]);
-          data.setMinutes(newTime[1]);
-          this.step.get('end_date').setValue(data);
-        }
-      );
+      const newTime = this.endTime.value.split(':');
+      data.setHours(newTime[0]);
+      data.setMinutes(newTime[1]);
+      this.step.get('end_date').setValue(data);
+    });
   }
 
   ngOnDestroy() {

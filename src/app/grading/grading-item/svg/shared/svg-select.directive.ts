@@ -1,7 +1,7 @@
 import {Directive, ElementRef, HostBinding, HostListener, OnDestroy, OnInit} from '@angular/core';
 import {SvgService} from './svg.service';
 import {Subject} from 'rxjs/Subject';
-import {takeUntil} from 'rxjs/operator/takeUntil';
+import {takeUntil} from 'rxjs/operators';
 
 @Directive({
   selector: '[svgSelect]'
@@ -23,7 +23,7 @@ export class SvgSelectDirective implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit () {
-    takeUntil.call(this._svgService.mode, this._destroy).subscribe((newMode) => this.currentMode = newMode);
+    this._svgService.mode.pipe(takeUntil(this._destroy)).subscribe((newMode) => this.currentMode = newMode);
     this.originalColor = this.currentColor;
   }
 

@@ -4,12 +4,12 @@ import {SvgService} from './svg/shared/svg.service';
 import {ScoreItem} from '../shared/score-item';
 import {Problem} from '../shared/problem';
 import {NgForm} from '@angular/forms';
-import {takeUntil} from 'rxjs/operator/takeUntil';
+import {takeUntil, map} from 'rxjs/operators';
+import {merge} from 'rxjs/observable/merge';
 import {Subject} from 'rxjs/Subject';
 import {Observable} from 'rxjs/Observable';
 import {BehaviorSubject} from 'rxjs/BehaviorSubject';
 import {ActivatedRoute} from '@angular/router';
-import 'rxjs/add/operator/map';
 import {DataSource} from '@angular/cdk/table';
 
 @Component({
@@ -42,7 +42,7 @@ export class GradingItemComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.dataSource = new ExampleDataSource(this.exampleDatabase, this.paginator, this.sort);
-    takeUntil.call(this._route.params, this._destroy).subscribe(params => {
+    this._route.params.pipe(takeUntil(this._destroy)).subscribe(params => {
       this.course = params['course'];
       this.id = params['id'];
     });
@@ -140,13 +140,15 @@ export class ExampleDataSource extends DataSource<any> {
       this._sort.sortChange
     ];
 
-    return Observable.merge(...displayDataChanges).map(() => {
-      const data = this.getSortedData();
+    return merge(...displayDataChanges).pipe(
+      map(() => {
+        const data = this.getSortedData();
 
-      // Grab the page's slice of data.
-      const startIndex = this._paginator.pageIndex * this._paginator.pageSize;
-      return data.splice(startIndex, this._paginator.pageSize);
-    });
+        // Grab the page's slice of data.
+        const startIndex = this._paginator.pageIndex * this._paginator.pageSize;
+        return data.splice(startIndex, this._paginator.pageSize);
+      })
+    );
   }
 
   disconnect() {}

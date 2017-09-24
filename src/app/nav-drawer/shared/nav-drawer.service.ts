@@ -3,7 +3,7 @@ import {BehaviorSubject} from 'rxjs/BehaviorSubject';
 import {Observable} from 'rxjs/Observable';
 import {NavigationEnd, Router} from '@angular/router';
 import {Location} from '@angular/common';
-import {filter} from 'rxjs/operator/filter';
+import {filter} from 'rxjs/operators';
 
 @Injectable()
 export class NavDrawerService {
@@ -59,7 +59,7 @@ export class NavDrawerService {
   }
 
   private initRouter () {
-    filter.call(this._router.events, event => event instanceof NavigationEnd)
+    this._router.events.pipe(filter(event => event instanceof NavigationEnd))
       .subscribe(() => {
         this.updateSelection();
         this._currentPath = this._location.path();

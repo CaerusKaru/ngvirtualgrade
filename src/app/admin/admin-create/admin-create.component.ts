@@ -1,7 +1,7 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {SubmissionStep} from '../../shared/classes/submission-step';
 import {GradingComponent} from '../../shared/classes/grading-component';
-import {takeUntil} from 'rxjs/operator/takeUntil';
+import {takeUntil} from 'rxjs/operators';
 import {ActivatedRoute} from '@angular/router';
 import {Subject} from 'rxjs/Subject';
 import {Grader} from '../../shared/classes/grader';
@@ -33,7 +33,7 @@ export class AdminCreateComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    takeUntil.call(this._route.params, this._destroy).subscribe(params => {
+    this._route.params.pipe(takeUntil(this._destroy)).subscribe(params => {
       this.course = params['course'];
     });
   }

@@ -7,11 +7,15 @@ import {GradingResolver} from './shared/resolvers/grading-resolver';
 import {CoursesResolver} from './shared/resolvers/courses-resolver';
 import {LandingResolver} from './shared/resolvers/landing-resolver';
 import {ManageResolver} from './shared/resolvers/manage-resolver';
+import {HomeResolver} from './shared/resolvers/home-resolver';
 
 export const appRoutes: Routes = [
   {
     path: '',
     component: HomeComponent,
+    resolve: {
+      data: HomeResolver
+    },
     children: [
       {
         path: '',

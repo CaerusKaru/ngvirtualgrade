@@ -2,9 +2,8 @@ import {Component, ElementRef, OnDestroy, OnInit, ViewChild} from '@angular/core
 import {Subject} from 'rxjs/Subject';
 import {ActivatedRoute} from '@angular/router';
 import {UserService} from '../../shared/services/user.service';
-import {takeUntil} from 'rxjs/operator/takeUntil';
+import {takeUntil, map} from 'rxjs/operators';
 import {Course} from '../../shared/classes/course';
-import {map} from 'rxjs/operator/map';
 import { FileUploader } from 'ng2-file-upload';
 import {MatDialog, MatDialogRef} from '@angular/material';
 
@@ -17,8 +16,8 @@ const URL = '/submissions/';
 })
 export class CoursesCourseComponent implements OnInit, OnDestroy {
 
-  courses = map.call(this._userService.courses, v => v.filter(a => this._userService.isTerm(a.term)));
-  inactive = map.call(this._userService.courses, v => v.filter(a => !this._userService.isTerm(a.term)));
+  courses = this._userService.courses.pipe(map(v => v.filter(a => this._userService.isTerm(a.term))));
+  inactive = this._userService.courses.pipe(map(v => v.filter(a => !this._userService.isTerm(a.term))));
 
   private _course: string;
   private _courseId: number;
@@ -33,14 +32,14 @@ export class CoursesCourseComponent implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit() {
-    takeUntil.call(this._route.params, this._destroy).subscribe(params => {
+    this._route.params.pipe(takeUntil(this._destroy)).subscribe(params => {
       this._course = params['course'];
       this._courseId = +params['courseId'];
     });
-    takeUntil.call(this.courses, this._destroy).subscribe(data => {
+    this.courses.pipe(takeUntil(this._destroy)).subscribe(data => {
       this._courses = data;
     });
-    takeUntil.call(this.inactive, this._destroy).subscribe(data => {
+    this.inactive.pipe(takeUntil(this._destroy)).subscribe(data => {
       this._inactive = data;
     });
   }

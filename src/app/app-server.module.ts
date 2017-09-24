@@ -6,13 +6,16 @@ import {UniversalInterceptor} from './shared/interceptors/universal.interceptor'
 import {HTTP_INTERCEPTORS} from '@angular/common/http';
 // import {ServerPrebootModule} from 'preboot/src/server/server-preboot.module';
 import {ModuleMapLoaderModule} from '@nguniversal/module-map-ngfactory-loader';
+import {ApolloModule} from 'apollo-angular';
+import {provideClient} from './apollo.server';
 
 @NgModule({
   imports: [
     ServerModule,
     AppModule,
     // ServerPrebootModule.recordEvents({ appRoot: 'vg-root' }),
-    ModuleMapLoaderModule
+    ModuleMapLoaderModule,
+    ApolloModule.withClient(provideClient),
   ],
   providers: [{
     provide: HTTP_INTERCEPTORS,

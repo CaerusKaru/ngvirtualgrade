@@ -1,11 +1,8 @@
 import {Injectable, OnDestroy} from '@angular/core';
 import {Subject} from 'rxjs/Subject';
 import {NgServiceWorker} from '@angular/service-worker';
-import {concat} from 'rxjs/operator/concat';
-import {Observable} from 'rxjs/Observable';
-import {takeUntil} from 'rxjs/operator/takeUntil';
-import {debounceTime} from 'rxjs/operator/debounceTime';
-import {startWith} from 'rxjs/operator/startWith';
+import {concat, takeUntil, debounceTime, startWith, filter, map, take} from 'rxjs/operators';
+import {of} from 'rxjs/observable/of';
 
 /**
  * credit to Angular Core team and their work on angular.io
@@ -21,16 +18,17 @@ export class SwUpdatesService implements OnDestroy {
 
   constructor(private _sw: NgServiceWorker) {
 
-    takeUntil.call(
-      debounceTime.call(
-        startWith.call(this._checkForUpdateSubj, null),
-        this._checkInterval),
-      this._destroy)
-      .subscribe(() => this._checkForUpdate());
+    this._checkForUpdateSubj.pipe(
+      startWith(null),
+      debounceTime(this._checkInterval),
+      takeUntil(this._destroy)
+    ).subscribe(() => this._checkForUpdate());
 
-    this.updateActivated = takeUntil.call(this._sw.updates, this._destroy)
-      .filter(({type}) => type === 'activation')
-      .map(({version}) => version);
+    this.updateActivated = this._sw.updates.pipe(
+      filter(({type}) => type === 'activation'),
+      map(({version}) => version),
+      takeUntil(this._destroy)
+    );
   }
 
   ngOnDestroy() {
@@ -41,9 +39,10 @@ export class SwUpdatesService implements OnDestroy {
   private _checkForUpdate() {
     // Temp workaround for https://github.com/angular/mobile-toolkit/pull/137.
     // TODO (): Remove once #137 is fixed.
-    concat.call(this._sw.checkForUpdate(), Observable.of(false))
-      .take(1)
-      .subscribe(v => v ? this._activateUpdate() : this._scheduleCheckForUpdate());
+    this._sw.checkForUpdate().pipe(
+      concat(of(false)),
+      take(1),
+    ).subscribe(v => v ? this._activateUpdate() : this._scheduleCheckForUpdate());
   }
 
   private _activateUpdate() {

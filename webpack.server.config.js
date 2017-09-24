@@ -5,10 +5,8 @@ module.exports = {
   entry: { server: './server.ts' },
   target: 'node',
   resolve: { extensions: ['.ts', '.js', '.json', '.node', '.html'] },
-  // Make sure we include all node_modules etc
-  externals: [/(node_modules|main\..*\.js)/],
+  externals: [/(node_modules|main\..*\.js)/,],
   output: {
-    // Puts the output at the root of the dist folder
     path: path.join(__dirname, 'dist'),
     filename: '[name].js'
   },
@@ -31,6 +29,7 @@ module.exports = {
     new webpack.ContextReplacementPlugin(
       /(.+)?express(\\|\/)(.+)?/,
       path.join(__dirname, 'src'),
+      {}
     )
   ]
 };

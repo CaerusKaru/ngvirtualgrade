@@ -1,7 +1,7 @@
 import {Directive, ElementRef, HostBinding, HostListener, OnInit, OnDestroy} from '@angular/core';
 import {SvgService} from './svg.service';
 import {Subject} from 'rxjs/Subject';
-import {takeUntil} from 'rxjs/operator/takeUntil';
+import {takeUntil} from 'rxjs/operators';
 
 @Directive({
   selector: '[svgDrag]'
@@ -41,9 +41,9 @@ export class SvgDragDirective implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit () {
-    takeUntil.call(this._svgService.mode, this._destroy).subscribe((newMode) => this.currentMode = newMode);
-    takeUntil.call(this._svgService.offsetX, this._destroy).subscribe((val) => this.offsetX = val);
-    takeUntil.call(this._svgService.offsetY, this._destroy).subscribe((val) => this.offsetY = val);
+    this._svgService.mode.pipe(takeUntil(this._destroy)).subscribe((newMode) => this.currentMode = newMode);
+    this._svgService.offsetX.pipe(takeUntil(this._destroy)).subscribe((val) => this.offsetX = val);
+    this._svgService.offsetY.pipe(takeUntil(this._destroy)).subscribe((val) => this.offsetY = val);
     this.originalColor = this._element.nativeElement.style.stroke;
     if (this.transform) {
       const currentPos = this.transform.split('(')[1].split(')')[0].split(',');

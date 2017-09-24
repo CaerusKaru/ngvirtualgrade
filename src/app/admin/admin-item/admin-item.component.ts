@@ -5,13 +5,9 @@ import {DataSource} from '@angular/cdk/table';
 import {Observable} from 'rxjs/Observable';
 import {ActivatedRoute} from '@angular/router';
 import {Subject} from 'rxjs/Subject';
-import {takeUntil} from 'rxjs/operator/takeUntil';
-import 'rxjs/add/operator/startWith';
-import 'rxjs/add/observable/fromEvent';
-import 'rxjs/add/operator/distinctUntilChanged';
-import 'rxjs/add/operator/debounceTime';
-import 'rxjs/add/observable/merge';
-import 'rxjs/add/operator/map';
+import {takeUntil, distinctUntilChanged, debounceTime, map} from 'rxjs/operators';
+import {fromEvent} from 'rxjs/observable/fromEvent';
+import {merge} from 'rxjs/observable/merge';
 import {SelectionModel} from '@angular/cdk/collections';
 
 @Component({
@@ -39,17 +35,17 @@ export class AdminItemComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.dataSource = new ExampleDataSource(this.exampleDatabase, this.paginator, this.sort);
-    takeUntil.call(this._route.params, this._destroy).subscribe(params => {
+    this._route.params.pipe(takeUntil(this._destroy)).subscribe(params => {
       this.course = params['course'];
       this.id = params['id'];
     });
-    Observable.fromEvent(this.filter.nativeElement, 'keyup')
-      .debounceTime(150)
-      .distinctUntilChanged()
-      .subscribe(() => {
-        if (!this.dataSource) { return; }
-        this.dataSource.filter = this.filter.nativeElement.value;
-      });
+    fromEvent(this.filter.nativeElement, 'keyup').pipe(
+      debounceTime(150),
+      distinctUntilChanged()
+    ).subscribe(() => {
+      if (!this.dataSource) { return; }
+      this.dataSource.filter = this.filter.nativeElement.value;
+    });
   }
 
   ngOnDestroy() {
@@ -161,21 +157,23 @@ export class ExampleDataSource extends DataSource<any> {
       this._paginator.page,
     ];
 
-    return Observable.merge(...displayDataChanges).map(() => {
-      // Filter data
-      this.filteredData = this._exampleDatabase.data.slice().filter((item: UserData) => {
-        const searchStr = (item.name + item.color).toLowerCase();
-        return searchStr.indexOf(this.filter.toLowerCase()) !== -1;
-      });
+    return merge(...displayDataChanges).pipe(
+      map(() => {
+        // Filter data
+        this.filteredData = this._exampleDatabase.data.slice().filter((item: UserData) => {
+          const searchStr = (item.name + item.color).toLowerCase();
+          return searchStr.indexOf(this.filter.toLowerCase()) !== -1;
+        });
 
-      // Sort filtered data
-      const sortedData = this.sortData(this.filteredData.slice());
+        // Sort filtered data
+        const sortedData = this.sortData(this.filteredData.slice());
 
-      // Grab the page's slice of the filtered sorted data.
-      const startIndex = this._paginator.pageIndex * this._paginator.pageSize;
-      this.renderedData = sortedData.splice(startIndex, this._paginator.pageSize);
-      return this.renderedData;
-    });
+        // Grab the page's slice of the filtered sorted data.
+        const startIndex = this._paginator.pageIndex * this._paginator.pageSize;
+        this.renderedData = sortedData.splice(startIndex, this._paginator.pageSize);
+        return this.renderedData;
+      })
+    );
   }
 
   disconnect() {}

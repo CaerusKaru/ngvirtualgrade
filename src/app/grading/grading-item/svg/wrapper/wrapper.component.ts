@@ -5,7 +5,7 @@ import {
 import {LineComponent} from '../line/line.component';
 import {SvgService} from '../shared/svg.service';
 import {TextComponent} from '../text/text.component';
-import {takeUntil} from 'rxjs/operator/takeUntil';
+import {takeUntil} from 'rxjs/operators';
 import {Subject} from 'rxjs/Subject';
 
 @Component({
@@ -46,9 +46,9 @@ export class WrapperComponent implements OnInit, AfterViewInit, OnDestroy {
   ) { }
 
   ngOnInit () {
-    takeUntil.call(this._svgService.offsetX, this._destroy).subscribe((val) => this.offsetX = val);
-    takeUntil.call(this._svgService.offsetY, this._destroy).subscribe((val) => this.offsetY = val);
-    takeUntil.call(this._svgService.textEditing, this._destroy).subscribe((val) => this.textEditing = val);
+    this._svgService.offsetX.pipe(takeUntil(this._destroy)).subscribe((val) => this.offsetX = val);
+    this._svgService.offsetY.pipe(takeUntil(this._destroy)).subscribe((val) => this.offsetY = val);
+    this._svgService.textEditing.pipe(takeUntil(this._destroy)).subscribe((val) => this.textEditing = val);
     // TODO fetch the pdf annotations while the view is rendering
     // PDFService.initPDF().then(function () {
     //   currentPage = PDFService.getPage(0);

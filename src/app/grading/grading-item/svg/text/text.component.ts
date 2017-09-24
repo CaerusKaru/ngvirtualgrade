@@ -4,7 +4,7 @@ import {
 import {SVGInterface} from '../shared/svg.interface';
 import {SvgService} from '../shared/svg.service';
 import {Subject} from 'rxjs/Subject';
-import {takeUntil} from 'rxjs/operator/takeUntil';
+import {takeUntil} from 'rxjs/operators';
 
 @Component({
   selector: 'svg:svg[svgText]',
@@ -38,9 +38,9 @@ export class TextComponent implements SVGInterface, OnInit, OnDestroy {
   ) { }
 
   ngOnInit () {
-    takeUntil.call(this._svgService.textEditing, this._destroy).subscribe((val) => this.textEditing = val);
+    this._svgService.textEditing.pipe(takeUntil(this._destroy)).subscribe((val) => this.textEditing = val);
     this.localEditing = this.textEditing;
-    takeUntil.call(this._svgService.mode, this._destroy).subscribe((val) => {
+    this._svgService.mode.pipe(takeUntil(this._destroy)).subscribe((val) => {
       if (val !== 'text') {
         // find a better way of doing this
         if (this.localEditing) {

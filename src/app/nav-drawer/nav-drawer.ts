@@ -5,7 +5,7 @@ import {
 import {NavDrawerService} from './shared/nav-drawer.service';
 import {animate, style, transition, state, trigger} from '@angular/animations';
 import {Observable} from 'rxjs/Observable';
-import {map} from 'rxjs/operator/map';
+import {map} from 'rxjs/operators';
 
 let uniqueId = 0;
 
@@ -29,7 +29,7 @@ export class NavDrawerLinkComponent implements AfterViewInit {
   constructor(private menuService: NavDrawerService) { }
 
   ngAfterViewInit() {
-    this.isSelected$ = map.call(this.menuService.openPage, i => i === this.id);
+    this.isSelected$ = this.menuService.openPage.pipe(map(i => i === this.id));
   }
 }
 
@@ -61,7 +61,7 @@ export class NavDrawerToggleComponent implements AfterViewInit, OnDestroy {
   constructor(private menuService: NavDrawerService, private _changeDetectorRef: ChangeDetectorRef) { }
 
   ngAfterViewInit() {
-    this.isOpen = map.call(this.menuService.openSection, d => d === this._id);
+    this.isOpen = this.menuService.openSection.pipe(map(d => d === this._id));
     this.initLinks();
     this._changeDetectorRef.detectChanges();
   }

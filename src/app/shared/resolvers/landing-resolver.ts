@@ -32,6 +32,6 @@ export class LandingResolver implements Resolve<boolean> {
 
   resolve(route: ActivatedRouteSnapshot) {
     this._homeService.setCourses([this._landing]);
-    return of.call(true);
+    return of(true);
   }
 }

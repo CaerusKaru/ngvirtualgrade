@@ -2,8 +2,7 @@ import { Injectable } from '@angular/core';
 import {CanLoad, Route, Router} from '@angular/router';
 import { Observable } from 'rxjs/Observable';
 import {AuthService} from '../services/auth.service';
-import {first} from 'rxjs/operator/first';
-import {map} from 'rxjs/operator/map';
+import {first, map} from 'rxjs/operators';
 
 @Injectable()
 export class CanLoadCourses implements CanLoad {
@@ -16,14 +15,17 @@ export class CanLoadCourses implements CanLoad {
 
   canLoad(route: Route): Observable<boolean> | Promise<boolean> | boolean {
 
-    return first.call(map.call(this._authService.isLoggedIn, d => {
-      if (d) {
-        return true;
-      } else {
-        this._router.navigate(['/ausi']);
-        return false;
-      }
-    }));
+    return this._authService.isLoggedIn.pipe(
+      map(d => {
+        if (d) {
+          return true;
+        } else {
+          this._router.navigate(['/ausi']);
+          return false;
+        }
+      }),
+      first()
+    );
   }
 }
 
@@ -38,14 +40,17 @@ export class CanLoadGrading implements CanLoad {
 
   canLoad(route: Route): Observable<boolean> | Promise<boolean> | boolean {
 
-    return first.call(map.call(this._authService.isGrader, d => {
-      if (d) {
-        return true;
-      } else {
-        this._router.navigate(['/ausi']);
-        return false;
-      }
-    }));
+    return this._authService.isGrader.pipe(
+      map(d => {
+        if (d) {
+          return true;
+        } else {
+          this._router.navigate(['/ausi']);
+          return false;
+        }
+      }),
+      first()
+    );
   }
 }
 
@@ -60,14 +65,17 @@ export class CanLoadAdmin implements CanLoad {
 
   canLoad(route: Route): Observable<boolean> | Promise<boolean> | boolean {
 
-    return first.call(map.call(this._authService.isAdmin, d => {
-      if (d) {
-        return true;
-      } else {
-        this._router.navigate(['/ausi']);
-        return false;
-      }
-    }));
+    return this._authService.isAdmin.pipe(
+      map(d => {
+        if (d) {
+          return true;
+        } else {
+          this._router.navigate(['/ausi']);
+          return false;
+        }
+      }),
+      first()
+    );
   }
 }
 
@@ -82,13 +90,16 @@ export class CanLoadManage implements CanLoad {
 
   canLoad(route: Route): Observable<boolean> | Promise<boolean> | boolean {
 
-    return first.call(map.call(this._authService.isManager, d => {
-      if (d) {
-        return true;
-      } else {
-        this._router.navigate(['/ausi']);
-        return false;
-      }
-    }));
+    return this._authService.isManager.pipe(
+      map(d => {
+        if (d) {
+          return true;
+        } else {
+          this._router.navigate(['/ausi']);
+          return false;
+        }
+      }),
+      first()
+    );
   }
 }

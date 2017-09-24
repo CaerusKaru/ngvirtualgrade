@@ -20,9 +20,8 @@ import {CoursesResolver} from './shared/resolvers/courses-resolver';
 import {GradingResolver} from './shared/resolvers/grading-resolver';
 import {LandingResolver} from './shared/resolvers/landing-resolver';
 import {ManageResolver} from './shared/resolvers/manage-resolver';
-import {ApolloModule} from 'apollo-angular';
-import {provideClient} from './client';
 import {MATERIAL_COMPATIBILITY_MODE} from '@angular/material';
+import {HomeResolver} from './shared/resolvers/home-resolver';
 
 
 @NgModule({
@@ -41,7 +40,6 @@ import {MATERIAL_COMPATIBILITY_MODE} from '@angular/material';
     NavDrawerModule,
     AppMaterialModule,
     AppRoutingModule,
-    ApolloModule.withClient(provideClient),
   ],
   providers: [
     UserService,
@@ -56,6 +54,7 @@ import {MATERIAL_COMPATIBILITY_MODE} from '@angular/material';
     GradingResolver,
     LandingResolver,
     ManageResolver,
+    HomeResolver,
     {
       provide: MATERIAL_COMPATIBILITY_MODE, useValue: true
     },

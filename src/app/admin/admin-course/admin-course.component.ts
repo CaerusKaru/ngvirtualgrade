@@ -1,7 +1,7 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {UserService} from '../../shared/services/user.service';
 import {Subject} from 'rxjs/Subject';
-import {takeUntil} from 'rxjs/operator/takeUntil';
+import {takeUntil} from 'rxjs/operators';
 import {ActivatedRoute} from '@angular/router';
 import {Course} from '../../shared/classes/course';
 
@@ -25,11 +25,11 @@ export class AdminCourseComponent implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit() {
-    takeUntil.call(this._route.params, this._destroy).subscribe(params => {
+    this._route.params.pipe(takeUntil(this._destroy)).subscribe(params => {
       this._course = params['course'];
       this._courseId = +params['courseId'];
     });
-    takeUntil.call(this.courses, this._destroy).subscribe(data => {
+    this.courses.pipe(takeUntil(this._destroy)).subscribe(data => {
       this._courses = data;
     });
   }
