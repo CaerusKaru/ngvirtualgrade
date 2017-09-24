@@ -33,7 +33,6 @@
     },
     {
       "name": "universal",
-      "platform": "server",
       "root": "src",
       "outDir": "dist/server",
       "assets": [
@@ -42,6 +41,7 @@
         ".htaccess",
         "manifest.json"
       ],
+      "platform": "server",
       "index": "index.html",
       "main": "main-server.ts",
       "test": "test.ts",

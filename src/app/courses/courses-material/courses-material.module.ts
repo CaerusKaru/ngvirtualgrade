@@ -1,8 +1,8 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {
-  MdButtonModule, MdCardModule, MdCheckboxModule, MdExpansionModule, MdRippleModule, MdIconModule,
-  MdDialogModule,
+  MatButtonModule, MatCardModule, MatCheckboxModule, MatExpansionModule, MatRippleModule, MatIconModule,
+  MatDialogModule,
 } from '@angular/material';
 
 @NgModule({
@@ -10,13 +10,13 @@ import {
     CommonModule
   ],
   exports: [
-    MdExpansionModule,
-    MdCheckboxModule,
-    MdButtonModule,
-    MdCardModule,
-    MdRippleModule,
-    MdIconModule,
-    MdDialogModule,
+    MatExpansionModule,
+    MatCheckboxModule,
+    MatButtonModule,
+    MatCardModule,
+    MatRippleModule,
+    MatIconModule,
+    MatDialogModule,
   ],
   declarations: []
 })

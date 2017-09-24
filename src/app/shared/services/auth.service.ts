@@ -3,7 +3,7 @@ import {UserService} from './user.service';
 import {environment} from '../../../environments/environment';
 import {Observable} from 'rxjs/Observable';
 import {Router} from '@angular/router';
-import {MdSnackBar} from '@angular/material';
+import {MatSnackBar} from '@angular/material';
 import {ReplaySubject} from 'rxjs/ReplaySubject';
 import {Course} from '../classes/course';
 import {Manager} from '../classes/manager';
@@ -78,7 +78,7 @@ export class AuthService {
     private _http: HttpClient,
     private _router: Router,
     private userService: UserService,
-    private _snackbar: MdSnackBar
+    private _snackbar: MatSnackBar
   ) {
     this._loadAuth().subscribe();
   }

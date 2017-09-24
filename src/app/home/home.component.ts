@@ -2,7 +2,7 @@ import {Component, OnDestroy, OnInit, Optional, ViewEncapsulation} from '@angula
 import {RouterOutlet} from '@angular/router';
 import {UserService} from '../shared/services/user.service';
 import {AuthService} from '../shared/services/auth.service';
-import {MdDialog, MdDialogRef} from '@angular/material';
+import {MatDialog, MatDialogRef} from '@angular/material';
 import {environment} from '../../environments/environment';
 import {NgForm} from '@angular/forms';
 import {Subject} from 'rxjs/Subject';
@@ -53,7 +53,7 @@ export class HomeComponent implements OnInit, OnDestroy {
     private _authService: AuthService,
     private _homeService: HomeMenuService,
     public platform: Platform,
-    public dialog: MdDialog,
+    public dialog: MatDialog,
     @Optional() public swUpdatesService: SwUpdatesService
   ) { }
 
@@ -131,7 +131,7 @@ export class SigninDialogComponent {
   error = false;
 
   constructor(
-    public dialogRef: MdDialogRef<SigninDialogComponent>,
+    public dialogRef: MatDialogRef<SigninDialogComponent>,
     private _authService: AuthService
   ) { }
 

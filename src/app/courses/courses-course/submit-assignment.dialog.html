@@ -1,7 +1,7 @@
 <div fxFill>
-  <md-card fxFlex fxLayout="column">
-    <md-card-title>Upload Files</md-card-title>
-    <md-card-content>
+  <mat-card fxFlex fxLayout="column">
+    <mat-card-title>Upload Files</mat-card-title>
+    <mat-card-content>
       <table fxFlexFill>
         <thead>
           <tr>
@@ -15,21 +15,21 @@
             <td><strong>{{ item?.file?.name }}</strong></td>
             <td *ngIf="uploader.isHTML5" nowrap>{{ item?.file?.size/1024/1024 }} MB</td>
             <td nowrap>
-              <button md-icon-button (click)="item.remove()">
-                <md-icon>remove_circle</md-icon>
+              <button mat-icon-button (click)="item.remove()">
+                <mat-icon>remove_circle</mat-icon>
               </button>
             </td>
           </tr>
         </tbody>
       </table>
-    </md-card-content>
+    </mat-card-content>
     <span fxFlex style="border-bottom: 1px solid rgba(0,0,0,0.12)"></span>
-    <md-card-actions>
-      <button md-button (click)="addFile()">+ ADD FILE</button>
+    <mat-card-actions>
+      <button mat-button (click)="addFile()">+ ADD FILE</button>
       <span fxFlex></span>
-      <button md-button color="primary">UPLOAD</button>
-      <button md-button md-dialog-close color="warn">CANCEL</button>
-    </md-card-actions>
-  </md-card>
+      <button mat-button color="primary">UPLOAD</button>
+      <button mat-button matDialogClose color="warn">CANCEL</button>
+    </mat-card-actions>
+  </mat-card>
   <input type="file" ng2FileSelect [uploader]="uploader" multiple style="display: none" #fileInput />
 </div>

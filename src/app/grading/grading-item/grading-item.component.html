@@ -1,47 +1,47 @@
 <div fxFlex class="md-padding" fxLayout="column">
   <div fxLayout="row" fxLayoutAlign="start center">
-    <a md-icon-button routerLink="../" title="Back button"><md-icon>arrow_back</md-icon></a>
+    <a mat-icon-button routerLink="../" title="Back button"><mat-icon>arrow_back</mat-icon></a>
     <h2 class="mat-heading">Assignment: {{id}}</h2>
   </div>
   <div class="mat-elevation-z8">
-    <md-table #table [dataSource]="dataSource" mdSort>
+    <mat-table #table [dataSource]="dataSource" matSort>
 
       <!--- Note that these columns can be defined in any order.
             The actual rendered columns are set as a property on the row definition" -->
 
       <!-- ID Column -->
       <ng-container cdkColumnDef="userId">
-        <md-header-cell *cdkHeaderCellDef md-sort-header> Submission </md-header-cell>
-        <md-cell *cdkCellDef="let row"> {{row.id}} </md-cell>
+        <mat-header-cell *cdkHeaderCellDef mat-sort-header> Submission </mat-header-cell>
+        <mat-cell *cdkCellDef="let row"> {{row.id}} </mat-cell>
       </ng-container>
 
       <!-- Progress Column -->
       <ng-container cdkColumnDef="progress">
-        <md-header-cell *cdkHeaderCellDef md-sort-header> Grade </md-header-cell>
-        <md-cell *cdkCellDef="let row"> {{row.progress}}% </md-cell>
+        <mat-header-cell *cdkHeaderCellDef mat-sort-header> Grade </mat-header-cell>
+        <mat-cell *cdkCellDef="let row"> {{row.progress}}% </mat-cell>
       </ng-container>
 
       <!-- Name Column -->
       <ng-container cdkColumnDef="userName">
-        <md-header-cell *cdkHeaderCellDef md-sort-header> Comment </md-header-cell>
-        <md-cell *cdkCellDef="let row"> {{row.name}} </md-cell>
+        <mat-header-cell *cdkHeaderCellDef mat-sort-header> Comment </mat-header-cell>
+        <mat-cell *cdkCellDef="let row"> {{row.name}} </mat-cell>
       </ng-container>
 
       <!-- Color Column -->
       <ng-container cdkColumnDef="color">
-        <md-header-cell *cdkHeaderCellDef md-sort-header> Progress </md-header-cell>
-        <md-cell *cdkCellDef="let row" [style.color]="row.color"> • </md-cell>
+        <mat-header-cell *cdkHeaderCellDef mat-sort-header> Progress </mat-header-cell>
+        <mat-cell *cdkCellDef="let row" [style.color]="row.color"> • </mat-cell>
       </ng-container>
 
-      <md-header-row *cdkHeaderRowDef="displayedColumns"></md-header-row>
-      <md-row *cdkRowDef="let row; columns: displayedColumns;"></md-row>
-    </md-table>
+      <mat-header-row *cdkHeaderRowDef="displayedColumns"></mat-header-row>
+      <mat-row *cdkRowDef="let row; columns: displayedColumns;"></mat-row>
+    </mat-table>
 
-    <md-paginator #paginator
+    <mat-paginator #paginator
                   [length]="exampleDatabase.data.length"
                   [pageIndex]="0"
                   [pageSize]="25"
                   [pageSizeOptions]="[5, 10, 25, 100]">
-    </md-paginator>
+    </mat-paginator>
   </div>
 </div>

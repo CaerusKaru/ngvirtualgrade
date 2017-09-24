@@ -1,9 +1,9 @@
 <div fxFill fxLayout="column">
   <div class="nav-bar" fxLayout="row">
-    <nav md-tab-nav-bar fxFlex>
+    <nav mat-tab-nav-bar fxFlex>
       <div *ngIf="!isSideBySide">
-        <button md-icon-button (click)="sidenav.toggle()" fxFlexOffset="10px" title="Show nav menu">
-          <md-icon>menu</md-icon>
+        <button mat-icon-button (click)="sidenav.toggle()" fxFlexOffset="10px" title="Show nav menu">
+          <mat-icon>menu</mat-icon>
         </button>
       </div>
       <span fxLayoutAlign="space-around center" fxFlexOffset="30px">
@@ -18,7 +18,7 @@
       </span>
       <span fxFlex="30px"></span>
       <div *ngFor="let link of navLinks; let i = index" fxLayoutAlign="center center">
-        <a md-tab-link
+        <a mat-tab-link
            *ngIf="isSideBySide && link.show"
            [routerLink]="link.route"
            routerLinkActive
@@ -28,21 +28,21 @@
         </a>
       </div>
       <span fxFlex></span>
-      <md-menu #appMenu="mdMenu" y-position="below" [overlapTrigger]="false">
-        <button md-menu-item (click)="logOut()"> Log Out </button>
-      </md-menu>
+      <mat-menu #appMenu="matMenu" y-position="below" [overlapTrigger]="false">
+        <button mat-menu-item (click)="logOut()"> Log Out </button>
+      </mat-menu>
 
-      <button md-button [mdMenuTriggerFor]="appMenu" *ngIf="utln$ | async as utln; else signin">
+      <button mat-button [matMenuTriggerFor]="appMenu" *ngIf="utln$ | async as utln; else signin">
         {{utln}}
       </button>
 
       <ng-template #signin>
-        <button md-button (click)="logIn()">Sign In</button>
+        <button mat-button (click)="logIn()">Sign In</button>
       </ng-template>
     </nav>
   </div>
-  <md-sidenav-container fxFlex>
-    <md-sidenav #sidenav class="dark-theme mat-elevation-z16"
+  <mat-sidenav-container fxFlex>
+    <mat-sidenav #sidenav class="dark-theme mat-elevation-z16"
                 [mode]="isSideBySide ? 'side' : 'over'" [opened]="isSideBySide">
       <md-nav-drawer fxFlex class="mat-app-background drawer-size" *ngIf="nav$ | async as navs">
         <ng-container *ngFor="let nav of navs" [ngSwitch]="nav['type']">
@@ -64,11 +64,11 @@
           <a mdNavDrawerLink [link]="link.route" *ngIf="!isSideBySide && link.show">{{link.label}}</a>
         </ng-container>
       </md-nav-drawer>
-    </md-sidenav>
+    </mat-sidenav>
     <div [@routeAnimation]="prepRouteState(routerOutlet)" class="router-animation-container">
       <div class="router-container">
         <router-outlet #routerOutlet="outlet"></router-outlet>
       </div>
     </div>
-  </md-sidenav-container>
+  </mat-sidenav-container>
 </div>

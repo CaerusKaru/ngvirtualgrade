@@ -7,13 +7,13 @@ import {
   NavDrawerContainerComponent, NavDrawerHeaderDirective, NavDrawerLinkComponent,
   NavDrawerToggleComponent
 } from './nav-drawer';
-import {MdButtonModule, MdIconModule} from '@angular/material';
+import {MatButtonModule, MatIconModule} from '@angular/material';
 
 @NgModule({
   imports: [
     CommonModule,
-    MdButtonModule,
-    MdIconModule,
+    MatButtonModule,
+    MatIconModule,
     RouterModule
   ],
   declarations: [

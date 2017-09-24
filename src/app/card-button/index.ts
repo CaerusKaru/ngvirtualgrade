@@ -3,14 +3,14 @@ import { CommonModule } from '@angular/common';
 import {
   CardButtonComponent
 } from './card-button';
-import {MdCardModule, MdRippleModule} from '@angular/material';
+import {MatCardModule, MatRippleModule} from '@angular/material';
 import {ColorNameModule} from '../color-name';
 
 @NgModule({
   imports: [
     CommonModule,
-    MdCardModule,
-    MdRippleModule,
+    MatCardModule,
+    MatRippleModule,
     ColorNameModule,
   ],
   declarations: [

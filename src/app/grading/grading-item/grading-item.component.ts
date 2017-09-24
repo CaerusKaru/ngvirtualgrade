@@ -1,5 +1,5 @@
 import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
-import {UniqueSelectionDispatcher, MdDialog, MdDialogRef, MdSort, MdPaginator} from '@angular/material';
+import {UniqueSelectionDispatcher, MatDialog, MatDialogRef, MatSort, MatPaginator} from '@angular/material';
 import {SvgService} from './svg/shared/svg.service';
 import {ScoreItem} from '../shared/score-item';
 import {Problem} from '../shared/problem';
@@ -27,15 +27,15 @@ export class GradingItemComponent implements OnInit, OnDestroy {
   course;
   id;
 
-  @ViewChild(MdPaginator) paginator: MdPaginator;
-  @ViewChild(MdSort) sort: MdSort;
+  @ViewChild(MatPaginator) paginator: MatPaginator;
+  @ViewChild(MatSort) sort: MatSort;
 
   type = 'pdf';
 
   private _destroy = new Subject<void>();
 
   constructor(
-    public dialog: MdDialog,
+    public dialog: MatDialog,
     private _route: ActivatedRoute
   ) {
   }
@@ -127,8 +127,8 @@ export class ExampleDatabase {
 export class ExampleDataSource extends DataSource<any> {
   constructor(
     private _exampleDatabase: ExampleDatabase,
-    private _paginator: MdPaginator,
-    private _sort: MdSort) {
+    private _paginator: MatPaginator,
+    private _sort: MatSort) {
     super();
   }
 
@@ -270,7 +270,7 @@ export class GradingItemPDFDialogComponent implements OnInit, OnDestroy {
 
   constructor (
     private _svgService: SvgService,
-    public dialog: MdDialog
+    public dialog: MatDialog
   ) {
 
   }
@@ -452,7 +452,7 @@ export class ScoringItemDialogComponent {
   desc: string;
 
   constructor (
-    public dialogRef: MdDialogRef<ScoringItemDialogComponent>
+    public dialogRef: MatDialogRef<ScoringItemDialogComponent>
   ) { }
 
   closeDialog (f: NgForm) {

@@ -1,13 +1,13 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {
-  MdButtonModule, MdButtonToggleModule, MdCardModule, MdCheckboxModule, MdDialogModule, MdIconModule, MdInputModule,
-  MdListModule,
-  MdMenuModule, MdPaginatorModule,
-  MdProgressBarModule, MdRippleModule,
-  MdSidenavModule, MdSortModule, MdTableModule,
-  MdToolbarModule,
-  MdTooltipModule
+  MatButtonModule, MatButtonToggleModule, MatCardModule, MatCheckboxModule, MatDialogModule, MatIconModule, MatInputModule,
+  MatListModule,
+  MatMenuModule, MatPaginatorModule,
+  MatProgressBarModule, MatRippleModule,
+  MatSidenavModule, MatSortModule, MatTableModule,
+  MatToolbarModule,
+  MatTooltipModule
 } from '@angular/material';
 import {CdkTableModule} from '@angular/cdk/table';
 
@@ -16,24 +16,24 @@ import {CdkTableModule} from '@angular/cdk/table';
     CommonModule
   ],
   exports: [
-    MdInputModule,
-    MdButtonModule,
-    MdSidenavModule,
-    MdTooltipModule,
-    MdToolbarModule,
-    MdMenuModule,
-    MdListModule,
-    MdProgressBarModule,
-    MdIconModule,
-    MdDialogModule,
-    MdButtonToggleModule,
-    MdCheckboxModule,
-    MdCardModule,
-    MdTableModule,
-    MdPaginatorModule,
-    MdSortModule,
+    MatInputModule,
+    MatButtonModule,
+    MatSidenavModule,
+    MatTooltipModule,
+    MatToolbarModule,
+    MatMenuModule,
+    MatListModule,
+    MatProgressBarModule,
+    MatIconModule,
+    MatDialogModule,
+    MatButtonToggleModule,
+    MatCheckboxModule,
+    MatCardModule,
+    MatTableModule,
+    MatPaginatorModule,
+    MatSortModule,
     CdkTableModule,
-    MdRippleModule
+    MatRippleModule
   ],
   declarations: []
 })

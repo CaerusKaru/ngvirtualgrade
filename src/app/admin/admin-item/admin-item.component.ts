@@ -1,5 +1,5 @@
 import {Component, ElementRef, OnDestroy, OnInit, ViewChild} from '@angular/core';
-import {MdPaginator, MdSort} from '@angular/material';
+import {MatPaginator, MatSort} from '@angular/material';
 import {BehaviorSubject} from 'rxjs/BehaviorSubject';
 import {DataSource} from '@angular/cdk/table';
 import {Observable} from 'rxjs/Observable';
@@ -26,8 +26,8 @@ export class AdminItemComponent implements OnInit, OnDestroy {
   selection = new SelectionModel<string>(true, []);
   dataSource: ExampleDataSource | null;
 
-  @ViewChild(MdPaginator) paginator: MdPaginator;
-  @ViewChild(MdSort) sort: MdSort;
+  @ViewChild(MatPaginator) paginator: MatPaginator;
+  @ViewChild(MatSort) sort: MatSort;
   @ViewChild('filter') filter: ElementRef;
 
   course;
@@ -144,8 +144,8 @@ export class ExampleDataSource extends DataSource<any> {
   renderedData: UserData[] = [];
 
   constructor(private _exampleDatabase: ExampleDatabase,
-              private _paginator: MdPaginator,
-              private _sort: MdSort) {
+              private _paginator: MatPaginator,
+              private _sort: MatSort) {
     super();
 
     this._filterChange.subscribe(() => this._paginator.pageIndex = 0);

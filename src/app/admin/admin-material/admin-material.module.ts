@@ -1,9 +1,9 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {
-  MdButtonModule, MdCardModule, MdCheckboxModule, MdChipsModule, MdDatepickerModule, MdInputModule, MdNativeDateModule,
-  MdProgressBarModule, MdExpansionModule, MdRadioModule, MdTableModule, MdPaginatorModule, MdSortModule, MdIconModule,
-  MdTabsModule, MdRippleModule, MdSlideToggleModule, MdToolbarModule, MdListModule, MdTooltipModule
+  MatButtonModule, MatCardModule, MatCheckboxModule, MatChipsModule, MatDatepickerModule, MatInputModule, MatNativeDateModule,
+  MatProgressBarModule, MatExpansionModule, MatRadioModule, MatTableModule, MatPaginatorModule, MatSortModule, MatIconModule,
+  MatTabsModule, MatRippleModule, MatSlideToggleModule, MatToolbarModule, MatListModule, MatTooltipModule
 } from '@angular/material';
 import {CdkTableModule} from '@angular/cdk/table';
 
@@ -12,27 +12,27 @@ import {CdkTableModule} from '@angular/cdk/table';
     CommonModule
   ],
   exports: [
-    MdInputModule,
-    MdButtonModule,
-    MdCardModule,
-    MdProgressBarModule,
-    MdDatepickerModule,
-    MdNativeDateModule,
-    MdChipsModule,
-    MdCheckboxModule,
-    MdExpansionModule,
-    MdRadioModule,
-    MdTableModule,
-    MdPaginatorModule,
-    MdSortModule,
-    MdIconModule,
+    MatInputModule,
+    MatButtonModule,
+    MatCardModule,
+    MatProgressBarModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
+    MatChipsModule,
+    MatCheckboxModule,
+    MatExpansionModule,
+    MatRadioModule,
+    MatTableModule,
+    MatPaginatorModule,
+    MatSortModule,
+    MatIconModule,
     CdkTableModule,
-    MdTabsModule,
-    MdRippleModule,
-    MdSlideToggleModule,
-    MdToolbarModule,
-    MdListModule,
-    MdTooltipModule
+    MatTabsModule,
+    MatRippleModule,
+    MatSlideToggleModule,
+    MatToolbarModule,
+    MatListModule,
+    MatTooltipModule
   ],
   declarations: []
 })

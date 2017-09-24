@@ -1,29 +1,29 @@
 <div class="md-padding" *ngIf="course" fxLayout="column">
   <div fxLayout="row" fxLayoutAlign="start center">
-    <a md-icon-button routerLink="../" title="Back button"><md-icon>arrow_back</md-icon></a>
+    <a mat-icon-button routerLink="../" title="Back button"><mat-icon>arrow_back</mat-icon></a>
     <h2 class="mat-heading">{{course.name}}</h2>
   </div>
 
   <h4 class="mat-heading">Course Actions</h4>
-  <md-card fxLayout="row" fxLayoutGap="20px">
-    <button md-button>GRADES</button>
-    <button md-button>CALENDAR</button>
-  </md-card>
+  <mat-card fxLayout="row" fxLayoutGap="20px">
+    <button mat-button>GRADES</button>
+    <button mat-button>CALENDAR</button>
+  </mat-card>
 
   <span fxFlex="10px"></span>
 
   <h4 class="mat-heading">Assignments</h4>
   <div fxLayout="column" fxLayoutGap="35px">
-    <md-expansion-panel *ngFor="let assign of course.assigns; even as even">
-      <md-expansion-panel-header>
-        <md-panel-title fxLayoutAlign="space-between center">
+    <mat-expansion-panel *ngFor="let assign of course.assigns; even as even">
+      <mat-expansion-panel-header>
+        <mat-panel-title fxLayoutAlign="space-between center">
           {{assign}}
-        </md-panel-title>
-        <md-panel-description fxLayoutAlign="space-between center">
+        </mat-panel-title>
+        <mat-panel-description fxLayoutAlign="space-between center">
           Due Date: Fri Jan 14, 2017 12:15pm
-          <md-icon style="color: orange">error</md-icon>
-        </md-panel-description>
-      </md-expansion-panel-header>
+          <mat-icon style="color: orange">error</mat-icon>
+        </mat-panel-description>
+      </mat-expansion-panel-header>
       <div fxLayout="column" fxLayoutGap="10px">
         <div>
           <span>Time Remaining: 1hr</span>
@@ -37,9 +37,9 @@
         </div>
         <div>Required files: Table.h, Table.cpp, README, DESIGN, Makefile</div>
       </div>
-      <md-action-row>
-        <button md-button color="primary" (click)="openSubmit()">SUBMIT</button>
-      </md-action-row>
+      <mat-action-row>
+        <button mat-button color="primary" (click)="openSubmit()">SUBMIT</button>
+      </mat-action-row>
       <!--<card-button [color]="assign" [left]="true">-->
         <!--<div fxFlex fxLayout="row" fxLayoutGap="40px" fxLayoutAlign="start center" [routerLink]="assign">-->
           <!--<div fxLayout="column" fxLayoutGap="5px" fxLayoutAlign="center center">-->
@@ -73,6 +73,6 @@
           <!--</div>-->
         <!--</div>-->
       <!--</card-button>-->
-    </md-expansion-panel>
+    </mat-expansion-panel>
   </div>
 </div>

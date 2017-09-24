@@ -3,7 +3,9 @@ import {Subject} from 'rxjs/Subject';
 import {NgServiceWorker} from '@angular/service-worker';
 import {concat} from 'rxjs/operator/concat';
 import {Observable} from 'rxjs/Observable';
-import {debounceTime, RxChain, startWith, takeUntil} from '@angular/cdk/rxjs';
+import {takeUntil} from 'rxjs/operator/takeUntil';
+import {debounceTime} from 'rxjs/operator/debounceTime';
+import {startWith} from 'rxjs/operator/startWith';
 
 /**
  * credit to Angular Core team and their work on angular.io
@@ -18,10 +20,12 @@ export class SwUpdatesService implements OnDestroy {
   private _checkForUpdateSubj = new Subject();
 
   constructor(private _sw: NgServiceWorker) {
-    RxChain.from(this._checkForUpdateSubj)
-      .call(takeUntil, this._destroy)
-      .call(debounceTime, this._checkInterval)
-      .call(startWith, null)
+
+    takeUntil.call(
+      debounceTime.call(
+        startWith.call(this._checkForUpdateSubj, null),
+        this._checkInterval),
+      this._destroy)
       .subscribe(() => this._checkForUpdate());
 
     this.updateActivated = takeUntil.call(this._sw.updates, this._destroy)

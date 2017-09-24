@@ -22,6 +22,7 @@ import {LandingResolver} from './shared/resolvers/landing-resolver';
 import {ManageResolver} from './shared/resolvers/manage-resolver';
 import {ApolloModule} from 'apollo-angular';
 import {provideClient} from './client';
+import {MATERIAL_COMPATIBILITY_MODE} from '@angular/material';
 
 
 @NgModule({
@@ -55,6 +56,9 @@ import {provideClient} from './client';
     GradingResolver,
     LandingResolver,
     ManageResolver,
+    {
+      provide: MATERIAL_COMPATIBILITY_MODE, useValue: true
+    },
   ],
   bootstrap: [AppComponent],
   entryComponents: [SigninDialogComponent]

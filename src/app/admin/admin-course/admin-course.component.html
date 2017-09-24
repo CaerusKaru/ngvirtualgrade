@@ -1,16 +1,16 @@
 <div class="md-padding" *ngIf="course" fxLayout="column">
   <div fxLayout="row" fxLayoutAlign="start center">
-    <a md-icon-button routerLink="../" title="Back button"><md-icon>arrow_back</md-icon></a>
+    <a mat-icon-button routerLink="../" title="Back button"><mat-icon>arrow_back</mat-icon></a>
     <h2 class="mat-heading">{{course.name}}</h2>
   </div>
 
   <h4 class="mat-heading">Course Actions</h4>
-  <md-card fxLayout="row" fxLayoutGap="20px" [colorName]="course.name" [borderBottom]="true">
-    <button md-button routerLink="create">ADD</button>
-    <button md-button routerLink="gradebook">GRADEBOOK</button>
-    <button md-button routerLink="graders">GRADERS</button>
-    <button md-button routerLink="calendar">CALENDAR</button>
-  </md-card>
+  <mat-card fxLayout="row" fxLayoutGap="20px" [colorName]="course.name" [borderBottom]="true">
+    <button mat-button routerLink="create">ADD</button>
+    <button mat-button routerLink="gradebook">GRADEBOOK</button>
+    <button mat-button routerLink="graders">GRADERS</button>
+    <button mat-button routerLink="calendar">CALENDAR</button>
+  </mat-card>
 
   <span fxFlex="10px"></span>
 
@@ -73,7 +73,7 @@
             Publish Grades
           </div>
           <div>
-            <md-slide-toggle></md-slide-toggle>
+            <mat-slide-toggle></mat-slide-toggle>
           </div>
         </div>
       </card-button>

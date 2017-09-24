@@ -1,9 +1,9 @@
-<button md-button (click)="toggle()">
+<button mat-button (click)="toggle()">
   <div class="wrapper-toggle-label">
     <span>{{label}}</span>
     <span class="wrapper-toggle-spacing"></span>
     <span class="md-toggle-icon" [ngClass]="{'toggled' : isOpen | async}">
-      <md-icon>keyboard_arrow_up</md-icon>
+      <mat-icon>keyboard_arrow_up</mat-icon>
     </span>
   </div>
   <span class="md-visually-hidden">Toggle {{(isOpen | async) ? 'expanded' : 'collapsed'}}</span>

@@ -1,44 +1,44 @@
-<md-dialog-content fxFlex
+<mat-dialog-content fxFlex
                    fxFill
                    fxLayout="column">
   <div class="pdf-dialog-dark mat-app-background">
-    <md-toolbar fxFlex
+    <mat-toolbar fxFlex
                 fxLayout="row"
                 fxLayoutAlign="center center"
                 color="primary"
                 class="multiple-page-header art-toolbar md-whiteframe-6dp">
       <div style="background: #038BE5; height: 100%" fxLayoutAlign="center center">
-        <button md-icon-button
-                mdTooltip="Show files"
+        <button mat-icon-button
+                matTooltip="Show files"
                 (click)="openFileExplorer()"
-                mdTooltipPosition="below">
-          <md-icon>folder_open</md-icon>
+                matTooltipPosition="below">
+          <mat-icon>folder_open</mat-icon>
         </button>
       </div>
       <div class="small-header" fxFlex fxLayout="row" fxLayoutAlign="space-between center">
 
         <div fxLayout="row" fxLayoutAlign="center center" fxFlexOffset="10px">
-          <button md-icon-button
+          <button mat-icon-button
                   *ngFor="let mode of modes"
                   [ngStyle]="{'color': mode.name === currentMode ? 'white' : '#303030'}"
-                  [mdTooltip]="mode.tooltip"
+                  [matTooltip]="mode.tooltip"
                   (tap)="setMode(mode.name)"
-                  mdTooltipPosition="below">
-            <md-icon>{{mode.iconName}}</md-icon>
+                  matTooltipPosition="below">
+            <mat-icon>{{mode.iconName}}</mat-icon>
           </button>
         </div>
 
-        <md-divider direction="vertical" fxFlexOffset="10px"></md-divider>
+        <mat-divider direction="vertical" fxFlexOffset="10px"></mat-divider>
 
         <span fxFlexOffset="25px"></span>
 
-        <md-input-container class="pdf-size art-options" floatPlaceholder="never" mdTooltip="Size" mdTooltipPosition="below">
-          <input mdInput [(ngModel)]="currentSize" min="1" type="number" placeholder="Size">
-        </md-input-container>
+        <mat-form-field class="pdf-size art-options" floatPlaceholder="never" matTooltip="Size" matTooltipPosition="below">
+          <input matInput [(ngModel)]="currentSize" min="1" type="number" placeholder="Size">
+        </mat-form-field>
 
         <span fxFlex="25px"></span>
 
-        <div class="art-options" mdTooltip="Color" mdTooltipPosition="below">
+        <div class="art-options" matTooltip="Color" matTooltipPosition="below">
           <input type="color" [(ngModel)]="currentColor">
         </div>
 
@@ -46,95 +46,95 @@
 
         <div fxLayout="row" fxLayoutAlign="center center">
           <button aria-label="Undo previous action"
-                  md-icon-button
-                  mdTooltip="Undo"
-                  mdTooltipPosition="below"
+                  mat-icon-button
+                  matTooltip="Undo"
+                  matTooltipPosition="below"
                   (tap)="undo()"
                   [disabled]="PDF.getCurrentPage().addedStack.length===0">
-            <md-icon>undo</md-icon>
+            <mat-icon>undo</mat-icon>
           </button>
-          <button md-icon-button
-                  mdTooltip="Redo"
-                  mdTooltipPosition="below"
+          <button mat-icon-button
+                  matTooltip="Redo"
+                  matTooltipPosition="below"
                   aria-label="Redo previous action"
                   (tap)="redo()"
                   [disabled]="PDF.getCurrentPage().undoStack.length===0">
-            <md-icon>redo</md-icon>
+            <mat-icon>redo</mat-icon>
           </button>
-          <button md-icon-button
-                  mdTooltip="Remove all"
-                  mdTooltipPosition="below"
+          <button mat-icon-button
+                  matTooltip="Remove all"
+                  matTooltipPosition="below"
                   aria-label="Delete all changes"
                   (tap)="clear()"
                   [disabled]="PDF.getCurrentPage().addedStack.length===0">
-            <md-icon>delete</md-icon>
+            <mat-icon>delete</mat-icon>
           </button>
         </div>
 
-        <md-divider direction="vertical" fxFlexOffset="10px"></md-divider>
+        <mat-divider direction="vertical" fxFlexOffset="10px"></mat-divider>
 
         <div fxLayout="row" fxLayoutAlign="center center" fxFlexOffset="20px">
           <h4 fxLayout="row" fxLayoutAlign="center center">
             <span>{{assign}} - {{problem}}</span>
           </h4>
 
-          <button md-icon-button
-                  mdTooltip="Download file"
-                  mdTooltipPosition="below"
+          <button mat-icon-button
+                  matTooltip="Download file"
+                  matTooltipPosition="below"
                   aria-label="Download file"
                   (tap)="download()">
-            <md-icon>file_download</md-icon>
+            <mat-icon>file_download</mat-icon>
           </button>
         </div>
 
-        <md-divider direction="vertical" fxFlexOffset="10px"></md-divider>
+        <mat-divider direction="vertical" fxFlexOffset="10px"></mat-divider>
 
         <div fxLayout="row" fxLayoutAlign="center center" fxFlexOffset="10px">
 
-          <button md-icon-button
-                  mdTooltip="Prev page"
-                  mdTooltipPosition="below"
+          <button mat-icon-button
+                  matTooltip="Prev page"
+                  matTooltipPosition="below"
                   aria-label="Back"
                   (tap)="backPage()"
                   [disabled]="PDF.currentPage()===0">
-            <md-icon>navigate_before</md-icon>
+            <mat-icon>navigate_before</mat-icon>
           </button>
           <h5 fxLayout="row" fxLayoutAlign="center center">
             <span>Page {{PDF.currentPage() + 1}} / {{PDF.numPages()}}</span>
           </h5>
-          <button md-icon-button
-                  mdTooltip="Next page"
-                  mdTooltipPosition="below"
+          <button mat-icon-button
+                  matTooltip="Next page"
+                  matTooltipPosition="below"
                   aria-label="Next"
                   (tap)="attachPage()"
                   [disabled]="PDF.currentPage()+1===PDF.numPages()">
-            <md-icon>navigate_next</md-icon>
+            <mat-icon>navigate_next</mat-icon>
           </button>
         </div>
 
         <span fxFlex></span>
 
-        <md-divider direction="vertical" fxFlexOffset="10px"></md-divider>
+        <mat-divider direction="vertical" fxFlexOffset="10px"></mat-divider>
 
-        <button md-icon-button
-                mdTooltip="Toggle sidenav"
-                mdTooltipPosition="below"
+        <button mat-icon-button
+                matTooltip="Toggle sidenav"
+                matTooltipPosition="below"
                 aria-label="Toggle sidenav"
                 (tap)="toggleSideNav()">
-          <md-icon>more_horiz</md-icon>
+          <mat-icon>more_horiz</mat-icon>
         </button>
 
-        <button md-icon-button
-                mdTooltip="Close"
-                mdTooltipPosition="below"
+        <button mat-icon-button
+                matTooltip="Close"
+                matTooltipPosition="below"
                 aria-label="Close grading window"
-                md-dialog-close>
-          <md-icon>close</md-icon>
+                matDialogClose>
+          <mat-icon>close</mat-icon>
         </button>
       </div>
-    </md-toolbar>
+    </mat-toolbar>
   </div>
-  <md-sidenav-container fxFlex class="full-sidenav">
+  <mat-sidenav-container fxFlex class="full-sidenav">
     <div fxFlex fxLayout="row" fxFill class="pdf-dialog-light mat-app-background">
       <div class="pdf-dark"
            fxFlex fxLayout="column"
@@ -143,90 +143,90 @@
         </svg-wrapper>
       </div>
     </div>
-    <md-sidenav mode="over" align="start" [opened]="fileExplorerOpen" fxLayout="column" (close)="closeFileExplorer()">
+    <mat-sidenav mode="over" align="start" [opened]="fileExplorerOpen" fxLayout="column" (close)="closeFileExplorer()">
       File content
-    </md-sidenav>
-    <md-sidenav mode="side" [opened]="sideNavOpen" align="end" fxLayout="column">
+    </mat-sidenav>
+    <mat-sidenav mode="side" [opened]="sideNavOpen" align="end" fxLayout="column">
       <div fxFlex fxLayout="column" fxFill class="md-padding">
         <div id="scoring">
           <span fxLayout="row">
             <h4 fxLayout="row" fxLayoutAlign="center center" class="md-subhead" style="margin: 0">Student: {{studentName}}</h4>
-            <button md-icon-button aria-label="Open demo menu">
-              <md-icon>arrow_drop_down</md-icon>
+            <button mat-icon-button aria-label="Open demo menu">
+              <mat-icon>arrow_drop_down</mat-icon>
             </button>
           </span>
-          <md-divider></md-divider>
+          <mat-divider></mat-divider>
           <div fxLayout="row">
             <span class="md-title" fxLayout="row" fxLayoutAlign="center center"> {{score()}} / {{max}} pts</span>
             <span fxFlex></span>
-            <button md-icon-button (tap)="addScore()" mdTooltip="Add scoring item" mdTooltipPosition="below">
-              <md-icon>playlist_add</md-icon>
+            <button mat-icon-button (tap)="addScore()" matTooltip="Add scoring item" matTooltipPosition="below">
+              <mat-icon>playlist_add</mat-icon>
             </button>
           </div>
         </div>
-        <md-divider></md-divider>
-        <md-list dense class="rubric-items">
-          <h3 md-subheader>Rubric Items</h3>
+        <mat-divider></mat-divider>
+        <mat-list dense class="rubric-items">
+          <h3 matSubheader>Rubric Items</h3>
           <ng-template ngFor let-item [ngForOf]="scores" let-last="last">
-            <md-list-item>
-              <md-checkbox md-list-icon [(ngModel)]="item.selected" color="primary"></md-checkbox>
-              <h5 md-line style="white-space: pre-wrap;">{{item.comment}}</h5>
-              <p md-line>{{item.score}} pts</p>
-              <button md-icon-button (tap)="edit(item)" fxLayoutAlign="center center">
-                <md-icon>mode_edit</md-icon>
+            <mat-list-item>
+              <mat-checkbox mat-list-icon [(ngModel)]="item.selected" color="primary"></mat-checkbox>
+              <h5 matLine style="white-space: pre-wrap;">{{item.comment}}</h5>
+              <p matLine>{{item.score}} pts</p>
+              <button mat-icon-button (tap)="edit(item)" fxLayoutAlign="center center">
+                <mat-icon>mode_edit</mat-icon>
               </button>
-            </md-list-item>
+            </mat-list-item>
           </ng-template>
-        </md-list>
+        </mat-list>
         <span fxFlex style="min-height: 10px;"></span>
-        <md-divider></md-divider>
-        <h4 md-subheader class="md-no-sticky">Individual Adjustments</h4>
+        <mat-divider></mat-divider>
+        <h4 matSubheader class="md-no-sticky">Individual Adjustments</h4>
         <div fxLayout="row" fxLayoutAlign="center center" style="padding-left: 20px;">
           <div layout="row"  style="width: 65px;">
-            <md-input-container>
+            <mat-form-field>
               <label>Score</label>
-              <input mdInput type="number" [(ngModel)]="adjust">
-            </md-input-container>
+              <input matInput type="number" [(ngModel)]="adjust">
+            </mat-form-field>
           </div>
           <span fxFlex></span>
-          <button md-icon-button class="md-icon-button" mdTooltip="Add comments" mdTooltipPosition="below">
-            <md-icon>comment</md-icon>
+          <button mat-icon-button class="mat-icon-button" matTooltip="Add comments" matTooltipPosition="below">
+            <mat-icon>comment</mat-icon>
           </button>
         </div>
-        <md-divider></md-divider>
+        <mat-divider></mat-divider>
         <div fxLayout="row" style="padding-top:20px;">
           <div fxFlex fxLayout="column">
-            <md-progress-bar mode="determinate" [value]="(doneStudents / totalStudents)*100"></md-progress-bar>
+            <mat-progress-bar mode="determinate" [value]="(doneStudents / totalStudents)*100"></mat-progress-bar>
             <h4 class="md-caption">{{doneStudents}} / {{totalStudents}} Graded</h4>
           </div>
         </div>
-        <md-divider></md-divider>
+        <mat-divider></mat-divider>
         <span fxFlex="15px"></span>
         <div fxLayout="row">
           <div fxFlex fxLayout="row" fxLayoutAlign="space-around center">
-            <button md-button>
+            <button mat-button>
               <div fxLayout="column" fxLayoutAlign="center center">
-                <md-icon>fast_rewind</md-icon>
+                <mat-icon>fast_rewind</mat-icon>
                 <span class="md-body-2">Prev</span>
               </div>
             </button>
-            <md-divider direction="vertical" class="vertical-divider"></md-divider>
-            <button md-button>
+            <mat-divider direction="vertical" class="vertical-divider"></mat-divider>
+            <button mat-button>
               <div fxLayout="column" fxLayoutAlign="center center">
-                <md-icon>save</md-icon>
+                <mat-icon>save</mat-icon>
                 <span class="md-body-2">Done</span>
               </div>
             </button>
-            <md-divider direction="vertical"></md-divider>
-            <button md-button>
+            <mat-divider direction="vertical"></mat-divider>
+            <button mat-button>
               <div fxLayout="column" fxLayoutAlign="center center">
-                <md-icon>fast_forward</md-icon>
+                <mat-icon>fast_forward</mat-icon>
                 <span class="md-body-2">Next</span>
               </div>
             </button>
           </div>
         </div>
       </div>
-    </md-sidenav>
-  </md-sidenav-container>
-</md-dialog-content>
+    </mat-sidenav>
+  </mat-sidenav-container>
+</mat-dialog-content>

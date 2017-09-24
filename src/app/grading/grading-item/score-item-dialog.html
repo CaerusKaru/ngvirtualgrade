@@ -1,15 +1,15 @@
 <div class="md-padding" fxLayout="column">
   <form #f="ngForm" autocomplete="off" (ngSubmit)="closeDialog(f)" fxLayout="column">
-    <md-input-container floatPlaceholder="never">
-      <input mdInput [(ngModel)]="desc" required name="desc" placeholder="Description" type="text">
-    </md-input-container>
-    <md-input-container floatPlaceholder="never">
-      <input mdInput [(ngModel)]="points" required name="points" placeholder="Points" type="number">
+    <mat-form-field floatPlaceholder="never">
+      <input matInput [(ngModel)]="desc" required name="desc" placeholder="Description" type="text">
+    </mat-form-field>
+    <mat-form-field floatPlaceholder="never">
+      <input matInput [(ngModel)]="points" required name="points" placeholder="Points" type="number">
       <span md-suffix>pts.</span>
-    </md-input-container>
+    </mat-form-field>
     <div fxLayout="row" fxLayoutAlign="space-around center">
-      <button md-raised-button md-dialog-close>CANCEL</button>
-      <button md-raised-button color="primary" type="submit">SUBMIT</button>
+      <button mat-raised-button matDialogClose>CANCEL</button>
+      <button mat-raised-button color="primary" type="submit">SUBMIT</button>
     </div>
   </form>
 </div>

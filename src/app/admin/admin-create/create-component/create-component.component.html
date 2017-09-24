@@ -1,77 +1,77 @@
 <div fxLayout="column" class="step-child mat-elevation-z2" [formGroup]="comp">
-  <md-toolbar>
+  <mat-toolbar>
     <span>Default Component</span>
-    <button md-icon-button fxFlexOffset="10px" type="button" mdTooltip="Edit Component"><md-icon>edit</md-icon></button>
+    <button mat-icon-button fxFlexOffset="10px" type="button" matTooltip="Edit Component"><mat-icon>edit</mat-icon></button>
     <span fxFlex></span>
-    <button md-icon-button fxFlexOffset="10px" type="button" mdTooltip="Advanced"><md-icon>settings</md-icon></button>
-    <button md-icon-button fxFlexOffset="10px" type="button" mdTooltip="Delete Component"
-            (click)="removeComp()"><md-icon>delete</md-icon></button>
-    <button md-icon-button fxFlexOffset="10px" type="button" (click)="show = !show">
+    <button mat-icon-button fxFlexOffset="10px" type="button" matTooltip="Advanced"><mat-icon>settings</mat-icon></button>
+    <button mat-icon-button fxFlexOffset="10px" type="button" matTooltip="Delete Component"
+            (click)="removeComp()"><mat-icon>delete</mat-icon></button>
+    <button mat-icon-button fxFlexOffset="10px" type="button" (click)="show = !show">
       <span class="md-toggle-icon"
             fxLayoutAlign="center center"
             [ngClass]="{'toggled' : show}">
-        <md-icon>keyboard_arrow_down</md-icon>
+        <mat-icon>keyboard_arrow_down</mat-icon>
       </span>
     </button>
-  </md-toolbar>
+  </mat-toolbar>
   <div class="md-padding comp-content" fxLayout="row" [@hideAnimation]="show ? 'show' : 'hide'">
     <div class="options-section left-section" fxLayout="column" fxLayoutGap="5px">
-      <md-form-field style="width: 134px">
-        <input mdInput placeholder="Score" formControlName="max_score" type="number" min="0">
-      </md-form-field>
-      <md-checkbox align="start" formControlName="is_extra_credit">Extra Credit</md-checkbox>
-      <md-form-field style="width: 134px">
-        <input mdInput [min]="minDate" formControlName="due_date"
-               [mdDatepicker]="dueDate" placeholder="Due Date">
-        <md-datepicker-toggle mdSuffix [for]="dueDate"></md-datepicker-toggle>
-      </md-form-field>
-      <md-datepicker #dueDate></md-datepicker>
-      <span><button md-button>UPLOAD RUBRIC</button></span>
+      <mat-form-field style="width: 134px">
+        <input matInput placeholder="Score" formControlName="max_score" type="number" min="0">
+      </mat-form-field>
+      <mat-checkbox align="start" formControlName="is_extra_credit">Extra Credit</mat-checkbox>
+      <mat-form-field style="width: 134px">
+        <input matInput [min]="minDate" formControlName="due_date"
+               [matDatepicker]="dueDate" placeholder="Due Date">
+        <mat-datepicker-toggle matSuffix [for]="dueDate"></mat-datepicker-toggle>
+      </mat-form-field>
+      <mat-datepicker #dueDate></mat-datepicker>
+      <span><button mat-button>UPLOAD RUBRIC</button></span>
     </div>
     <div class="options-section middle-section" fxFlex fxLayout="column">
       <div>
         <h2 class="mat-h2">Files</h2>
         <div fxLayout="row" fxLayoutGap="15px" fxLayoutAlign="start center">
-          <md-form-field>
-            <input mdInput placeholder="File Name" formControlName="new_file">
-          </md-form-field>
-          <button md-button (click)="addFile(comp)" type="button">Add File</button>
+          <mat-form-field>
+            <input matInput placeholder="File Name" formControlName="new_file">
+          </mat-form-field>
+          <button mat-button (click)="addFile(comp)" type="button">Add File</button>
         </div>
       </div>
       <div>
-        <md-chip-list mdSuffix formArrayName="files">
-          <md-chip *ngFor="let file of comp.get('files')['controls']; index as i"
+        <mat-chip-list matSuffix formArrayName="files">
+          <mat-chip *ngFor="let file of comp.get('files')['controls']; index as i"
                    fxLayoutAlign="center center"
                    fxLayoutGap="5px"
                    removable="true"
                    (remove)="removeFile(comp, i)"
                    selected="true">
             <span>{{file.value}}</span>
-            <md-icon mdChipRemove>cancel</md-icon>
-          </md-chip>
-        </md-chip-list>
+            <mat-icon matChipRemove>cancel</mat-icon>
+          </mat-chip>
+        </mat-chip-list>
       </div>
     </div>
     <div fxFlex fxLayout="column" class="right-section">
       <h2 class="mat-h2">Graders</h2>
       <div div fxLayout="row" fxLayoutGap="15px" fxLayoutAlign="start center">
-        <md-form-field>
-          <input mdInput placeholder="Grader" formControlName="new_grader">
-        </md-form-field>
-        <button md-button (click)="addGrader(comp)" type="button">Add Grader</button>
+        <mat-form-field>
+          <input matInput placeholder="Grader" formControlName="new_grader">
+        </mat-form-field>
+        <button mat-button (click)="addGrader(comp)" type="button">Add Grader</button>
       </div>
       <div>
-        <md-chip-list formArrayName="graders">
-          <md-chip *ngFor="let grader of comp.get('graders')['controls']; index as i"
+        <mat-chip-list formArrayName="graders">
+          <mat-chip *ngFor="let grader of comp.get('graders')['controls']; index as i"
                    fxLayoutAlign="center center"
                    fxLayoutGap="5px"
                    removable="true"
                    (remove)="removeGrader(comp, i)"
                    selected="true">
             {{grader.value}}
-            <md-icon mdChipRemove>cancel</md-icon>
-          </md-chip>
-        </md-chip-list>
+            <mat-icon matChipRemove>cancel</mat-icon>
+          </mat-chip>
+        </mat-chip-list>
       </div>
     </div>
   </div>
