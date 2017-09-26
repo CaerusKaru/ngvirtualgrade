@@ -6,7 +6,7 @@ import {environment} from '../environments/environment';
 const networkInterface = createNetworkInterface({
   uri: environment.GRAPHQL_ENDPOINT,
   opts: {
-    credentials: 'include',
+    credentials: environment.production ? 'same-origin' : 'include',
   }
 });
 
