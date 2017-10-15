@@ -1,73 +1,62 @@
-<div [formGroup]="step" class="step-main">
-  <div fxLayout="column" class="mat-elevation-z4">
-    <mat-toolbar>
-      <span>Default Submission Step</span>
-      <button mat-icon-button fxFlexOffset="10px" type="button" matTooltip="Edit Step"><mat-icon>edit</mat-icon></button>
-      <button mat-icon-button fxFlexOffset="10px" type="button" matTooltip="Add Component"
-              (click)="addComp()"><mat-icon>add</mat-icon></button>
-      <span fxFlex></span>
-      <span class="mat-body-1">Total Points: {{score}}</span>
-      <span fxFlex></span>
-      <button mat-icon-button fxFlexOffset="10px" type="button" matTooltip="Advanced"><mat-icon>settings</mat-icon></button>
-      <button mat-icon-button fxFlexOffset="10px" type="button" matTooltip="Delete Step"
-              (click)="removeStep()"><mat-icon>delete</mat-icon></button>
-      <button mat-icon-button fxFlexOffset="10px" type="button" (click)="show = !show">
-        <span class="md-toggle-icon"
-              fxLayoutAlign="center center"
-              [ngClass]="{'toggled' : show}">
-          <mat-icon>keyboard_arrow_down</mat-icon>
-        </span>
-      </button>
-    </mat-toolbar>
-    <div class="md-padding step-content" fxLayout="column" [@hideAnimation]="show ? 'show' : 'hide'">
-      <div fxLayout="row" fxLayout.lt-sm="column" fxLayoutGap="32px">
-        <div fxLayout="column" fxLayoutAlign="start start" fxLayoutGap="32px" class="upload-options">
-          <h4 class="mat-header">Upload Options</h4>
-          <mat-radio-group fxLayout="row" fxLayoutGap="20px" formControlName="submission_type">
-            <mat-radio-button value="student">Student</mat-radio-button>
-            <mat-radio-button value="instructor">Instructor</mat-radio-button>
-          </mat-radio-group>
-          <mat-checkbox align="start" formControlName="allow_other_files"
-                       matTooltip="If not, only files specified below will be allowed">
-            <span class="mat-body-1">Allow any files</span>
-          </mat-checkbox>
+<div [formGroup]="step" class="step-main" fxFlex>
+  <div fxLayout="column" class="md-padding step-content" fxLayoutGap="10px">
+    <div fxLayout="row" fxLayout.lt-sm="column" fxLayoutGap="32px">
+      <div fxLayout="column" fxLayoutAlign="start start" class="upload-options">
+        <h4 class="mat-header">Settings</h4>
+        <mat-form-field>
+          <input matInput formControlName="name" placeholder="Step Name">
+        </mat-form-field>
+        <button mat-raised-button>ADVANCED</button>
+      </div>
+      <div fxLayout="column" fxLayoutGap="10px">
+        <h4 class="mat-header">Submission Times</h4>
+        <div fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="16px">
+          <mat-form-field>
+            <input matInput formControlName="start_date" [min]="minDate" [max]="step.controls['end_date'].value"
+                   [matDatepicker]="startDate" placeholder="Start Date">
+            <mat-datepicker-toggle matSuffix [for]="startDate"></mat-datepicker-toggle>
+          </mat-form-field>
+
+          <mat-form-field>
+            <input matInput type="time" placeholder="Start Time" [formControl]="startTime"
+                   class="input-time">
+          </mat-form-field>
+          <mat-datepicker #startDate></mat-datepicker>
         </div>
-        <div fxLayout="column" fxLayoutGap="10px">
-          <div fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="16px">
-            <mat-form-field>
-              <input matInput formControlName="start_date" [min]="minDate" [max]="step.controls['end_date'].value"
-                     [matDatepicker]="startDate" placeholder="Start Date">
-              <mat-datepicker-toggle matSuffix [for]="startDate"></mat-datepicker-toggle>
-            </mat-form-field>
+        <div fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="16px">
+          <mat-form-field>
+            <input matInput formControlName="end_date" [min]="minDate"
+                   [matDatepicker]="endDate" placeholder="Due Date" >
+            <mat-datepicker-toggle matSuffix [for]="endDate"></mat-datepicker-toggle>
+          </mat-form-field>
 
-            <mat-form-field>
-              <input matInput type="time" placeholder="Start Time" [formControl]="startTime"
-                     class="input-time">
-            </mat-form-field>
-            <mat-datepicker #startDate></mat-datepicker>
-          </div>
-          <div fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="16px">
-            <mat-form-field>
-              <input matInput formControlName="end_date" [min]="minDate"
-                     [matDatepicker]="endDate" placeholder="Due Date" >
-              <mat-datepicker-toggle matSuffix [for]="endDate"></mat-datepicker-toggle>
-            </mat-form-field>
-
-            <mat-form-field>
-              <input matInput type="time" placeholder="End Time" [formControl]="endTime"
-                     class="input-time">
-            </mat-form-field>
-            <mat-datepicker #endDate></mat-datepicker>
-          </div>
+          <mat-form-field>
+            <input matInput type="time" placeholder="End Time" [formControl]="endTime"
+                   class="input-time">
+          </mat-form-field>
+          <mat-datepicker #endDate></mat-datepicker>
         </div>
       </div>
     </div>
-  </div>
-
-  <div fxLayout="column" class="md-padding" fxLayoutGap="16px" formArrayName="components" *ngIf="show">
-    <div *ngFor="let comp of step.get('components')['controls']; index as j">
-      <vg-create-component [comp]="comp" (remove)="removeComp(step, j)"
-                           [@slideChildAnimation]="true"></vg-create-component>
+    <h4 class="mat-header">Required Submission Files</h4>
+    <mat-form-field class="demo-chip-list">
+      <mat-chip-list #filesList formArrayName="files">
+        <mat-chip *ngFor="let file of step.get('files')['controls']; index as i" [selectable]="false"
+                  [removable]="true" (remove)="removeFile(i)">
+          {{file.value}}
+          <mat-icon matChipRemove>cancel</mat-icon>
+        </mat-chip>
+        <input placeholder="Add file"
+               [matChipInputFor]="filesList"
+               [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+               [matChipInputAddOnBlur]="true"
+               (matChipInputTokenEnd)="addFile($event)" />
+      </mat-chip-list>
+    </mat-form-field>
+    <div>
+      <mat-checkbox align="start" formControlName="allow_other_files">
+        <span class="mat-body-1">Allow additional files</span>
+      </mat-checkbox>
     </div>
   </div>
 </div>

@@ -4,7 +4,7 @@ const webpack = require('webpack');
 module.exports = {
   entry: { server: './server.ts' },
   target: 'node',
-  resolve: { extensions: ['.ts', '.js', '.json', '.node', '.html'] },
+  resolve: { extensions: ['.js', '.ts', '.json', '.node', '.html'] },
   externals: [/(node_modules|main\..*\.js)/,],
   output: {
     path: path.join(__dirname, 'dist'),

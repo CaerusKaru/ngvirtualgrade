@@ -1,19 +1,7 @@
-<form novalidate (ngSubmit)="onSubmit()" [formGroup]="createForm"
-      class="md-padding">
-  <div formArrayName="steps" fxLayout="column" fxFlexFill>
-    <mat-toolbar color="primary" class="mat-elevation-z2">
-      <span>Assignment</span>
-      <button mat-icon-button fxFlexOffset="10px" type="button" matTooltip="Edit Assignment"><mat-icon>edit</mat-icon></button>
-      <button mat-icon-button fxFlexOffset="10px" type="button"
-              (click)="addStep()" matTooltip="Add Step"><mat-icon>add</mat-icon></button>
-      <button mat-icon-button fxFlexOffset="10px" matTooltip="Save"><mat-icon>save</mat-icon></button>
-      <span fxFlex></span>
-      <span>Total Points: {{score}}</span>
-    </mat-toolbar>
-    <span fxFlex="16px"></span>
-    <div fxLayout="column" fxLayoutGap="16px" *ngFor="let step of steps.controls; index as i">
-      <vg-create-step [step]="step" (remove)="removeStep(i)" (add)="addComp(step)"
-                      [@slideAnimation]="true"></vg-create-step>
-    </div>
-  </div>
-</form>
+<ng-container *ngIf="createMode === 'student'; else instructor">
+  <vg-create-student></vg-create-student>
+</ng-container>
+
+<ng-template #instructor>
+  <vg-create-instructor></vg-create-instructor>
+</ng-template>

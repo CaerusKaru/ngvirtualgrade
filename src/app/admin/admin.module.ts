@@ -16,6 +16,8 @@ import { AdminCalendarComponent } from './admin-calendar/admin-calendar.componen
 import { CreateStepComponent } from './admin-create/create-step/create-step.component';
 import { CreateComponentComponent } from './admin-create/create-component/create-component.component';
 import {AdminGuard} from './shared/admin.guard';
+import { CreateStudentComponent } from './admin-create/create-student/create-student.component';
+import { CreateInstructorComponent } from './admin-create/create-instructor/create-instructor.component';
 
 @NgModule({
   imports: [
@@ -37,9 +39,13 @@ import {AdminGuard} from './shared/admin.guard';
     AdminCalendarComponent,
     CreateStepComponent,
     CreateComponentComponent,
+    CreateStudentComponent,
+    CreateInstructorComponent,
   ],
   providers: [
     AdminGuard
+  ],
+  entryComponents: [
   ]
 })
 export class AdminModule { }

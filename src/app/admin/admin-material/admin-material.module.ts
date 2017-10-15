@@ -32,7 +32,7 @@ import {CdkTableModule} from '@angular/cdk/table';
     MatSlideToggleModule,
     MatToolbarModule,
     MatListModule,
-    MatTooltipModule
+    MatTooltipModule,
   ],
   declarations: []
 })

@@ -15,6 +15,9 @@ import * as expressProxy from 'express-http-proxy';
 import { ngExpressEngine } from '@nguniversal/express-engine';
 import { join } from 'path';
 
+import * as xhr2 from 'xhr2';
+xhr2.prototype._restrictedHeaders = {};
+
 const DIST_FOLDER = join(process.cwd(), 'dist');
 const PORT = process.env.FRONTEND_PORT || 3000;
 

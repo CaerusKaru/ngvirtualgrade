@@ -1,10 +1,10 @@
 {
-  "/data/**": {
+  "/data": {
     "target": "http://localhost:4000",
     "pathRewrite": {
       "^/data": ""
     },
-    "changeOrigin": true,
+    "logLevel": "debug",
     "secure": false
   }
 }

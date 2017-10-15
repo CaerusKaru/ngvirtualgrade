@@ -1,29 +1,28 @@
-import {Component, EventEmitter, Input, OnDestroy, OnInit, Output} from '@angular/core';
-import {FormArray, FormControl, FormGroup} from '@angular/forms';
-import {hideAnimation, slideChildAnimation} from '../../../shared/animations/slide.animation';
+import {Component, Input, OnDestroy, OnInit} from '@angular/core';
+import {FormArray, FormBuilder, FormControl, FormGroup} from '@angular/forms';
 import {Subject} from 'rxjs/Subject';
 import {takeUntil, filter} from 'rxjs/operators';
+import {ENTER} from '@angular/cdk/keycodes';
+import {MatChipInputEvent} from '@angular/material';
 
 @Component({
   selector: 'vg-create-step',
   templateUrl: './create-step.component.html',
-  styleUrls: ['./create-step.component.scss'],
-  animations: [slideChildAnimation, hideAnimation]
+  styleUrls: ['./create-step.component.scss']
 })
 export class CreateStepComponent implements OnInit, OnDestroy {
 
   @Input() step: FormGroup;
-  @Output() remove = new EventEmitter();
-  @Output() add = new EventEmitter();
 
-  show = true;
   minDate = new Date();
   startTime = new FormControl(('0' + new Date().getHours()).slice(-2) + ':' + ('0' + new Date().getMinutes()).slice(-2));
   endTime = new FormControl(('0' + new Date().getHours()).slice(-2) + ':' + ('0' + new Date().getMinutes()).slice(-2));
 
+  separatorKeysCodes = [ENTER];
+
   private _destroy = new Subject();
 
-  constructor() { }
+  constructor(private _fb: FormBuilder) { }
 
   ngOnInit() {
     this.startTime.valueChanges.pipe(takeUntil(this._destroy)).subscribe(
@@ -71,22 +70,28 @@ export class CreateStepComponent implements OnInit, OnDestroy {
     this._destroy.complete();
   }
 
-  get score(): number {
-    const comps = this.step.get('components') as FormArray;
-    return comps.controls.reduce((b: number, e) => {
-      return b + (e.get('is_extra_credit').value ? 0 : e.get('max_score').value);
-    }, 0);
+  get files(): FormArray {
+    return this.step.get('files') as FormArray;
   }
 
-  removeStep() {
-    this.remove.emit();
+  addFile(event: MatChipInputEvent): void {
+    const input = event.input;
+    const value = event.value;
+
+    // Add our person
+    if ((value || '').trim()) {
+      this.files.push(this._fb.control(value.trim()));
+    }
+
+    // Reset the input value
+    if (input) {
+      input.value = '';
+    }
   }
 
-  addComp() {
-    this.add.emit();
-  }
-
-  removeComp(step, index) {
-    step.get('components').removeAt(index);
+  removeFile(index: number): void {
+    if (index >= 0) {
+      this.files.removeAt(index);
+    }
   }
 }

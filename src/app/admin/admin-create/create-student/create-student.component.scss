@@ -1,0 +1,26 @@
+.accordion-inside {
+  padding: 5px 5px;
+}
+
+.steps-sidenav {
+  min-width: 185px;
+  max-width: 185px;
+  width: 185px;
+}
+
+.secondary-text {
+  color: rgba(0, 0, 0, 0.54);
+}
+
+.steps-container {
+  display: flex;
+
+  .mat-tab-group {
+    margin-bottom: 0;
+    flex-grow: 1;
+  }
+}
+
+.steps {
+  flex-grow: 1;
+}

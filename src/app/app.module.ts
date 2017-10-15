@@ -22,6 +22,7 @@ import {LandingResolver} from './shared/resolvers/landing-resolver';
 import {ManageResolver} from './shared/resolvers/manage-resolver';
 import {MATERIAL_COMPATIBILITY_MODE} from '@angular/material';
 import {HomeResolver} from './shared/resolvers/home-resolver';
+import {TransferHttpCacheModule} from '@nguniversal/common';
 
 
 @NgModule({
@@ -40,6 +41,7 @@ import {HomeResolver} from './shared/resolvers/home-resolver';
     NavDrawerModule,
     AppMaterialModule,
     AppRoutingModule,
+    TransferHttpCacheModule,
   ],
   providers: [
     UserService,

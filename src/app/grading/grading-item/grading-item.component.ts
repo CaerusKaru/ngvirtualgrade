@@ -1,5 +1,5 @@
 import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
-import {UniqueSelectionDispatcher, MatDialog, MatDialogRef, MatSort, MatPaginator} from '@angular/material';
+import {MatDialog, MatDialogRef, MatSort, MatPaginator} from '@angular/material';
 import {SvgService} from './svg/shared/svg.service';
 import {ScoreItem} from '../shared/score-item';
 import {Problem} from '../shared/problem';
@@ -11,6 +11,7 @@ import {Observable} from 'rxjs/Observable';
 import {BehaviorSubject} from 'rxjs/BehaviorSubject';
 import {ActivatedRoute} from '@angular/router';
 import {DataSource} from '@angular/cdk/table';
+import {UniqueSelectionDispatcher} from '@angular/cdk/collections';
 
 @Component({
   selector: 'vg-grading-item',

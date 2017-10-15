@@ -101,7 +101,7 @@ export class AuthService {
 
   public login (username: string, password: string) {
 
-    this._http.post('/data/login', {username, password}, {withCredentials: true}).subscribe(
+    this._http.post('/data/login', {username, password}).subscribe(
       data => {
         this._tempLogIn();
       },
