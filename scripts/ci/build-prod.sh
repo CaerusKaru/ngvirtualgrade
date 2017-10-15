@@ -1,7 +1,5 @@
 #!/bin/bash
 
-cd public_html
-find . -type d -exec chmod a+rx {} \;
-chmod -R a+r .
-cd ..
-rsync -rp --delete --quiet public_html $SSH_USER@$HOST:$PROD_PATH
+rsync -rp --delete --quiet dist $SSH_USER@$HOST:$PROD_PATH/frontend/. || exit 29
+rsync -rp --delete --quiet package.json $SSH_USER@$HOST:$PROD_PATH/frontend/. || exit 29
+rsync -rp --delete --quiet package-lock.json $SSH_USER@$HOST:$PROD_PATH/frontend/. || exit 29
