@@ -1,8 +1,6 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
-import {takeUntil} from 'rxjs/operators';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
-import {Subject} from 'rxjs/Subject';
-import {FormArray, FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
+import {FormArray, FormBuilder, FormControl, Validators} from '@angular/forms';
 import {slideAnimation} from '../../../shared/animations/slide.animation';
 
 @Component({
@@ -11,41 +9,28 @@ import {slideAnimation} from '../../../shared/animations/slide.animation';
   styleUrls: ['./create-student.component.scss'],
   animations: [slideAnimation]
 })
-export class CreateStudentComponent implements OnInit, OnDestroy {
+export class CreateStudentComponent implements OnInit {
 
-  newStep = 'New Step';
   newComp = 'New Component';
   course: string;
 
-  createForm: FormGroup;
   activeTabIndex = 0;
 
-  private _destroy = new Subject<void>();
+  @Input() steps: FormArray;
+  @Output() add = new EventEmitter();
+  @Output() remove = new EventEmitter<number>();
 
   constructor(
     private _route: ActivatedRoute,
     private _fb: FormBuilder
-  ) {
-    this._createForm();
-  }
+  ) { }
 
   ngOnInit() {
-    this._route.params.pipe(takeUntil(this._destroy)).subscribe(params => {
-      this.course = params['course'];
-    });
+    this.course = this._route.snapshot.params['course'];
   }
-
-  ngOnDestroy() {
-    this._destroy.next();
-    this._destroy.complete();
-  }
-
-  get steps(): FormArray {
-    return this.createForm.get('steps') as FormArray;
-  };
 
   addStep() {
-    this.steps.push(this._setSteps());
+    this.add.emit();
     this.activeTabIndex = this.steps.length - 1;
   }
 
@@ -54,38 +39,7 @@ export class CreateStudentComponent implements OnInit, OnDestroy {
   }
 
   removeStep() {
-    this.steps.removeAt(this.activeTabIndex);
-  }
-
-  onSubmit() {
-    console.log(this.createForm.value);
-  }
-
-  private _createForm() {
-    this.createForm = this._fb.group({
-      name: ['', [Validators.required]],
-      description: '',
-      steps: this._fb.array([this._setSteps()])
-    });
-  }
-
-  private _setSteps() {
-    return this._fb.group({
-      name: new FormControl(this.newStep, {validators: [Validators.required], updateOn: 'blur'}),
-      start_date: new FormControl({value: new Date(), disabled: false}, Validators.required),
-      end_date: new FormControl(
-        {
-          value: new Date(new Date().getTime() + (5 * 24 * 60 * 60 * 1000)),
-          disabled: false
-        },
-        Validators.required
-      ),
-      submission_type: '',
-      files: this._fb.array([]),
-      allow_other_files: new FormControl(false),
-      components: this._fb.array([this._setComps()]),
-      exceptions: this._fb.array([])
-    }, { updateOn: 'blur' })
+    this.remove.emit(this.activeTabIndex);
   }
 
   private _setComps() {
@@ -93,8 +47,6 @@ export class CreateStudentComponent implements OnInit, OnDestroy {
       name: [this.newComp, [Validators.required]],
       max_score: [0, [Validators.min(0)]],
       is_extra_credit: new FormControl(false),
-      new_file: '',
-      new_grader: '',
       files: this._fb.array([]),
       graders: this._fb.array([]),
       due_date: new Date()
@@ -103,9 +55,9 @@ export class CreateStudentComponent implements OnInit, OnDestroy {
 
   private _setException() {
     return this._fb.group({
-      user: ['', [Validators.required]],
+      user: [null, [Validators.required]],
       date: new Date(),
-      reason: ''
+      reason: null
     })
   }
 }

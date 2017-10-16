@@ -35,11 +35,6 @@ export class HomeMenuService {
         return [
           {
             type: 'link',
-            label: 'Create New',
-            link: '/' + mode + '/' + c + '/create'
-          },
-          {
-            type: 'link',
             label: 'Gradebook',
             link: '/' + mode + '/' + c + '/gradebook'
           },

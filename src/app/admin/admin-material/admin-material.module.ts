@@ -1,9 +1,11 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {
-  MatButtonModule, MatCardModule, MatCheckboxModule, MatChipsModule, MatDatepickerModule, MatInputModule, MatNativeDateModule,
-  MatProgressBarModule, MatExpansionModule, MatRadioModule, MatTableModule, MatPaginatorModule, MatSortModule, MatIconModule,
-  MatTabsModule, MatRippleModule, MatSlideToggleModule, MatToolbarModule, MatListModule, MatTooltipModule
+  MatButtonModule, MatCardModule, MatCheckboxModule, MatChipsModule, MatDatepickerModule, MatInputModule,
+  MatNativeDateModule,
+  MatProgressBarModule, MatExpansionModule, MatRadioModule, MatTableModule, MatPaginatorModule, MatSortModule,
+  MatIconModule,
+  MatTabsModule, MatRippleModule, MatSlideToggleModule, MatToolbarModule, MatListModule, MatTooltipModule, MatMenuModule
 } from '@angular/material';
 import {CdkTableModule} from '@angular/cdk/table';
 
@@ -33,6 +35,7 @@ import {CdkTableModule} from '@angular/cdk/table';
     MatToolbarModule,
     MatListModule,
     MatTooltipModule,
+    MatMenuModule,
   ],
   declarations: []
 })

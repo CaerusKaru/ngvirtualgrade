@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import {CanLoad, Route, Router} from '@angular/router';
 import { Observable } from 'rxjs/Observable';
-import {AuthService} from '../services/auth.service';
 import {first, map} from 'rxjs/operators';
+import {AuthService} from '@app/shared/services';
 
 @Injectable()
 export class CanLoadCourses implements CanLoad {

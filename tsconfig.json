@@ -15,6 +15,11 @@
       "es2017",
       "dom",
       "esnext.asynciterable"
-    ]
+    ],
+    "baseUrl": "src",
+    "paths": {
+      "@app/*": ["app/*"],
+      "@env/*": ["environments/*"]
+    }
   }
 }

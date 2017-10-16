@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import {ActivatedRouteSnapshot, Resolve} from '@angular/router';
-import {HomeMenuService} from '../../home/home-menu.service';
 import {of} from 'rxjs/observable/of';
+import {HomeMenuService} from '@app/home/home-menu.service';
 
 @Injectable()
 export class LandingResolver implements Resolve<boolean> {

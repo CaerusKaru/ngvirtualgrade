@@ -1,15 +1,14 @@
 import { Injectable } from '@angular/core';
-import {UserService} from './user.service';
-import {environment} from '../../../environments/environment';
 import {Observable} from 'rxjs/Observable';
 import {Router} from '@angular/router';
 import {MatSnackBar} from '@angular/material';
 import {ReplaySubject} from 'rxjs/ReplaySubject';
-import {Course} from '../classes/course';
-import {Manager} from '../classes/manager';
 import {Apollo} from 'apollo-angular';
 import gql from 'graphql-tag';
 import {HttpClient} from '@angular/common/http';
+import {environment} from '@env/environment';
+import {Course, Manager} from '@app/shared/classes';
+import {UserService} from '@app/shared/services/user.service';
 
 interface AuthResponse {
   user: {

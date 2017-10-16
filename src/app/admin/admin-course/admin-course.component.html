@@ -6,7 +6,11 @@
 
   <h4 class="mat-heading">Course Actions</h4>
   <mat-card fxLayout="row" fxLayoutGap="20px" [colorName]="course.name" [borderBottom]="true">
-    <button mat-button routerLink="create">ADD</button>
+    <button mat-button [matMenuTriggerFor]="createMenu">ADD</button>
+    <mat-menu #createMenu="matMenu">
+      <button mat-menu-item [routerLink]="['create',{type:'instructor'}]">Instructor</button>
+      <button mat-menu-item [routerLink]="['create',{type:'student'}]">Student</button>
+    </mat-menu>
     <button mat-button routerLink="gradebook">GRADEBOOK</button>
     <button mat-button routerLink="graders">GRADERS</button>
     <button mat-button routerLink="calendar">CALENDAR</button>

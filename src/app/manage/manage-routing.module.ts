@@ -1,10 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import {ManageHomeComponent} from './manage-home/manage-home.component';
-import {ManageCourseComponent} from './manage-course/manage-course.component';
-import {ManageDeptComponent} from './manage-dept/manage-dept.component';
-import {ManageCreateComponent} from './manage-create/manage-create.component';
-import {ManageUsersComponent} from './manage-users/manage-users.component';
+import {ManageHomeComponent, ManageCreateComponent, ManageUsersComponent, ManageDeptComponent, ManageCourseComponent
+} from '@app/manage';
 
 export const manageRoutes: Routes = [
   {

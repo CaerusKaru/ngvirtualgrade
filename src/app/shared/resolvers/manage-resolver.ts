@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import {ActivatedRouteSnapshot, Resolve} from '@angular/router';
-import {ManagePerms, UserService} from '../services/user.service';
-import {HomeMenuService} from '../../home/home-menu.service';
 import {Observable} from 'rxjs/Observable';
+import {HomeMenuService} from '@app/home/home-menu.service';
+import {UserService, ManagePerms} from '@app/shared/services';
 
 @Injectable()
 export class ManageResolver implements Resolve<boolean> {

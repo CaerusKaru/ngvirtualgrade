@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import {ActivatedRouteSnapshot, Resolve} from '@angular/router';
 import { Observable } from 'rxjs/Observable';
-import {UserService} from '../services/user.service';
-import {HomeMenuService} from '../../home/home-menu.service';
+import {HomeMenuService} from '@app/home/home-menu.service';
+import {UserService} from '@app/shared/services';
 
 @Injectable()
 export class GradingResolver implements Resolve<boolean> {

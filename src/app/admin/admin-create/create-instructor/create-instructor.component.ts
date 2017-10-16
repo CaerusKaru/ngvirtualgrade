@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
+import {FormArray} from '@angular/forms';
 
 @Component({
   selector: 'vg-create-instructor',
@@ -6,6 +7,8 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./create-instructor.component.scss']
 })
 export class CreateInstructorComponent implements OnInit {
+
+  @Input() steps: FormArray;
 
   constructor() { }
 

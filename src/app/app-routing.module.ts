@@ -1,13 +1,8 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import {HomeComponent} from './home/home.component';
-import {CanLoadAdmin, CanLoadCourses, CanLoadGrading, CanLoadManage} from './shared/guards/auth.guard';
-import {AdminResolver} from './shared/resolvers/admin-resolver';
-import {GradingResolver} from './shared/resolvers/grading-resolver';
-import {CoursesResolver} from './shared/resolvers/courses-resolver';
-import {LandingResolver} from './shared/resolvers/landing-resolver';
-import {ManageResolver} from './shared/resolvers/manage-resolver';
-import {HomeResolver} from './shared/resolvers/home-resolver';
+import {HomeComponent} from '@app/home/home.component';
+import {HomeResolver, LandingResolver, CoursesResolver, GradingResolver, AdminResolver, ManageResolver} from '@app/shared/resolvers';
+import {CanLoadCourses, CanLoadGrading, CanLoadAdmin, CanLoadManage} from '@app/shared/guards';
 
 export const appRoutes: Routes = [
   {

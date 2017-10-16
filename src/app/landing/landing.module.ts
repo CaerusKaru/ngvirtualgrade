@@ -1,15 +1,11 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import {LandingRoutingModule} from './landing-routing.module';
-import { LandingHomeComponent } from './landing-home/landing-home.component';
-import {FlexLayoutModule} from '@angular/flex-layout';
-import { LandingHelpComponent } from './landing-help/landing-help.component';
-import { LandingAboutComponent } from './landing-about/landing-about.component';
+import {SharedModule} from '@app/shared';
+import {LandingHomeComponent, LandingHelpComponent, LandingAboutComponent} from '@app/landing';
+import {LandingRoutingModule} from '@app/landing/landing-routing.module';
 
 @NgModule({
   imports: [
-    CommonModule,
-    FlexLayoutModule,
+    SharedModule,
     LandingRoutingModule
   ],
   declarations: [LandingHomeComponent, LandingHelpComponent, LandingAboutComponent]

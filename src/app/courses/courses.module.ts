@@ -1,19 +1,16 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { CoursesHomeComponent } from './courses-home/courses-home.component';
-import {CoursesRoutingModule} from './courses-routing.module';
-import {FlexLayoutModule} from '@angular/flex-layout';
-import { CoursesItemComponent } from './courses-item/courses-item.component';
-import {CoursesMaterialModule} from './courses-material/courses-material.module';
-import {CoursesCourseComponent, SubmitAssignmentDialogComponent} from './courses-course/courses-course.component';
-import {CardButtonModule} from '../card-button/index';
 import { FileUploadModule } from 'ng2-file-upload';
+import {CoursesMaterialModule, CoursesHomeComponent, CoursesItemComponent, CoursesCourseComponent,
+  SubmitAssignmentDialogComponent
+} from '@app/courses';
+import {CardButtonModule} from '@app/card-button';
+import {SharedModule} from '@app/shared';
+import {CoursesRoutingModule} from '@app/courses/courses-routing.module';
 
 @NgModule({
   imports: [
-    CommonModule,
     CoursesRoutingModule,
-    FlexLayoutModule,
+    SharedModule,
     CoursesMaterialModule,
     CardButtonModule,
     FileUploadModule,

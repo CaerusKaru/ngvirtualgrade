@@ -1,27 +1,15 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { GradingHomeComponent } from './grading-home/grading-home.component';
-import {GradingRoutingModule} from './grading-routing.module';
-import {GradingItemComponent, GradingItemPDFDialogComponent,
-  ScoringItemDialogComponent} from './grading-item/grading-item.component';
-import {FlexLayoutModule} from '@angular/flex-layout';
-import {FormsModule} from '@angular/forms';
-import { SvgSelectDirective } from './grading-item/svg/shared/svg-select.directive';
-import { SvgDragDirective } from './grading-item/svg/shared/svg-drag.directive';
-import { WrapperComponent } from './grading-item/svg/wrapper/wrapper.component';
-import { TextComponent } from './grading-item/svg/text/text.component';
-import { LineComponent } from './grading-item/svg/line/line.component';
-import {SvgService} from './grading-item/svg/shared/svg.service';
-import {GradingMaterialModule} from './grading-material/grading-material.module';
-import { GradingCourseComponent } from './grading-course/grading-course.component';
-import {CardButtonModule} from '../card-button/index';
-import {GradingGuard} from './shared/grading.guard';
+import {SharedModule} from '@app/shared';
+import {GradingMaterialModule, ScoringItemDialogComponent, GradingItemPDFDialogComponent,
+  GradingHomeComponent, GradingItemComponent, SvgSelectDirective, SvgDragDirective, WrapperComponent, TextComponent,
+  LineComponent, GradingCourseComponent, SvgService, GradingGuard
+} from '@app/grading';
+import {CardButtonModule} from '@app/card-button';
+import {GradingRoutingModule} from '@app/grading/grading-routing.module';
 
 @NgModule({
   imports: [
-    FormsModule,
-    CommonModule,
-    FlexLayoutModule,
+    SharedModule,
     GradingMaterialModule,
     GradingRoutingModule,
     CardButtonModule

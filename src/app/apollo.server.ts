@@ -1,5 +1,5 @@
 import { ApolloClient, createNetworkInterface } from 'apollo-client';
-import {environment} from '../environments/environment';
+import {environment} from '@env/environment';
 
 // Paste your endpoint for the Simple API here.
 // Info: https://github.com/graphcool-examples/angular-apollo-instagram-example#2-create-graphql-api-with-graphcool

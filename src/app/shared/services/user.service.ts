@@ -1,8 +1,7 @@
 import { Injectable } from '@angular/core';
 import {Observable} from 'rxjs/Observable';
 import {BehaviorSubject} from 'rxjs/BehaviorSubject';
-import {Course} from '../classes/course';
-import {Department} from '../classes/department';
+import {Course, Department} from '@app/shared/classes';
 
 export enum ManagePerms {
   CREATE = 'CREATE',

@@ -1,7 +1,25 @@
-<ng-container *ngIf="createMode === 'student'; else instructor">
-  <vg-create-student></vg-create-student>
-</ng-container>
+<form novalidate (ngSubmit)="onSubmit()" [formGroup]="createForm"
+      class="md-padding" fxLayout="column" fxFill>
+  <div fxFlex fxLayout="column">
+    <mat-toolbar class="mat-elevation-z2">
+      <mat-form-field floatPlaceholder="never">
+        <input matInput placeholder="Assignment Name" formControlName="name">
+      </mat-form-field>
+    </mat-toolbar>
+    <span fxFlex="16px"></span>
 
-<ng-template #instructor>
-  <vg-create-instructor></vg-create-instructor>
-</ng-template>
+    <ng-container *ngIf="createMode === 'student'; else instructor">
+      <vg-create-student formArrayName="steps"
+                         [steps]="steps"
+                         (add)="addStep()"
+                         (remove)="removeStep($event)">
+      </vg-create-student>
+    </ng-container>
+
+    <ng-template #instructor>
+      <vg-create-instructor formArrayName="steps"
+                            [steps]="steps">
+      </vg-create-instructor>
+    </ng-template>
+  </div>
+</form>
