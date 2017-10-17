@@ -119,21 +119,22 @@ export class AuthService {
 
   private _loadAuth() {
     return new Observable<boolean>(obs => {
-      this._apollo.watchQuery<AuthResponse>({query: CurrentUser}).subscribe(({data}) => {
-        const userData = data.user;
-        this._loggedIn.next(true);
-        this._grader.next(userData.grading.length !== 0);
-        this._admin.next(userData.admin.length !== 0);
-        this._manage.next(userData.manage.privileges.length !== 0);
-        this.userService.populate(userData, userData.username);
-        obs.next(true);
-        obs.complete();
-      },
-      error => {
-        this._logOut();
-        obs.next(false);
-        obs.complete();
-      });
+      this._apollo.watchQuery<AuthResponse>({query: CurrentUser, fetchPolicy: 'network-only'})
+        .subscribe(({data}) => {
+          const userData = data.user;
+          this._loggedIn.next(true);
+          this._grader.next(userData.grading.length !== 0);
+          this._admin.next(userData.admin.length !== 0);
+          this._manage.next(userData.manage.privileges.length !== 0);
+          this.userService.populate(userData, userData.username);
+          obs.next(true);
+          obs.complete();
+        },
+        error => {
+          this._logOut();
+          obs.next(false);
+          obs.complete();
+        });
       // this._http.get<AuthResponse>('/assets/data.json').subscribe(
       //   data => {
       //     this._loggedIn.next(true);

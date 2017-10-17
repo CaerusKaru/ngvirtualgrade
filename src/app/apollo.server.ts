@@ -7,6 +7,8 @@ const networkInterface = createNetworkInterface({
   uri: environment.GRAPHQL_ENDPOINT,
   opts: {
     credentials: environment.production ? 'same-origin' : 'include',
+    cache: 'no-cache',
+    redirect: 'follow',
   }
 });
 

@@ -3,11 +3,11 @@
 /* Server specific version of Zone.js */
 import 'zone.js/dist/zone-node';
 import 'reflect-metadata';
+import fetch from 'node-fetch';
+global['fetch'] = fetch;
 
-const {CookieJar} = require('tough-cookie');
 import * as cookieParser from 'cookie-parser';
-const cookieJar = new CookieJar();
-global['fetch'] = require('fetch-cookie')(require('node-fetch'), cookieJar);
+import * as fetchIntercept from 'fetch-intercept';
 
 import * as express from 'express';
 import * as helmet from 'helmet';
@@ -27,8 +27,12 @@ const { AppServerModuleNgFactory, LAZY_MODULE_MAP } = require('./dist/server/mai
 
 const app = express();
 
+const devServerHost = 'localhost';
+const devServerPort = 4000;
+const devServer = `${devServerHost}:${devServerPort}`;
+
 app.use(cookieParser());
-app.use('/data', expressProxy('localhost:4000'));
+app.use('/data', expressProxy(devServer));
 
 app.use(helmet.contentSecurityPolicy({
   directives: {
@@ -54,11 +58,18 @@ app.use(helmet.hsts({
 /* Server-side rendering */
 function angularRouter(req, res) {
 
-  if (!!req.cookies) {
-    for (const c of Object.keys(req.cookies)) {
-      cookieJar.setCookie(c + '=' + req.cookies[c], `${req.protocol}://${req.get('host')}`, {}, () => {});
+  const unregister = fetchIntercept.register({
+    request: function (url, config) {
+      if (!url.startsWith('http')) {
+        url = `${req.protocol}://${req.get('host')}${url}`;
+      }
+      if (!!req.cookies) {
+        config.headers['cookie'] = req.headers.cookie
+      }
+      return [url, config];
     }
-  }
+  });
+
   /* Server-side rendering */
   res.render('index', {
     req,
@@ -67,6 +78,9 @@ function angularRouter(req, res) {
       provide: 'serverUrl',
       useValue: `${req.protocol}://${req.get('host')}`
     }]
+  }, function (error, html) {
+    res.send(html);
+    unregister();
   });
 }
 
