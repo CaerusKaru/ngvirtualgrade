@@ -1,6 +1,9 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import {GradingHomeComponent, GradingGuard, GradingItemComponent, GradingCourseComponent} from '@app/grading';
+import {GradingHomeComponent} from '@app/grading/grading-home';
+import {GradingCourseComponent} from '@app/grading/grading-course';
+import {GradingGuard} from '@app/grading/shared';
+import {GradingItemComponent} from '@app/grading/grading-item';
 
 export const gradingRoutes: Routes = [
   {

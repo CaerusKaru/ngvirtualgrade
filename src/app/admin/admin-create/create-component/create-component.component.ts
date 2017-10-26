@@ -1,6 +1,6 @@
 import {Component, Input, OnInit, EventEmitter, Output} from '@angular/core';
 import {FormBuilder, FormGroup} from '@angular/forms';
-import {hideAnimation} from '../../../shared/animations/slide.animation';
+import {hideAnimation} from '@app/shared/animations';
 
 @Component({
   selector: 'vg-create-component',

@@ -1,6 +1,6 @@
 import {Component} from '@angular/core';
-import {UserService} from '../../shared/services/user.service';
 import {map} from 'rxjs/operators';
+import {UserService} from '@app/shared/services';
 
 @Component({
   selector: 'vg-courses-home',

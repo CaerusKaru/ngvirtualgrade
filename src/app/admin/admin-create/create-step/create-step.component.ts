@@ -5,6 +5,8 @@ import {takeUntil, filter} from 'rxjs/operators';
 import {ENTER} from '@angular/cdk/keycodes';
 import {MatChipInputEvent} from '@angular/material';
 
+const COMMA = 188;
+
 @Component({
   selector: 'vg-create-step',
   templateUrl: './create-step.component.html',
@@ -18,7 +20,7 @@ export class CreateStepComponent implements OnInit, OnDestroy {
   startTime = new FormControl(('0' + new Date().getHours()).slice(-2) + ':' + ('0' + new Date().getMinutes()).slice(-2));
   endTime = new FormControl(('0' + new Date().getHours()).slice(-2) + ':' + ('0' + new Date().getMinutes()).slice(-2));
 
-  separatorKeysCodes = [ENTER];
+  separatorKeysCodes = [ENTER, COMMA];
 
   private _destroy = new Subject();
 

@@ -1,7 +1,7 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 import {FormArray, FormBuilder, FormControl, Validators} from '@angular/forms';
-import {slideAnimation} from '../../../shared/animations/slide.animation';
+import {slideAnimation} from '@app/shared/animations';
 
 @Component({
   selector: 'vg-create-student',

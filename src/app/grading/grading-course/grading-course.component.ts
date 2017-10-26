@@ -2,7 +2,7 @@ import {Component, OnDestroy, OnInit} from '@angular/core';
 import {takeUntil} from 'rxjs/operators';
 import {Subject} from 'rxjs/Subject';
 import {ActivatedRoute} from '@angular/router';
-import {UserService} from '../../shared/services/user.service';
+import {UserService} from '@app/shared/services';
 
 @Component({
   selector: 'vg-grading-course',

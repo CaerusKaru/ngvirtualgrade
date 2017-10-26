@@ -1,11 +1,11 @@
 import {Component, ElementRef, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {Subject} from 'rxjs/Subject';
 import {ActivatedRoute} from '@angular/router';
-import {UserService} from '../../shared/services/user.service';
 import {takeUntil, map} from 'rxjs/operators';
-import {Course} from '../../shared/classes/course';
 import { FileUploader } from 'ng2-file-upload';
 import {MatDialog, MatDialogRef} from '@angular/material';
+import {UserService} from '@app/shared/services';
+import {Course} from '@app/shared/classes';
 
 const URL = '/submissions/';
 

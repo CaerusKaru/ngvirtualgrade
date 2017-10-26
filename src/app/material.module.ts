@@ -8,7 +8,7 @@ import {
 
 @NgModule({
   imports: [
-    CommonModule
+    CommonModule,
   ],
   exports: [
     MatDialogModule,
@@ -23,4 +23,4 @@ import {
   ],
   declarations: []
 })
-export class AppMaterialModule { }
+export class MaterialModule { }

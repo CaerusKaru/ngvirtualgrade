@@ -3,13 +3,14 @@ import { NgModule } from '@angular/core';
 
 import { AppComponent } from './app.component';
 import {AppRoutingModule} from './app-routing.module';
-import {AppMaterialModule} from './app-material/app-material.module';
+import {MaterialModule} from './material.module';
 import {MATERIAL_COMPATIBILITY_MODE} from '@angular/material';
 import {TransferHttpCacheModule} from '@nguniversal/common';
 import {CoreModule} from '@app/core';
 import {SharedModule} from '@app/shared';
 import {NavDrawerModule} from '@app/nav-drawer';
 import {SigninDialogComponent, HomeComponent} from '@app/home/home.component';
+import {GraphQLModule} from '@app/graphql.module';
 
 
 @NgModule({
@@ -21,11 +22,12 @@ import {SigninDialogComponent, HomeComponent} from '@app/home/home.component';
   imports: [
     BrowserModule.withServerTransition({ appId: 'universal' }),
     NavDrawerModule,
-    AppMaterialModule,
+    MaterialModule,
     AppRoutingModule,
     CoreModule,
     SharedModule,
     TransferHttpCacheModule,
+    GraphQLModule,
   ],
   providers: [
     {

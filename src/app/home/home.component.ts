@@ -1,19 +1,17 @@
 import {Component, OnDestroy, OnInit, Optional, ViewEncapsulation} from '@angular/core';
 import {RouterOutlet} from '@angular/router';
-import {UserService} from '../shared/services/user.service';
-import {AuthService} from '../shared/services/auth.service';
 import {MatDialog, MatDialogRef} from '@angular/material';
-import {environment} from '../../environments/environment';
 import {NgForm} from '@angular/forms';
 import {Subject} from 'rxjs/Subject';
-import {takeUntil as takeUntilOp} from 'rxjs/operator/takeUntil';
 import {HomeMenuService} from './home-menu.service';
-import {routerAnimation} from '../shared/animations/router.animation';
 import {Platform} from '@angular/cdk/platform';
 import {Subscription} from 'rxjs/Subscription';
-import {RxChain, takeUntil} from '@angular/cdk/rxjs';
 import {fromEvent} from 'rxjs/observable/fromEvent';
 import {SwUpdatesService} from '../sw-updates/sw-updates.service';
+import {routerAnimation} from '@app/shared/animations';
+import {AuthService, UserService} from '@app/shared/services';
+import {environment} from '@env/environment';
+import {takeUntil} from 'rxjs/operators';
 
 @Component({
   selector: 'vg-home',
@@ -58,25 +56,25 @@ export class HomeComponent implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit () {
-    takeUntilOp.call(this._authService.isAdmin, this._destroy).subscribe(data => {
+    this._authService.isAdmin.pipe(takeUntil(this._destroy)).subscribe(data => {
       this.navLinks[this.navLinks.indexOf(this.adminTab)].show = data;
       if (this.platform.isBrowser) {
         this.onResize(window.innerWidth);
       }
     });
-    takeUntilOp.call(this._authService.isGrader, this._destroy).subscribe(data => {
+    this._authService.isGrader.pipe(takeUntil(this._destroy)).subscribe(data => {
       this.navLinks[this.navLinks.indexOf(this.graderTab)].show = data;
       if (this.platform.isBrowser) {
         this.onResize(window.innerWidth);
       }
     });
-    takeUntilOp.call(this._authService.isLoggedIn, this._destroy).subscribe(data => {
+    this._authService.isLoggedIn.pipe(takeUntil(this._destroy)).subscribe(data => {
       this.navLinks[this.navLinks.indexOf(this.gradesTab)].show = data;
       if (this.platform.isBrowser) {
         this.onResize(window.innerWidth);
       }
     });
-    takeUntilOp.call(this._authService.isManager, this._destroy).subscribe(data => {
+    this._authService.isManager.pipe(takeUntil(this._destroy)).subscribe(data => {
       this.navLinks[this.navLinks.indexOf(this.manageTab)].show = data;
       if (this.platform.isBrowser) {
         this.onResize(window.innerWidth);
@@ -84,8 +82,8 @@ export class HomeComponent implements OnInit, OnDestroy {
     });
 
     if (this.platform.isBrowser) {
-      this._resizeSubscription = RxChain.from(fromEvent(window, 'resize'))
-        .call(takeUntil, this._destroy)
+      this._resizeSubscription = fromEvent(window, 'resize')
+        .pipe(takeUntil(this._destroy))
         .subscribe((e: UIEvent) => this.onResize((<Window>e.target).innerWidth));
       this.onResize(window.innerWidth);
     }

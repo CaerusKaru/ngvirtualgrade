@@ -20,4 +20,4 @@ import {
   ],
   declarations: []
 })
-export class CoursesMaterialModule { }
+export class MaterialModule { }

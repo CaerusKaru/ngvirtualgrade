@@ -1,9 +1,9 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
-import {UserService} from '../../shared/services/user.service';
 import {Subject} from 'rxjs/Subject';
 import {takeUntil} from 'rxjs/operators';
 import {ActivatedRoute} from '@angular/router';
-import {Course} from '../../shared/classes/course';
+import {UserService} from '@app/shared/services';
+import {Course} from '@app/shared/classes';
 
 @Component({
   selector: 'vg-admin-course',

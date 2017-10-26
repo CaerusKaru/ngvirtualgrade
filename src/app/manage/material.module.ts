@@ -13,4 +13,4 @@ import {MatButtonModule, MatCardModule, MatStepperModule} from '@angular/materia
   ],
   declarations: []
 })
-export class ManageMaterialModule { }
+export class MaterialModule { }

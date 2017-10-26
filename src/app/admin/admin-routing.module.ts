@@ -1,8 +1,14 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import {AdminGuard, AdminHomeComponent, AdminCourseComponent, AdminCreateComponent, AdminGradebookComponent,
-  AdminCalendarComponent, AdminGradersComponent, AdminItemComponent
-} from '@app/admin';
+import {AdminHomeComponent} from '@app/admin/admin-home';
+import {AdminCourseComponent} from '@app/admin/admin-course';
+import {AdminGuard} from '@app/admin/shared';
+import {AdminCreateComponent} from '@app/admin/admin-create';
+import {AdminGradebookComponent} from '@app/admin/admin-gradebook';
+import {AdminCalendarComponent} from '@app/admin/admin-calendar';
+import {AdminGradersComponent} from '@app/admin/admin-graders';
+import {AdminItemComponent} from '@app/admin/admin-item';
+
 
 const adminRoutes: Routes = [
   {

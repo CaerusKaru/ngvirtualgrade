@@ -28,7 +28,8 @@
       "environmentSource": "environments/environment.ts",
       "environments": {
         "dev": "environments/environment.ts",
-        "prod": "environments/environment.prod.ts"
+        "prod": "environments/environment.prod.ts",
+        "hmr": "environments/environment.hmr.ts"
       }
     },
     {
@@ -43,7 +44,7 @@
       ],
       "platform": "server",
       "index": "index.html",
-      "main": "main-server.ts",
+      "main": "main.server.ts",
       "test": "test.ts",
       "tsconfig": "tsconfig.server.json",
       "testTsconfig": "tsconfig.spec.json",
@@ -55,7 +56,8 @@
       "environmentSource": "environments/environment.ts",
       "environments": {
         "dev": "environments/environment.ts",
-        "prod": "environments/environment.prod.ts"
+        "prod": "environments/environment.prod.ts",
+        "hmr": "environments/environment.hmr.ts"
       }
     }
   ],

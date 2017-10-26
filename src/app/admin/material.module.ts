@@ -39,4 +39,4 @@ import {CdkTableModule} from '@angular/cdk/table';
   ],
   declarations: []
 })
-export class AdminMaterialModule { }
+export class MaterialModule { }

@@ -37,4 +37,4 @@ import {CdkTableModule} from '@angular/cdk/table';
   ],
   declarations: []
 })
-export class GradingMaterialModule { }
+export class MaterialModule { }

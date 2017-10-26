@@ -70,4 +70,4 @@ import 'zone.js/dist/zone';  // Included with Angular CLI.
 // import 'intl/locale-data/jsonp/en';
 
 // Polyfill fetch
-import 'whatwg-fetch';
+// import 'whatwg-fetch';
