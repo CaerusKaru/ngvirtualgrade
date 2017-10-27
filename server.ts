@@ -11,7 +11,7 @@ import { ngExpressEngine } from '@nguniversal/express-engine';
 import { join } from 'path';
 
 import * as xhr2 from 'xhr2';
-import {PREBOOT_NONCE} from 'preboot/src';
+import {PREBOOT_NONCE} from 'preboot/server';
 import {v4} from 'uuid';
 
 xhr2.prototype._restrictedHeaders = {};
@@ -74,8 +74,6 @@ function angularRouter(req, res) {
     if (error) {
       console.error('rendering error', error);
     }
-    console.log(html.substring(0, 100));
-    console.log(res.locals.nonce);
     res.send(html);
   });
 }

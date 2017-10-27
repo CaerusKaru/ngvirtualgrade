@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {UserService} from '@app/shared/services';
 
 @Component({
-  selector: 'vg-archon-home',
+  selector: 'vg-admin-home',
   templateUrl: './admin-home.component.html',
   styleUrls: ['./admin-home.component.scss']
 })

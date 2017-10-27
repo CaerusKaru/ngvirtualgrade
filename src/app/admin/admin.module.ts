@@ -14,6 +14,7 @@ import {AdminGradebookComponent} from '@app/admin/admin-gradebook';
 import {AdminCalendarComponent} from '@app/admin/admin-calendar';
 import {AdminGuard} from '@app/admin/shared';
 import {MaterialModule} from '@app/admin/material.module';
+import {AdminService} from '@app/admin/shared/admin.service';
 
 @NgModule({
   imports: [
@@ -36,7 +37,8 @@ import {MaterialModule} from '@app/admin/material.module';
     CreateInstructorComponent,
   ],
   providers: [
-    AdminGuard
+    AdminGuard,
+    AdminService,
   ],
   entryComponents: [
   ]

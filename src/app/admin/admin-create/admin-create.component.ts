@@ -1,9 +1,10 @@
 import {Component} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 import {FormArray, FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
+import {AdminService} from '@app/admin/shared/admin.service';
 
 @Component({
-  selector: 'vg-archon-create',
+  selector: 'vg-admin-create',
   templateUrl: './admin-create.component.html',
   styleUrls: ['./admin-create.component.scss'],
 })
@@ -16,6 +17,7 @@ export class AdminCreateComponent {
   constructor(
     private _fb: FormBuilder,
     private _route: ActivatedRoute,
+    private _adminService: AdminService,
   ) {
     this.createMode = this._route.snapshot.params['type'];
     this._createForm();
@@ -31,6 +33,7 @@ export class AdminCreateComponent {
 
   onSubmit() {
     console.log(this.createForm.value);
+    this._adminService.addAssignment(this.createForm.value);
   }
 
   removeStep(index) {
@@ -41,6 +44,7 @@ export class AdminCreateComponent {
     this.createForm = this._fb.group({
       name: [null, [Validators.required]],
       description: null,
+      submission_type: this.createMode,
       steps: this._fb.array([this._setSteps()])
     });
   }
@@ -56,7 +60,6 @@ export class AdminCreateComponent {
         },
         Validators.required
       ),
-      submission_type: null,
       files: this._fb.array([]),
       allow_other_files: new FormControl(false),
       components: this._fb.array([]),

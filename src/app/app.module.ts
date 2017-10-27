@@ -2,9 +2,8 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 
 import { AppComponent } from './app.component';
-import {AppRoutingModule} from './app-routing.module';
-import {MaterialModule} from './material.module';
-import {MATERIAL_COMPATIBILITY_MODE} from '@angular/material';
+import {AppRoutingModule} from '@app/app-routing.module';
+import {MaterialModule} from '@app/material.module';
 import {TransferHttpCacheModule} from '@nguniversal/common';
 import {CoreModule} from '@app/core';
 import {SharedModule} from '@app/shared';
@@ -28,11 +27,6 @@ import {GraphQLModule} from '@app/graphql.module';
     SharedModule,
     TransferHttpCacheModule,
     GraphQLModule,
-  ],
-  providers: [
-    {
-      provide: MATERIAL_COMPATIBILITY_MODE, useValue: true
-    },
   ],
   bootstrap: [AppComponent],
   entryComponents: [SigninDialogComponent]

@@ -7,56 +7,99 @@ import {Apollo} from 'apollo-angular';
 import gql from 'graphql-tag';
 import {HttpClient} from '@angular/common/http';
 import {environment} from '@env/environment';
-import {Course, Manager} from '@app/shared/classes';
+import {Course, Manage, Term} from '@app/shared/classes';
 import {UserService} from '@app/shared/services/user.service';
 
 interface AuthResponse {
   user: {
+    id: number;
     grading: Course[];
     admin: Course[];
     courses: Course[];
-    manage: Manager;
+    instr: Course[];
+    manage: Manage;
     username: string;
-    term: string;
+    term: Term;
   }
 }
 
 const CurrentUser = gql`
-  query {
-    user {
-      username
-      groups
-      manage {
-        departments {
-          courses {
-            id
-            name
-            assigns
+query {
+  user {
+    username
+    groups
+    term {
+      term
+    }
+    manage {
+      departments {
+        courses {
+          id
+          name
+          term {
             term
           }
         }
-        privileges
       }
-      admin {
-        id
+    }
+    admin {
+      id
+      name
+      assignments {
         name
-        assigns
+        description
+        type {
+          type
+        }
+      }
+      term {
         term
       }
-      grading {
-        id
+    }
+    grading {
+      id
+      name
+      assignments {
         name
-        assigns
+        description
+        type {
+          type
+        }
+      }
+      term {
         term
       }
-      courses {
-        id
+    }
+    courses {
+      id
+      name
+      assignments {
         name
-        assigns
+        description
+        type {
+          type
+        }
+      }
+      term {
+        term
+      }
+    }
+    instr {
+      id
+      name
+      assignments {
+        name
+        description
+        type {
+          type
+        }
+      }
+      term {
         term
       }
     }
   }
+}
 `;
 
 @Injectable()
@@ -137,7 +180,7 @@ export class AuthService {
           this._loggedIn.next(true);
           this._grader.next(userData.grading.length !== 0);
           this._admin.next(userData.admin.length !== 0);
-          this._manage.next(userData.manage.privileges.length !== 0);
+          this._manage.next(userData.manage.departments.length !== 0);
           this.userService.populate(userData, userData.username);
           obs.next(true);
           obs.complete();

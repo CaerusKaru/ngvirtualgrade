@@ -1,6 +1,5 @@
 import {Department} from './department';
 
-export class Manager {
+export class Manage {
   departments: Department[];
-  privileges: string[];
 }

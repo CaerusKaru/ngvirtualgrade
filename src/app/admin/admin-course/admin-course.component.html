@@ -20,7 +20,7 @@
 
   <h4 class="mat-heading">Assignments</h4>
   <div fxLayout="column" fxLayoutGap="35px">
-    <div *ngFor="let assign of course.assigns">
+    <div *ngFor="let assign of course.assignments">
       <card-button [color]="assign" [left]="true">
         <div fxFlex fxLayout="row"  fxLayoutGap="20px" [routerLink]="assign">
           <div fxLayout="column" fxLayoutGap="5px" fxLayoutAlign="center center">
@@ -28,7 +28,7 @@
               Name
             </div>
             <div class="mat-body-2">
-              {{assign}}
+              {{assign.name}}
             </div>
           </div>
           <div fxLayout="column" fxLayoutGap="5px" fxLayoutAlign="center center">

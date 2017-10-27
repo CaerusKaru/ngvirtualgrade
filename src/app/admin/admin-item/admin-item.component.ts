@@ -11,7 +11,7 @@ import {merge} from 'rxjs/observable/merge';
 import {SelectionModel} from '@angular/cdk/collections';
 
 @Component({
-  selector: 'vg-archon-item',
+  selector: 'vg-admin-item',
   templateUrl: './admin-item.component.html',
   styleUrls: ['./admin-item.component.scss']
 })

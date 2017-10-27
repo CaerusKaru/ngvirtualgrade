@@ -14,10 +14,10 @@
 
   <h4 class="mat-heading">Assignments</h4>
   <div fxLayout="column" fxLayoutGap="35px">
-    <mat-expansion-panel *ngFor="let assign of course.assigns; even as even">
+    <mat-expansion-panel *ngFor="let assign of course.assignments; even as even">
       <mat-expansion-panel-header>
         <mat-panel-title fxLayoutAlign="space-between center">
-          {{assign}}
+          {{assign.name}}
         </mat-panel-title>
         <mat-panel-description fxLayoutAlign="space-between center">
           Due Date: Fri Jan 14, 2017 12:15pm

@@ -57,14 +57,14 @@ export class HomeMenuService {
     const newCourses = courses.reduce((a, d) => {
       return [...a, {
         type: 'toggle',
-        label: d['name'],
-        children: [home(d['name']), ...d['assigns'].reduce((b, e) => {
+        label: d.name,
+        children: [home(d.name), ...d.assignments.reduce((b, e) => {
           return [...b, {
             type: 'link',
-            label: e,
-            link: '/' + mode + '/' + d['name'] + '/' + e
+            label: e.name,
+            link: '/' + mode + '/' + d.name + '/' + e.name
           }];
-        }, []), ...options(d['name'])]
+        }, []), ...options(d.name)]
       }];
     }, []);
 

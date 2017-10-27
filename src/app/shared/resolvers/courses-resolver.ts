@@ -21,8 +21,8 @@ export class CoursesResolver implements Resolve<boolean> {
         .subscribe(courses => {
           this._userService.term
             .subscribe(term => {
-              const currentCourses = courses.filter(v => v['term'] === term);
-              const prevCourses = courses.filter(v => v['term'] !== term);
+              const currentCourses = courses.filter(v => v.term.term === term);
+              const prevCourses = courses.filter(v => v.term.term !== term);
               this._homeService.setCourses([this._homeService.constructCourses(currentCourses, 'courses', true),
                 this._homeService.constructCourses(prevCourses, 'courses', false)]);
               obs.next(true);
