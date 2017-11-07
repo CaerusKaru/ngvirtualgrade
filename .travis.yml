@@ -8,7 +8,7 @@ branches:
   - master
   - dev
 before_install:
-- npm i -g npm@latest
+- npm un -g npm
 - npm install -g @angular/cli@next
 install:
 - npm install
