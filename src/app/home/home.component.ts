@@ -1,17 +1,18 @@
 import {Component, OnDestroy, OnInit, Optional, ViewEncapsulation} from '@angular/core';
 import {RouterOutlet} from '@angular/router';
-import {MatDialog, MatDialogRef} from '@angular/material';
+import {MatDialog, MatDialogRef, MatSnackBar} from '@angular/material';
 import {NgForm} from '@angular/forms';
 import {Subject} from 'rxjs/Subject';
 import {HomeMenuService} from './home-menu.service';
 import {Platform} from '@angular/cdk/platform';
 import {Subscription} from 'rxjs/Subscription';
 import {fromEvent} from 'rxjs/observable/fromEvent';
-import {SwUpdatesService} from '../sw-updates/sw-updates.service';
-import {routerAnimation} from '@app/shared/animations';
 import {AuthService, UserService} from '@app/shared/services';
 import {environment} from '@env/environment';
 import {takeUntil} from 'rxjs/operators';
+import {SwUpdate} from '@angular/service-worker';
+import {WindowRef} from '@app/shared/window-ref';
+import {routerAnimation} from '@app/shared/animations';
 
 @Component({
   selector: 'vg-home',
@@ -52,7 +53,9 @@ export class HomeComponent implements OnInit, OnDestroy {
     private _homeService: HomeMenuService,
     public platform: Platform,
     public dialog: MatDialog,
-    @Optional() public swUpdatesService: SwUpdatesService
+    @Optional() private swUpdate: SwUpdate,
+    private snackbar: MatSnackBar,
+    private winRef: WindowRef
   ) { }
 
   ngOnInit () {
@@ -86,6 +89,15 @@ export class HomeComponent implements OnInit, OnDestroy {
         .pipe(takeUntil(this._destroy))
         .subscribe((e: UIEvent) => this.onResize((<Window>e.target).innerWidth));
       this.onResize(window.innerWidth);
+    }
+
+    if (this.swUpdate && environment.production) {
+      this.swUpdate.available.subscribe(event => {
+        console.log('[App] Update available: current version is', event.current, 'available version is', event.available);
+        const snackBarRef = this.snackbar.open('Newer version of the app is available', 'Refresh');
+
+        snackBarRef.onAction().subscribe(() => this.winRef.nativeWindow.location.reload());
+      });
     }
   }
 

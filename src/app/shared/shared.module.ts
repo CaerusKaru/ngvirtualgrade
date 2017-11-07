@@ -6,6 +6,7 @@ import {CardButtonModule} from '../card-button';
 import {ColorNameModule} from '../color-name';
 import {HomeMenuService} from '../home/home-menu.service';
 import {SortByPipe, SortPipe} from '@app/shared/pipes';
+import {WindowRef} from '@app/shared/window-ref';
 
 @NgModule({
   imports: [
@@ -17,6 +18,7 @@ import {SortByPipe, SortPipe} from '@app/shared/pipes';
   ],
   providers: [
     HomeMenuService,
+    WindowRef,
   ],
   exports: [
     SortByPipe,

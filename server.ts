@@ -11,7 +11,7 @@ import { ngExpressEngine } from '@nguniversal/express-engine';
 import { join } from 'path';
 
 import * as xhr2 from 'xhr2';
-import {PREBOOT_NONCE} from 'preboot/server';
+// import {PREBOOT_NONCE} from 'preboot';
 import {v4} from 'uuid';
 
 xhr2.prototype._restrictedHeaders = {};
@@ -65,10 +65,10 @@ function angularRouter(req, res) {
     req,
     res,
     providers: [
-      {
-        provide: PREBOOT_NONCE,
-        useValue: res.locals.nonce
-      }
+      // {
+      //   provide: PREBOOT_NONCE,
+      //   useValue: res.locals.nonce
+      // }
     ]
   }, function (error, html) {
     if (error) {
