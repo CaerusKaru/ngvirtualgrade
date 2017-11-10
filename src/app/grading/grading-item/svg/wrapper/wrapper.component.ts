@@ -5,7 +5,7 @@ import {
 import {LineComponent} from '../line/line.component';
 import {SvgService} from '../shared/svg.service';
 import {TextComponent} from '../text/text.component';
-import {takeUntil} from 'rxjs/operators';
+import {takeUntil} from 'rxjs/operators/takeUntil';
 import {Subject} from 'rxjs/Subject';
 
 @Component({

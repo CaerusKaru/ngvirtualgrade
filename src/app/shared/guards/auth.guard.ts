@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
 import {CanLoad, Route, Router} from '@angular/router';
 import { Observable } from 'rxjs/Observable';
-import {first, map} from 'rxjs/operators';
+import {first} from 'rxjs/operators/first';
+import {map} from 'rxjs/operators/map';
 import {AuthService} from '@app/shared/services';
 
 @Injectable()

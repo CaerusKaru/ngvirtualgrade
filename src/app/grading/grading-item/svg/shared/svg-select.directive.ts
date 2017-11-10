@@ -1,7 +1,7 @@
 import {Directive, ElementRef, HostBinding, HostListener, OnDestroy, OnInit} from '@angular/core';
 import {SvgService} from './svg.service';
 import {Subject} from 'rxjs/Subject';
-import {takeUntil} from 'rxjs/operators';
+import {takeUntil} from 'rxjs/operators/takeUntil';
 
 @Directive({
   selector: '[svgSelect]'

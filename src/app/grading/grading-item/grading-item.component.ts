@@ -3,7 +3,8 @@ import {MatDialog, MatDialogRef, MatSort, MatPaginator} from '@angular/material'
 import {SvgService} from './svg/shared/svg.service';
 import {Problem} from '../shared/problem';
 import {NgForm} from '@angular/forms';
-import {takeUntil, map} from 'rxjs/operators';
+import {takeUntil} from 'rxjs/operators/takeUntil';
+import {map} from 'rxjs/operators/map';
 import {merge} from 'rxjs/observable/merge';
 import {Subject} from 'rxjs/Subject';
 import {Observable} from 'rxjs/Observable';

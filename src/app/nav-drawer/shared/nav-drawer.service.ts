@@ -3,7 +3,7 @@ import {BehaviorSubject} from 'rxjs/BehaviorSubject';
 import {Observable} from 'rxjs/Observable';
 import {NavigationEnd, Router} from '@angular/router';
 import {Location} from '@angular/common';
-import {filter} from 'rxjs/operators';
+import {filter} from 'rxjs/operators/filter';
 
 @Injectable()
 export class NavDrawerService {

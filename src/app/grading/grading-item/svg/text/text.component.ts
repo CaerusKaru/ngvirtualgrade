@@ -4,7 +4,7 @@ import {
 import {SVGInterface} from '../shared/svg.interface';
 import {SvgService} from '../shared/svg.service';
 import {Subject} from 'rxjs/Subject';
-import {takeUntil} from 'rxjs/operators';
+import {takeUntil} from 'rxjs/operators/takeUntil';
 
 @Component({
   selector: 'svg:svg[svgText]',

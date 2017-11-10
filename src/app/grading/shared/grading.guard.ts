@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
 import { CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
 import { Observable } from 'rxjs/Observable';
-import {first, map} from 'rxjs/operators';
-import {UserService} from '../../shared/services/user.service';
+import {first} from 'rxjs/operators/first';
+import {map} from 'rxjs/operators/map';
+import {UserService} from '@app/shared/services';
 
 @Injectable()
 export class GradingGuard implements CanActivate {

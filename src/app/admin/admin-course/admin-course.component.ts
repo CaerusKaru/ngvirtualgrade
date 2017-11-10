@@ -1,6 +1,6 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {Subject} from 'rxjs/Subject';
-import {takeUntil} from 'rxjs/operators';
+import {takeUntil} from 'rxjs/operators/takeUntil';
 import {ActivatedRoute} from '@angular/router';
 import {UserService} from '@app/shared/services';
 import {Course} from '@app/shared/classes';

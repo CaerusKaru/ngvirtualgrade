@@ -1,7 +1,8 @@
 import {Component, ElementRef, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {Subject} from 'rxjs/Subject';
 import {ActivatedRoute} from '@angular/router';
-import {takeUntil, map} from 'rxjs/operators';
+import {takeUntil} from 'rxjs/operators/takeUntil';
+import {map} from 'rxjs/operators/map';
 import { FileUploader } from 'ng2-file-upload';
 import {MatDialog, MatDialogRef} from '@angular/material';
 import {UserService} from '@app/shared/services';

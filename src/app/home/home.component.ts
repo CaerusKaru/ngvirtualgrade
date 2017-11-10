@@ -9,7 +9,7 @@ import {Subscription} from 'rxjs/Subscription';
 import {fromEvent} from 'rxjs/observable/fromEvent';
 import {AuthService, UserService} from '@app/shared/services';
 import {environment} from '@env/environment';
-import {takeUntil} from 'rxjs/operators';
+import {takeUntil} from 'rxjs/operators/takeUntil';
 import {SwUpdate} from '@angular/service-worker';
 import {WindowRef} from '@app/shared/window-ref';
 import {routerAnimation} from '@app/shared/animations';

@@ -5,7 +5,7 @@ import {
 import {NavDrawerService} from './shared/nav-drawer.service';
 import {animate, style, transition, state, trigger} from '@angular/animations';
 import {Observable} from 'rxjs/Observable';
-import {map} from 'rxjs/operators';
+import {map} from 'rxjs/operators/map';
 
 let uniqueId = 0;
 
