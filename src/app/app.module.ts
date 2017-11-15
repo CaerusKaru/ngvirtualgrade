@@ -9,7 +9,6 @@ import {CoreModule} from '@app/core';
 import {SharedModule} from '@app/shared';
 import {NavDrawerModule} from '@app/nav-drawer';
 import {SigninDialogComponent, HomeComponent} from '@app/home/home.component';
-import {GraphQLModule} from '@app/graphql.module';
 
 @NgModule({
   declarations: [
@@ -25,7 +24,6 @@ import {GraphQLModule} from '@app/graphql.module';
     CoreModule,
     SharedModule,
     TransferHttpCacheModule,
-    GraphQLModule,
   ],
   bootstrap: [AppComponent],
   entryComponents: [SigninDialogComponent]

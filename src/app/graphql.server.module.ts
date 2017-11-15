@@ -1,9 +1,10 @@
 import {makeStateKey, TransferState} from '@angular/platform-browser';
 import {NgModule} from '@angular/core';
 import {Apollo, ApolloModule} from 'apollo-angular';
-import {HttpLink, HttpLinkHandler, HttpLinkModule} from 'apollo-angular-link-http';
-import {InMemoryCache, NormalizedCache} from 'apollo-cache-inmemory';
+import {HttpLink, HttpLinkModule} from 'apollo-angular-link-http';
+import {InMemoryCache} from 'apollo-cache-inmemory';
 import {environment} from '@env/environment';
+import {getOperationAST} from 'graphql';
 
 const STATE_KEY = makeStateKey<any>('apollo.state');
 
@@ -13,9 +14,8 @@ const STATE_KEY = makeStateKey<any>('apollo.state');
     HttpLinkModule
   ]
 })
-export class GraphQLModule {
+export class GraphQLServerModule {
   cache: InMemoryCache;
-  link: HttpLinkHandler;
 
   constructor(
     private apollo: Apollo,
@@ -23,31 +23,23 @@ export class GraphQLModule {
     private httpLink: HttpLink
   ) {
     this.cache = new InMemoryCache();
-    this.link = this.httpLink.create({ uri: environment.GRAPHQL_ENDPOINT });
+
+    const isBrowser = this.transferState.hasKey<any>(STATE_KEY);
 
     this.apollo.create({
-      link: this.link,
+      link: httpLink.create({ uri: environment.GRAPHQL_ENDPOINT }),
       cache: this.cache,
+      ssrMode: true,
     });
 
-    const isBrowser = this.transferState.hasKey<NormalizedCache>(STATE_KEY);
-
-    if (isBrowser) {
-      this.onBrowser();
-    } else {
+    if (!isBrowser) {
       this.onServer();
     }
   }
 
-  onServer() {
+  private onServer() {
     this.transferState.onSerialize(STATE_KEY, () =>
       this.cache.extract()
     );
-  }
-
-  onBrowser() {
-    const state = this.transferState.get<NormalizedCache>(STATE_KEY, null);
-
-    this.cache.restore(state);
   }
 }
