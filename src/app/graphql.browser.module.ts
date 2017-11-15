@@ -44,7 +44,7 @@ export class GraphQLBrowserModule {
     const http = this.httpLink.create({ uri: environment.GRAPHQL_ENDPOINT });
 
     const websocket = new WebSocketLink(
-      new SubscriptionClient('wss://subscriptions.graph.cool/v1/ADD_YOUR_API_KEY_HERE', {
+      new SubscriptionClient(environment.GRAPHQL_SUBSCRIPTION, {
         reconnect: true
       })
     );
