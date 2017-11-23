@@ -4,103 +4,12 @@ import {Router} from '@angular/router';
 import {MatSnackBar} from '@angular/material';
 import {ReplaySubject} from 'rxjs/ReplaySubject';
 import {Apollo} from 'apollo-angular';
-import gql from 'graphql-tag';
 import {HttpClient} from '@angular/common/http';
 import {environment} from '@env/environment';
-import {Course, Manage, Term} from '@app/shared/classes';
 import {UserService} from '@app/shared/services/user.service';
+import {AuthResponse} from '@app/shared/graphql/types/AuthResponse';
+import {CurrentUser} from '@app/shared/graphql/queries/CurrentUser';
 
-interface AuthResponse {
-  user: {
-    id: number;
-    grading: Course[];
-    admin: Course[];
-    courses: Course[];
-    instr: Course[];
-    manage: Manage;
-    username: string;
-    term: Term;
-  }
-}
-
-const CurrentUser = gql`
-query {
-  user {
-    username
-    groups
-    term {
-      term
-    }
-    manage {
-      departments {
-        courses {
-          id
-          name
-          term {
-            term
-          }
-        }
-      }
-    }
-    admin {
-      id
-      name
-      assignments {
-        name
-        description
-        type {
-          type
-        }
-      }
-      term {
-        term
-      }
-    }
-    grading {
-      id
-      name
-      assignments {
-        name
-        description
-        type {
-          type
-        }
-      }
-      term {
-        term
-      }
-    }
-    courses {
-      id
-      name
-      assignments {
-        name
-        description
-        type {
-          type
-        }
-      }
-      term {
-        term
-      }
-    }
-    instr {
-      id
-      name
-      assignments {
-        name
-        description
-        type {
-          type
-        }
-      }
-      term {
-        term
-      }
-    }
-  }
-}
-`;
 
 @Injectable()
 export class AuthService {
@@ -121,10 +30,10 @@ export class AuthService {
     private _apollo: Apollo,
     private _http: HttpClient,
     private _router: Router,
-    private userService: UserService,
+    private _userService: UserService,
     private _snackbar: MatSnackBar
   ) {
-    this._loadAuth().subscribe();
+    this._loadAuth(true) // .subscribe();
   }
 
   get isLoggedIn(): Observable<boolean> {
@@ -147,67 +56,54 @@ export class AuthService {
 
     this._http.post(this._url + '/login', {username, password}).subscribe(
       data => {
-        this._loadAuth().subscribe(o => {
-          if (o) {
-            this._snackbar.open('Login successful', '', {
-              duration: 1250
-            });
-          } else {
-            this._snackbar.open('Error logging in', '', {
-              duration: 1250
-            });
-          }
-        });
+        this._loadAuth(false);
       },
       error => {
+        this._notify(false);
       }
     );
   }
 
   public logout () {
-    this.userService.depopulate();
+    this._userService.depopulate();
     this._apollo.getClient().cache.reset();
     this._logOut();
     this._router.navigate(['']);
     this._http.post(this._url + '/logout', {}).subscribe();
   }
 
-  private _loadAuth() {
-    return new Observable<boolean>(obs => {
-      this._userQuery$
-        .subscribe((data) => {
-          const userData = data.data.user;
-          this._loggedIn.next(true);
-          this._grader.next(userData.grading.length !== 0);
-          this._admin.next(userData.admin.length !== 0);
-          this._manage.next(userData.manage.departments.length !== 0);
-          this.userService.populate(userData, userData.username);
-          obs.next(true);
-          obs.complete();
-        },
-        error => {
-          this._apollo.getClient().resetStore();
-          this._logOut();
-          obs.next(false);
-          obs.complete();
-        });
-      // this._http.get<AuthResponse>('/assets/data.json').subscribe(
-      //   data => {
-      //     this._loggedIn.next(true);
-      //     this._grader.next(data.grading.length !== 0);
-      //     this._admin.next(data.admin.length !== 0);
-      //     this._manage.next(data.manage.privileges.length !== 0);
-      //     this.userService.populate(data, data.username);
-      //     obs.next(true);
-      //     obs.complete();
-      //   },
-      //   error => {
-      //     this._logOut();
-      //     obs.next(false);
-      //     obs.complete();
-      //   }
-      // );
-    });
+  private _loadAuth(startup: boolean) {
+    this._userQuery$
+      .subscribe((data) => {
+        const userData = data.data.user;
+        this._loggedIn.next(true);
+        this._grader.next(userData.grading.length !== 0);
+        this._admin.next(userData.admin.length !== 0);
+        this._manage.next(userData.manage.departments.length !== 0);
+        this._userService.populate(userData, userData.username);
+        if (startup) {
+          this._notify(true);
+        }
+      },
+      error => {
+        this._apollo.getClient().resetStore();
+        this._logOut();
+        if (startup) {
+          this._notify(false);
+        }
+      });
+  }
+
+  private _notify(success: boolean) {
+    if (success) {
+      this._snackbar.open('Login successful', '', {
+        duration: 1250
+      });
+    } else {
+      this._snackbar.open('Error logging in', '', {
+        duration: 1250
+      });
+    }
   }
 
   private _logOut() {

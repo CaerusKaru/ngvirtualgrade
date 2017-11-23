@@ -6,11 +6,10 @@ import 'reflect-metadata';
 
 import * as express from 'express';
 import * as helmet from 'helmet';
-import * as expressProxy from 'express-http-proxy';
+import * as proxy from 'http-proxy-middleware';
+import * as xhr2 from 'xhr2';
 import { ngExpressEngine } from '@nguniversal/express-engine';
 import { join } from 'path';
-
-import * as xhr2 from 'xhr2';
 // import {PREBOOT_NONCE} from 'preboot';
 import {v4} from 'uuid';
 
@@ -25,11 +24,30 @@ const { AppServerModuleNgFactory, LAZY_MODULE_MAP } = require('./dist/server/mai
 
 const app = express();
 
+const devServerProtocol = 'http';
+const devWsProtocol = 'ws';
 const devServerHost = 'localhost';
 const devServerPort = 4000;
-const devServer = `${devServerHost}:${devServerPort}`;
+const devServer = `${devServerProtocol}://${devServerHost}:${devServerPort}`;
+const devWs = `${devWsProtocol}://${devServerHost}:${devServerPort}`;
+const devWsProxy = proxy('/data', {
+  target: devWs,
+  logLevel: 'debug',
+  pathRewrite: {
+    '^/data': ''
+  },
+  ws: true,
+});
+const devServerProxy = proxy('/data', {
+  target: devServer,
+  logLevel: 'debug',
+  pathRewrite: {
+    '^/data': ''
+  }
+});
 
-app.use('/data', expressProxy(devServer));
+app.use(devServerProxy);
+app.use(devWsProxy);
 
 app.use((req, res, next) => {
   res.locals.nonce = v4();
@@ -38,14 +56,20 @@ app.use((req, res, next) => {
 
 app.use(helmet.contentSecurityPolicy({
   directives: {
-    defaultSrc: ['\'none\''],
-    styleSrc: ['\'self\'', 'fonts.googleapis.com', '\'unsafe-inline\''],
-    workerSrc: ['\'self\''],
-    scriptSrc: ['\'self\'', '\'unsafe-eval\'', (req, res) => `'nonce-${ res.locals.nonce }'`],
-    connectSrc: ['\'self\'', 'fonts.gstatic.com', 'fonts.googleapis.com'],
-    imgSrc: ['\'self\'', 'data:'],
-    manifestSrc: ['\'self\''],
-    fontSrc: ['\'self\'', 'fonts.gstatic.com']
+    defaultSrc: [`'none'`],
+    styleSrc: [`'self'`, 'fonts.googleapis.com', `'unsafe-inline'`],
+    workerSrc: [`'self'`],
+    scriptSrc: [`'self'`, `'unsafe-eval'`, (req, res) => `'nonce-${ res.locals.nonce }'`],
+    connectSrc: [
+      `'self'`,
+      'fonts.gstatic.com',
+      'fonts.googleapis.com',
+      (req, res) => `wss://${req.get('host')}/data/subscriptions`,
+      (req, res) => `ws://${req.get('host')}/data/subscriptions`,
+    ],
+    imgSrc: [`'self'`, 'data:'],
+    manifestSrc: [`'self'`],
+    fontSrc: [`'self'`, 'fonts.gstatic.com']
   }
 }));
 

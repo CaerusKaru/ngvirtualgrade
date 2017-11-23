@@ -6,5 +6,13 @@
     },
     "logLevel": "debug",
     "secure": false
+  },
+  "/data/subscriptions": {
+    "target": "ws://localhost:4000",
+    "pathRewrite": {
+      "^/data": ""
+    },
+    "logLevel": "debug",
+    "secure": false
   }
 }

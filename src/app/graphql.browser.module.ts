@@ -1,5 +1,6 @@
 import {makeStateKey, TransferState} from '@angular/platform-browser';
-import {NgModule} from '@angular/core';
+import {Inject, NgModule} from '@angular/core';
+import {DOCUMENT} from '@angular/common';
 import {Apollo, ApolloModule} from 'apollo-angular';
 import {HttpLink, HttpLinkModule} from 'apollo-angular-link-http';
 import {InMemoryCache} from 'apollo-cache-inmemory';
@@ -23,7 +24,8 @@ export class GraphQLBrowserModule {
   constructor(
     private apollo: Apollo,
     private readonly transferState: TransferState,
-    private httpLink: HttpLink
+    private httpLink: HttpLink,
+    @Inject(DOCUMENT) private document: any
   ) {
     this.cache = new InMemoryCache();
 
@@ -43,8 +45,12 @@ export class GraphQLBrowserModule {
 
     const http = this.httpLink.create({ uri: environment.GRAPHQL_ENDPOINT });
 
+    let wsUrl = environment.production ? 'wss://' : 'ws://';
+    wsUrl += this.document.location.host;
+    wsUrl += environment.GRAPHQL_SUBSCRIPTION;
+
     const websocket = new WebSocketLink(
-      new SubscriptionClient(environment.GRAPHQL_SUBSCRIPTION, {
+      new SubscriptionClient(wsUrl, {
         reconnect: true
       })
     );
