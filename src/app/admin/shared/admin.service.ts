@@ -1,14 +1,6 @@
 import { Injectable } from '@angular/core';
 import {Apollo} from 'apollo-angular';
-import gql from 'graphql-tag';
-
-const AddAssignment = gql`
-mutation {
-  addAssignment (assignment: $input) {
-    id
-  }
-}
-`;
+import {AddAssignment} from '@app/shared/graphql/mutations/AddAssignment';
 
 @Injectable()
 export class AdminService {

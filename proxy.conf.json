@@ -13,6 +13,7 @@
       "^/data": ""
     },
     "logLevel": "debug",
-    "secure": false
+    "secure": false,
+    "ws": true
   }
 }

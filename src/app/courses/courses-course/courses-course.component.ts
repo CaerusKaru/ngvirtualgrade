@@ -3,7 +3,6 @@ import {Subject} from 'rxjs/Subject';
 import {ActivatedRoute} from '@angular/router';
 import {takeUntil} from 'rxjs/operators/takeUntil';
 import {map} from 'rxjs/operators/map';
-import { FileUploader } from 'ng2-file-upload';
 import {MatDialog, MatDialogRef} from '@angular/material';
 import {UserService} from '@app/shared/services';
 import {Course} from '@app/shared/classes';
@@ -75,8 +74,6 @@ export class CoursesCourseComponent implements OnInit, OnDestroy {
 export class SubmitAssignmentDialogComponent {
 
   @ViewChild('fileInput') inputRef: ElementRef;
-
-  uploader = new FileUploader({url: URL});
 
   constructor (public dialogRef: MatDialogRef<SubmitAssignmentDialogComponent>) {
   }

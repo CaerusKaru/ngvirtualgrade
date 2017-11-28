@@ -1,5 +1,4 @@
 import { NgModule } from '@angular/core';
-import { FileUploadModule } from 'ng2-file-upload';
 import {CardButtonModule} from '@app/card-button';
 import {SharedModule} from '@app/shared';
 import {CoursesRoutingModule} from '@app/courses/courses-routing.module';
@@ -14,7 +13,6 @@ import {CoursesCourseComponent, SubmitAssignmentDialogComponent} from '@app/cour
     SharedModule,
     MaterialModule,
     CardButtonModule,
-    FileUploadModule,
   ],
   declarations: [
     CoursesHomeComponent,

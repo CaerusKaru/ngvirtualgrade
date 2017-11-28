@@ -81,14 +81,14 @@ export class AuthService {
         this._admin.next(userData.admin.length !== 0);
         this._manage.next(userData.manage.departments.length !== 0);
         this._userService.populate(userData, userData.username);
-        if (startup) {
+        if (!startup) {
           this._notify(true);
         }
       },
       error => {
         this._apollo.getClient().resetStore();
         this._logOut();
-        if (startup) {
+        if (!startup) {
           this._notify(false);
         }
       });
