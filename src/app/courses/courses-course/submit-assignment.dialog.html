@@ -11,15 +11,15 @@
           </tr>
         </thead>
         <tbody>
-          <tr *ngFor="let item of uploader.queue" style="border-bottom: 1px solid rgba(0,0,0,0.12)">
-            <td><strong>{{ item?.file?.name }}</strong></td>
-            <td *ngIf="uploader.isHTML5" nowrap>{{ item?.file?.size/1024/1024 }} MB</td>
-            <td nowrap>
-              <button mat-icon-button (click)="item.remove()">
-                <mat-icon>remove_circle</mat-icon>
-              </button>
-            </td>
-          </tr>
+          <!--<tr *ngFor="let item of uploader.queue" style="border-bottom: 1px solid rgba(0,0,0,0.12)">-->
+            <!--<td><strong>{{ item?.file?.name }}</strong></td>-->
+            <!--<td nowrap>{{ item?.file?.size/1024/1024 }} MB</td>-->
+            <!--<td nowrap>-->
+              <!--<button mat-icon-button (click)="item.remove()">-->
+                <!--<mat-icon>remove_circle</mat-icon>-->
+              <!--</button>-->
+            <!--</td>-->
+          <!--</tr>-->
         </tbody>
       </table>
     </mat-card-content>
@@ -31,5 +31,5 @@
       <button mat-button matDialogClose color="warn">CANCEL</button>
     </mat-card-actions>
   </mat-card>
-  <input type="file" ng2FileSelect [uploader]="uploader" multiple style="display: none" #fileInput />
+  <input type="file" multiple style="display: none" #fileInput />
 </div>
