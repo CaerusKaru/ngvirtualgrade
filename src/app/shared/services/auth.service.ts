@@ -86,6 +86,7 @@ export class AuthService {
         }
       },
       error => {
+        console.error(error);
         this._apollo.getClient().resetStore();
         this._logOut();
         if (!startup) {

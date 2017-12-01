@@ -1,6 +1,7 @@
 const API_ENDPOINT = '/data';
 const GRAPHQL_ENDPOINT = API_ENDPOINT + '/graphql';
-const GRAPHQL_SUBSCRIPTION = API_ENDPOINT + '/subscriptions';
+const GRAPHQL_PROD_WS_ENDPOINT = '/wss';
+const GRAPHQL_SUBSCRIPTION = GRAPHQL_PROD_WS_ENDPOINT + '/subscriptions';
 
 export const environment = {
   production: true,
