@@ -3,14 +3,12 @@
 // `ng build --env=prod` then `environment.prod.ts` will be used instead.
 // The list of which env maps to which file can be found in `.angular-cli.json`.
 
-const API_ENDPOINT = '/data';
-const GRAPHQL_ENDPOINT = API_ENDPOINT + '/graphql';
-const GRAPHQL_SUBSCRIPTION = API_ENDPOINT + '/subscriptions';
+import {API_ENDPOINT, ENTITY_NAME, GRAPHQL_ENDPOINT, GRAPHQL_SUBSCRIPTION} from '@env/common';
 
 export const environment = {
   production: false,
   API_ENDPOINT,
-  ENTITY_NAME: 'Tufts University',
+  ENTITY_NAME,
   GRAPHQL_ENDPOINT,
   GRAPHQL_SUBSCRIPTION,
   hmr: false,

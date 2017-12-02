@@ -4,7 +4,6 @@ import {Apollo, ApolloModule} from 'apollo-angular';
 import {HttpLink, HttpLinkModule} from 'apollo-angular-link-http';
 import {InMemoryCache} from 'apollo-cache-inmemory';
 import {environment} from '@env/environment';
-import {getOperationAST} from 'graphql';
 
 const STATE_KEY = makeStateKey<any>('apollo.state');
 

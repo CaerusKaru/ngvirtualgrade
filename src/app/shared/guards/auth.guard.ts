@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import {CanLoad, Route, Router} from '@angular/router';
 import { Observable } from 'rxjs/Observable';
-import {first} from 'rxjs/operators/first';
+import {take} from 'rxjs/operators/take';
 import {map} from 'rxjs/operators/map';
 import {AuthService} from '@app/shared/services';
 
@@ -25,7 +25,7 @@ export class CanLoadCourses implements CanLoad {
           return false;
         }
       }),
-      first()
+      take(1)
     );
   }
 }
@@ -50,7 +50,7 @@ export class CanLoadGrading implements CanLoad {
           return false;
         }
       }),
-      first()
+      take(1)
     );
   }
 }
@@ -75,7 +75,7 @@ export class CanLoadAdmin implements CanLoad {
           return false;
         }
       }),
-      first()
+      take(1)
     );
   }
 }
@@ -100,7 +100,7 @@ export class CanLoadManage implements CanLoad {
           return false;
         }
       }),
-      first()
+      take(1)
     );
   }
 }

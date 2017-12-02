@@ -30,11 +30,11 @@ const devServerHost = 'localhost';
 const devServerPort = 4000;
 const devServer = `${devServerProtocol}://${devServerHost}:${devServerPort}`;
 const devWs = `${devWsProtocol}://${devServerHost}:${devServerPort}`;
-const devWsProxy = proxy('/data', {
+const devWsProxy = proxy('/wss', {
   target: devWs,
   logLevel: 'debug',
   pathRewrite: {
-    '^/data': ''
+    '^/wss': ''
   },
   ws: true,
 });

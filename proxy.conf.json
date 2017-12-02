@@ -7,10 +7,10 @@
     "logLevel": "debug",
     "secure": false
   },
-  "/data/subscriptions": {
+  "/wss/subscriptions": {
     "target": "ws://localhost:4000",
     "pathRewrite": {
-      "^/data": ""
+      "^/wss": ""
     },
     "logLevel": "debug",
     "secure": false,
