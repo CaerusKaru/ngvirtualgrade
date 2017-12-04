@@ -26,7 +26,10 @@ export class GraphQLServerModule {
     const isBrowser = this.transferState.hasKey<any>(STATE_KEY);
 
     this.apollo.create({
-      link: httpLink.create({ uri: environment.GRAPHQL_ENDPOINT }),
+      link: httpLink.create({
+        uri: environment.GRAPHQL_ENDPOINT,
+        withCredentials: true
+      }),
       cache: this.cache,
     });
 

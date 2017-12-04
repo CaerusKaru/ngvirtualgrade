@@ -24,7 +24,10 @@ export class AuthService {
   private _manage = new ReplaySubject<boolean>(1);
   private _manage$ = this._manage.asObservable();
 
-  private _userQuery$ = this._apollo.watchQuery<AuthResponse>({query: CurrentUser}).valueChanges;
+  private _userQuery$ = this._apollo.watchQuery<AuthResponse>({
+    query: CurrentUser,
+    fetchPolicy: 'network-only'
+  }).valueChanges;
 
   constructor(
     private _apollo: Apollo,

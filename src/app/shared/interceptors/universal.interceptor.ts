@@ -1,7 +1,8 @@
-import { Injectable, Inject, Optional } from '@angular/core';
+import {Injectable, Inject, Optional} from '@angular/core';
 import {HttpInterceptor, HttpHandler, HttpRequest, HttpHeaders} from '@angular/common/http';
-import { Request } from 'express';
-import { REQUEST } from '@nguniversal/express-engine/tokens';
+import {Request} from 'express';
+import {REQUEST} from '@nguniversal/express-engine/tokens';
+import {environment} from '@env/environment';
 
 @Injectable()
 export class UniversalInterceptor implements HttpInterceptor {
@@ -12,9 +13,13 @@ export class UniversalInterceptor implements HttpInterceptor {
 
   intercept(req: HttpRequest<any>, next: HttpHandler) {
 
-    let serverReq;
+    let serverReq: HttpRequest<any>;
     if (this.request) {
-      let newUrl = `${this.request.protocol}://${this.request.get('host')}`;
+      let protocol = this.request.protocol;
+      if (environment.production && protocol === 'http') {
+        protocol += 's';
+      }
+      let newUrl = `${protocol}://${this.request.get('host')}`;
       if (!req.url.startsWith('/')) {
         newUrl += '/';
       }
