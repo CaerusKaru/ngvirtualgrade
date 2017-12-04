@@ -34,6 +34,7 @@ export class GraphQLBrowserModule {
     this.apollo.create({
       link: this.setupLink(),
       cache: this.cache,
+      ssrMode: true,
     });
 
     if (isBrowser) {

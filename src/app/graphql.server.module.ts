@@ -28,7 +28,6 @@ export class GraphQLServerModule {
     this.apollo.create({
       link: httpLink.create({ uri: environment.GRAPHQL_ENDPOINT }),
       cache: this.cache,
-      ssrMode: true,
     });
 
     if (!isBrowser) {
