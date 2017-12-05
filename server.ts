@@ -10,8 +10,8 @@ import * as proxy from 'http-proxy-middleware';
 import * as xhr2 from 'xhr2';
 import { ngExpressEngine } from '@nguniversal/express-engine';
 import { join } from 'path';
-// import {PREBOOT_NONCE} from 'preboot';
 import {v4} from 'uuid';
+import {PREBOOT_NONCE} from 'preboot';
 
 xhr2.prototype._restrictedHeaders = {};
 
@@ -89,10 +89,10 @@ function angularRouter(req, res) {
     req,
     res,
     providers: [
-      // {
-      //   provide: PREBOOT_NONCE,
-      //   useValue: res.locals.nonce
-      // }
+      {
+        provide: PREBOOT_NONCE,
+        useValue: res.locals.nonce
+      }
     ]
   }, function (error, html) {
     if (error) {

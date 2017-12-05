@@ -9,6 +9,7 @@ import {CoreModule} from '@app/core';
 import {SharedModule} from '@app/shared';
 import {NavDrawerModule} from '@app/nav-drawer';
 import {SigninDialogComponent, HomeComponent} from '@app/home/home.component';
+import {PrebootModule} from 'preboot';
 
 @NgModule({
   declarations: [
@@ -24,6 +25,7 @@ import {SigninDialogComponent, HomeComponent} from '@app/home/home.component';
     CoreModule,
     SharedModule,
     TransferHttpCacheModule,
+    PrebootModule.withConfig({appRoot: 'vg-root'})
   ],
   bootstrap: [AppComponent],
   entryComponents: [SigninDialogComponent]

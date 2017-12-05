@@ -7,14 +7,12 @@ import {ModuleMapLoaderModule} from '@nguniversal/module-map-ngfactory-loader';
 import {NoopAnimationsModule} from '@angular/platform-browser/animations';
 import {UniversalInterceptor} from '@app/shared/interceptors';
 import {GraphQLServerModule} from '@app/graphql.server.module';
-// import {ServerPrebootModule} from 'preboot/server';
 
 @NgModule({
   imports: [
     NoopAnimationsModule,
     ServerModule,
     AppModule,
-    // ServerPrebootModule.recordEvents({ appRoot: 'vg-root' }),
     ModuleMapLoaderModule,
     ServerTransferStateModule,
     GraphQLServerModule,
