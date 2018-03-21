@@ -24,10 +24,10 @@ export class AuthService {
   private _manage = new ReplaySubject<boolean>(1);
   private _manage$ = this._manage.asObservable();
 
-  private _userQuery$ = this._apollo.watchQuery<AuthResponse>({
+  private _userQuery$ = this._apollo.query<AuthResponse>({
     query: CurrentUser,
     fetchPolicy: 'network-only'
-  }).valueChanges;
+  });
 
   constructor(
     private _apollo: Apollo,
@@ -56,7 +56,6 @@ export class AuthService {
   }
 
   public login (username: string, password: string) {
-
     this._http.post(this._url + '/login', {username, password}).subscribe(
       data => {
         this._loadAuth(false);
@@ -89,7 +88,6 @@ export class AuthService {
         }
       },
       error => {
-        console.error(error);
         this._apollo.getClient().resetStore();
         this._logOut();
         if (!startup) {
