@@ -1,17 +1,11 @@
 import {Component, ElementRef, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {MatPaginator, MatSort} from '@angular/material';
-import {BehaviorSubject} from 'rxjs/BehaviorSubject';
+import {BehaviorSubject, Observable, Subject, fromEvent, merge} from 'rxjs';
 import {DataSource} from '@angular/cdk/table';
-import {Observable} from 'rxjs/Observable';
 import {ActivatedRoute} from '@angular/router';
-import {Subject} from 'rxjs/Subject';
-import {takeUntil} from 'rxjs/operators/takeUntil';
-import {distinctUntilChanged} from 'rxjs/operators/distinctUntilChanged';
-import {debounceTime} from 'rxjs/operators/debounceTime';
-import {map} from 'rxjs/operators/map';
-import {fromEvent} from 'rxjs/observable/fromEvent';
-import {merge} from 'rxjs/observable/merge';
+import {takeUntil, distinctUntilChanged, debounceTime, map} from 'rxjs/operators';
 import {SelectionModel} from '@angular/cdk/collections';
+import {UserService} from '@app/shared/services';
 
 @Component({
   selector: 'vg-admin-item',
@@ -24,6 +18,7 @@ export class AdminItemComponent implements OnInit, OnDestroy {
   exampleDatabase = new ExampleDatabase();
   selection = new SelectionModel<string>(true, []);
   dataSource: ExampleDataSource | null;
+  courses = this._userService.admin;
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
@@ -33,8 +28,10 @@ export class AdminItemComponent implements OnInit, OnDestroy {
   id;
 
   private _destroy = new Subject<void>();
+  private _courses = [];
 
-  constructor(private _route: ActivatedRoute) { }
+  constructor(private _route: ActivatedRoute,
+              private _userService: UserService) { }
 
   ngOnInit() {
     this.dataSource = new ExampleDataSource(this.exampleDatabase, this.paginator, this.sort);
@@ -49,11 +46,20 @@ export class AdminItemComponent implements OnInit, OnDestroy {
       if (!this.dataSource) { return; }
       this.dataSource.filter = this.filter.nativeElement.value;
     });
+    this.courses.pipe(takeUntil(this._destroy)).subscribe(data => {
+      this._courses = data;
+    });
   }
 
   ngOnDestroy() {
     this._destroy.next();
     this._destroy.complete();
+  }
+
+  get name() {
+    return this._courses.find(a => {
+      return this.course === a.id;
+    }).assignments.find(a => a.id === this.id).name;
   }
 
   isAllSelected(): boolean {

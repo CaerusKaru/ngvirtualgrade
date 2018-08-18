@@ -4,12 +4,10 @@ import {Request} from 'express';
 import {REQUEST} from '@nguniversal/express-engine/tokens';
 import {environment} from '@env/environment';
 
-@Injectable()
+@Injectable({providedIn: 'root'})
 export class UniversalInterceptor implements HttpInterceptor {
 
-  constructor(
-    @Optional() @Inject(REQUEST) protected request: Request
-  ) {}
+  constructor(@Optional() @Inject(REQUEST) protected request: Request) {}
 
   intercept(req: HttpRequest<any>, next: HttpHandler) {
 

@@ -1,6 +1,6 @@
 <mat-card [colorName]="color" [borderBottom]="bottom" [borderTop]="top" [borderLeft]="left" [borderRight]="right"
          class="card-button">
-  <div>
+  <div style="display: flex;">
     <div class="card-ripple" matRipple [matRippleTrigger]="_getHostElement()"></div>
     <ng-content></ng-content>
   </div>

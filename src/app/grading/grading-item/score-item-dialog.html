@@ -4,8 +4,10 @@
       <input matInput [(ngModel)]="desc" required name="desc" placeholder="Description" type="text">
     </mat-form-field>
     <mat-form-field floatPlaceholder="never">
-      <input matInput [(ngModel)]="points" required name="points" placeholder="Points" type="number">
-      <span md-suffix>pts.</span>
+      <div fxLayout="row">
+        <input matInput [(ngModel)]="points" required name="points" placeholder="Points" type="number">
+        <span md-suffix>pts.</span>
+      </div>
     </mat-form-field>
     <div fxLayout="row" fxLayoutAlign="space-around center">
       <button mat-raised-button matDialogClose>CANCEL</button>

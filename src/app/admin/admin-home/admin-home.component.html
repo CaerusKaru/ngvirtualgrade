@@ -2,7 +2,7 @@
   <h3 class="mat-heading">Admin Portal</h3>
   <div *ngFor="let course of courses | async">
     <card-button [color]="course.name" [left]="true">
-      <div fxFlex fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="40px" [routerLink]="course.name">
+      <div fxFlex fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="40px" [routerLink]="course.id">
         <div fxLayout="column" fxLayoutGap="5px" fxLayoutAlign="center center">
           <div class="mat-caption">
             Name
@@ -32,8 +32,8 @@
         <button mat-button>GRADEBOOK</button>
         <button mat-button [matMenuTriggerFor]="createMenu">ADD</button>
         <mat-menu #createMenu="matMenu">
-          <button mat-menu-item [routerLink]="[course.name+'/create',{type:'instructor'}]">Instructor</button>
-          <button mat-menu-item [routerLink]="[course.name+'/create',{type:'student'}]">Student</button>
+          <button mat-menu-item [routerLink]="[course.id+'/create',{type:'instructor'}]">Instructor</button>
+          <button mat-menu-item [routerLink]="[course.id+'/create',{type:'student'}]">Student</button>
         </mat-menu>
       </div>
     </card-button>

@@ -1,18 +1,15 @@
 import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
-import {MatDialog, MatDialogRef, MatSort, MatPaginator} from '@angular/material';
+import {MatDialog, MatDialogRef, MatSort, MatPaginator, MatTableDataSource} from '@angular/material';
 import {SvgService} from './svg/shared/svg.service';
 import {Problem} from '../shared/problem';
 import {NgForm} from '@angular/forms';
-import {takeUntil} from 'rxjs/operators/takeUntil';
-import {map} from 'rxjs/operators/map';
-import {merge} from 'rxjs/observable/merge';
-import {Subject} from 'rxjs/Subject';
-import {Observable} from 'rxjs/Observable';
-import {BehaviorSubject} from 'rxjs/BehaviorSubject';
+import {takeUntil} from 'rxjs/operators';
+import {Subject} from 'rxjs';
 import {ActivatedRoute} from '@angular/router';
-import {DataSource} from '@angular/cdk/table';
-import {UniqueSelectionDispatcher} from '@angular/cdk/collections';
+import {SelectionModel, UniqueSelectionDispatcher} from '@angular/cdk/collections';
 import {ScoreItem} from '@app/grading/shared';
+import {UserService} from '@app/shared/services';
+import {Directionality} from '@angular/cdk/bidi';
 
 @Component({
   selector: 'vg-grading-item',
@@ -22,9 +19,11 @@ import {ScoreItem} from '@app/grading/shared';
 })
 export class GradingItemComponent implements OnInit, OnDestroy {
 
-  displayedColumns = ['userId', 'progress', 'userName', 'color'];
-  exampleDatabase = new ExampleDatabase();
-  dataSource: ExampleDataSource | null;
+  // displayedColumns = ['userId', 'progress', 'userName', 'color'];
+  displayedColumns = ['select', 'position', 'name', 'weight', 'symbol'];
+  dataSource = new MatTableDataSource<Element>(ELEMENT_DATA);
+  selection = new SelectionModel<Element>(true, []);
+  courses = this._userService.grading;
 
   course;
   id;
@@ -35,18 +34,24 @@ export class GradingItemComponent implements OnInit, OnDestroy {
   type = 'pdf';
 
   private _destroy = new Subject<void>();
+  private _courses = [];
 
   constructor(
+    private _userService: UserService,
     public dialog: MatDialog,
     private _route: ActivatedRoute
   ) {
   }
 
   ngOnInit() {
-    this.dataSource = new ExampleDataSource(this.exampleDatabase, this.paginator, this.sort);
+    this.dataSource.paginator = this.paginator;
+    this.dataSource.sort = this.sort;
     this._route.params.pipe(takeUntil(this._destroy)).subscribe(params => {
       this.course = params['course'];
       this.id = params['id'];
+    });
+    this.courses.pipe(takeUntil(this._destroy)).subscribe(data => {
+      this._courses = data;
     });
   }
 
@@ -55,129 +60,75 @@ export class GradingItemComponent implements OnInit, OnDestroy {
     this._destroy.complete();
   }
 
+  get name() {
+    return this._courses.find(a => {
+      return this.course === a.id;
+    }).assignments.find(a => a.id === this.id).name;
+  }
+
+  /** Whether the number of selected elements matches the total number of rows. */
+  isAllSelected() {
+    const numSelected = this.selection.selected.length;
+    const numRows = this.dataSource.data.length;
+    return numSelected === numRows;
+  }
+
+  /** Selects all rows if they are not all selected; otherwise clear selection. */
+  masterToggle() {
+    this.isAllSelected() ?
+      this.selection.clear() :
+      this.dataSource.data.forEach(row => this.selection.select(row));
+  }
+
   onSelect(event) {
     console.log(event);
   }
 
-  grade () {
+  grade() {
     let comp;
     if (this.type === 'pdf') {
       comp = GradingItemPDFDialogComponent;
     }
     this.dialog.open(comp, {
+      maxHeight: '100%',
+      maxWidth: '100%',
       height: '100%',
-      width: '100%'
+      width: '100%',
+      direction: 'ltr'
     });
   }
 
 }
 
-/** Constants used to fill up our data base. */
-const COLORS = ['maroon', 'red', 'orange', 'yellow', 'olive', 'green', 'purple',
-  'fuchsia', 'lime', 'teal', 'aqua', 'blue', 'navy', 'black', 'gray'];
-const NAMES = ['Maia', 'Asher', 'Olivia', 'Atticus', 'Amelia', 'Jack',
-  'Charlotte', 'Theodore', 'Isla', 'Oliver', 'Isabella', 'Jasper',
-  'Cora', 'Levi', 'Violet', 'Arthur', 'Mia', 'Thomas', 'Elizabeth'];
-
-export interface UserData {
-  id: string;
+export interface Element {
   name: string;
-  progress: string;
-  color: string;
+  position: number;
+  weight: number;
+  symbol: string;
 }
 
-/** An example database that the data source uses to retrieve data for the table. */
-export class ExampleDatabase {
-  /** Stream that emits whenever the data has been modified. */
-  dataChange: BehaviorSubject<UserData[]> = new BehaviorSubject<UserData[]>([]);
-  get data(): UserData[] { return this.dataChange.value; }
-
-  constructor() {
-    // Fill up the database with 100 users.
-    for (let i = 0; i < 100; i++) { this.addUser(); }
-  }
-
-  /** Adds a new user to the database. */
-  addUser() {
-    const copiedData = this.data.slice();
-    copiedData.push(this.createNewUser());
-    this.dataChange.next(copiedData);
-  }
-
-  /** Builds and returns a new User. */
-  private createNewUser() {
-    const name =
-      NAMES[Math.round(Math.random() * (NAMES.length - 1))] + ' ' +
-      NAMES[Math.round(Math.random() * (NAMES.length - 1))].charAt(0) + '.';
-
-    return {
-      id: (this.data.length + 1).toString(),
-      name: name,
-      progress: Math.round(Math.random() * 100).toString(),
-      color: COLORS[Math.round(Math.random() * (COLORS.length - 1))]
-    };
-  }
-}
-
-/**
- * Data source to provide what data should be rendered in the table. Note that the data source
- * can retrieve its data in any way. In this case, the data source is provided a reference
- * to a common data base, ExampleDatabase. It is not the data source's responsibility to manage
- * the underlying data. Instead, it only needs to take the data and send the table exactly what
- * should be rendered.
- */
-export class ExampleDataSource extends DataSource<any> {
-  constructor(
-    private _exampleDatabase: ExampleDatabase,
-    private _paginator: MatPaginator,
-    private _sort: MatSort) {
-    super();
-  }
-
-  /** Connect function called by the table to retrieve one stream containing the data to render. */
-  connect(): Observable<UserData[]> {
-    const displayDataChanges = [
-      this._exampleDatabase.dataChange,
-      this._paginator.page,
-      this._sort.sortChange
-    ];
-
-    return merge(...displayDataChanges).pipe(
-      map(() => {
-        const data = this.getSortedData();
-
-        // Grab the page's slice of data.
-        const startIndex = this._paginator.pageIndex * this._paginator.pageSize;
-        return data.splice(startIndex, this._paginator.pageSize);
-      })
-    );
-  }
-
-  disconnect() {}
-
-  /** Returns a sorted copy of the database data. */
-  getSortedData(): UserData[] {
-    const data = this._exampleDatabase.data.slice();
-    if (!this._sort.active || this._sort.direction === '') { return data; }
-
-    return data.sort((a, b) => {
-      let propertyA: number|string = '';
-      let propertyB: number|string = '';
-
-      switch (this._sort.active) {
-        case 'userId': [propertyA, propertyB] = [a.id, b.id]; break;
-        case 'userName': [propertyA, propertyB] = [a.name, b.name]; break;
-        case 'progress': [propertyA, propertyB] = [a.progress, b.progress]; break;
-        case 'color': [propertyA, propertyB] = [a.color, b.color]; break;
-      }
-
-      const valueA = isNaN(+propertyA) ? propertyA : +propertyA;
-      const valueB = isNaN(+propertyB) ? propertyB : +propertyB;
-
-      return (valueA < valueB ? -1 : 1) * (this._sort.direction === 'asc' ? 1 : -1);
-    });
-  }
-}
+const ELEMENT_DATA: Element[] = [
+  {position: 1, name: 'Hydrogen', weight: 1.0079, symbol: 'H'},
+  {position: 2, name: 'Helium', weight: 4.0026, symbol: 'He'},
+  {position: 3, name: 'Lithium', weight: 6.941, symbol: 'Li'},
+  {position: 4, name: 'Beryllium', weight: 9.0122, symbol: 'Be'},
+  {position: 5, name: 'Boron', weight: 10.811, symbol: 'B'},
+  {position: 6, name: 'Carbon', weight: 12.0107, symbol: 'C'},
+  {position: 7, name: 'Nitrogen', weight: 14.0067, symbol: 'N'},
+  {position: 8, name: 'Oxygen', weight: 15.9994, symbol: 'O'},
+  {position: 9, name: 'Fluorine', weight: 18.9984, symbol: 'F'},
+  {position: 10, name: 'Neon', weight: 20.1797, symbol: 'Ne'},
+  {position: 11, name: 'Sodium', weight: 22.9897, symbol: 'Na'},
+  {position: 12, name: 'Magnesium', weight: 24.305, symbol: 'Mg'},
+  {position: 13, name: 'Aluminum', weight: 26.9815, symbol: 'Al'},
+  {position: 14, name: 'Silicon', weight: 28.0855, symbol: 'Si'},
+  {position: 15, name: 'Phosphorus', weight: 30.9738, symbol: 'P'},
+  {position: 16, name: 'Sulfur', weight: 32.065, symbol: 'S'},
+  {position: 17, name: 'Chlorine', weight: 35.453, symbol: 'Cl'},
+  {position: 18, name: 'Argon', weight: 39.948, symbol: 'Ar'},
+  {position: 19, name: 'Potassium', weight: 39.0983, symbol: 'K'},
+  {position: 20, name: 'Calcium', weight: 40.078, symbol: 'Ca'},
+];
 
 @Component({
   selector: 'vg-grading-item-pdf-dialog',
@@ -228,8 +179,6 @@ export class GradingItemPDFDialogComponent implements OnInit, OnDestroy {
   private _numPages = 6;
 
   private _currentMode: string;
-  private _fileExplorerOpen = false;
-  private _sideNavOpen = true;
 
   private _scores: ScoreItem[] = [
     {
@@ -274,13 +223,12 @@ export class GradingItemPDFDialogComponent implements OnInit, OnDestroy {
 
   constructor (
     private _svgService: SvgService,
-    public dialog: MatDialog
+    public dialog: MatDialog,
   ) {
-
   }
 
   ngOnInit () {
-    takeUntil.call(this._svgService.mode, this._destroy).subscribe((newMode) => this._currentMode = newMode);
+    this._svgService.mode.pipe(takeUntil(this._destroy)).subscribe((newMode) => this._currentMode = newMode);
   }
 
   ngOnDestroy() {
@@ -326,12 +274,12 @@ export class GradingItemPDFDialogComponent implements OnInit, OnDestroy {
 
   addScore () {
     const dialogRef = this.dialog.open(ScoringItemDialogComponent);
-    takeUntil.call(dialogRef.afterClosed(), this._destroy).subscribe(result => {
+    dialogRef.afterClosed().pipe(takeUntil(this._destroy)).subscribe(result => {
       if (result) {
         this._scores.push({
           score: parseFloat(result.points),
           comment: result.desc,
-          selected: false
+          selected: true
         });
       }
     });
@@ -350,7 +298,7 @@ export class GradingItemPDFDialogComponent implements OnInit, OnDestroy {
     const dialogRef = this.dialog.open(ScoringItemDialogComponent);
     dialogRef.componentInstance.desc = item.comment;
     dialogRef.componentInstance.points = item.score;
-    takeUntil.call(dialogRef.afterClosed(), this._destroy).subscribe(result => {
+    dialogRef.afterClosed().pipe(takeUntil(this._destroy)).subscribe(result => {
       if (result) {
         this._scores[idx].score = result.points;
         this._scores[idx].comment = result.desc;
@@ -364,28 +312,8 @@ export class GradingItemPDFDialogComponent implements OnInit, OnDestroy {
     }, 0) + this.adjust;
   }
 
-  toggleSideNav () {
-    this._sideNavOpen = !this._sideNavOpen;
-  }
-
-  openFileExplorer () {
-    this._fileExplorerOpen = !this._fileExplorerOpen;
-  }
-
-  closeFileExplorer () {
-    this._fileExplorerOpen = false;
-  }
-
   get modes () {
     return this._modes;
-  }
-
-  get sideNavOpen () {
-    return this._sideNavOpen;
-  }
-
-  get fileExplorerOpen () {
-    return this._fileExplorerOpen;
   }
 
   get currentMode () {

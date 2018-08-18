@@ -1,13 +1,16 @@
-import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import {NgModule} from '@angular/core';
+import {CommonModule} from '@angular/common';
 import {RouterModule} from '@angular/router';
 import {NavDrawerService} from './shared/nav-drawer.service';
 import {NospacePipe} from './shared/nospace.pipe';
 import {
-  NavDrawerContainerComponent, NavDrawerHeaderDirective, NavDrawerLinkComponent,
-  NavDrawerToggleComponent
+  NavDrawerContainerComponent,
+  NavDrawerHeaderDirective,
+  NavDrawerLinkComponent,
+  NavDrawerToggleComponent,
 } from './nav-drawer';
-import {MatButtonModule, MatIconModule} from '@angular/material';
+import {MatButtonModule} from '@angular/material/button'
+import {MatIconModule} from '@angular/material/icon';
 
 @NgModule({
   imports: [

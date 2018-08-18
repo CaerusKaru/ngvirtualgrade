@@ -23,6 +23,7 @@ query {
       id
       name
       assignments {
+        id
         name
         description
         type {
@@ -37,6 +38,7 @@ query {
       id
       name
       assignments {
+        id
         name
         description
         type {
@@ -51,6 +53,7 @@ query {
       id
       name
       assignments {
+        id
         name
         description
         type {
@@ -65,6 +68,7 @@ query {
       id
       name
       assignments {
+        id
         name
         description
         type {

@@ -1,6 +1,6 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
-import {takeUntil} from 'rxjs/operators/takeUntil';
-import {Subject} from 'rxjs/Subject';
+import {takeUntil} from 'rxjs/operators';
+import {Subject} from 'rxjs';
 import {ActivatedRoute} from '@angular/router';
 import {UserService} from '@app/shared/services';
 
@@ -14,7 +14,6 @@ export class GradingCourseComponent implements OnInit, OnDestroy {
   courses = this._userService.grading;
 
   private _course: string;
-  private _courseId: number;
   private _courses = [];
   private _destroy = new Subject<void>();
 
@@ -26,7 +25,6 @@ export class GradingCourseComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this._route.params.pipe(takeUntil(this._destroy)).subscribe(params => {
       this._course = params['course'];
-      this._courseId = +params['courseId'];
     });
     this.courses.pipe(takeUntil(this._destroy)).subscribe(data => {
       this._courses = data;
@@ -40,7 +38,7 @@ export class GradingCourseComponent implements OnInit, OnDestroy {
 
   get course() {
     return this._courses.find(a => {
-      return a.name === this._course && (!this._courseId || this._courseId === a.id);
+      return this._course === a.id;
     });
   }
 

@@ -2,14 +2,12 @@ import {Component, OnDestroy, OnInit, Optional, ViewEncapsulation} from '@angula
 import {RouterOutlet} from '@angular/router';
 import {MatDialog, MatDialogRef, MatSnackBar} from '@angular/material';
 import {NgForm} from '@angular/forms';
-import {Subject} from 'rxjs/Subject';
+import {Subject, Subscription, fromEvent} from 'rxjs';
 import {HomeMenuService} from './home-menu.service';
 import {Platform} from '@angular/cdk/platform';
-import {Subscription} from 'rxjs/Subscription';
-import {fromEvent} from 'rxjs/observable/fromEvent';
 import {AuthService, UserService} from '@app/shared/services';
 import {environment} from '@env/environment';
-import {takeUntil} from 'rxjs/operators/takeUntil';
+import {takeUntil} from 'rxjs/operators';
 import {SwUpdate} from '@angular/service-worker';
 import {WindowRef} from '@app/shared/window-ref';
 import {routerAnimation} from '@app/shared/animations';
@@ -26,7 +24,6 @@ export class HomeComponent implements OnInit, OnDestroy {
   nav$ = this._homeService.nav$;
   utln$ = this._userService.utln;
   isSideBySide = true;
-  activeLinkIndex = -1;
   adminTab = {route: '/admin', label: 'Admin', show: false};
   graderTab = {route: '/grading', label: 'Grading', show: false};
   gradesTab = {route: '/courses', label: 'Courses', show: false};

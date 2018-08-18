@@ -1,17 +1,18 @@
-import { Injectable } from '@angular/core';
-import {Observable} from 'rxjs/Observable';
+import {Injectable} from '@angular/core';
 import {Router} from '@angular/router';
-import {MatSnackBar} from '@angular/material';
-import {ReplaySubject} from 'rxjs/ReplaySubject';
-import {Apollo} from 'apollo-angular';
+import {MatSnackBar} from '@angular/material/snack-bar';
 import {HttpClient} from '@angular/common/http';
+
+import {Apollo} from 'apollo-angular';
+import {Observable, ReplaySubject} from 'rxjs';
+
 import {environment} from '@env/environment';
 import {UserService} from '@app/shared/services/user.service';
 import {AuthResponse} from '@app/shared/graphql/types/AuthResponse';
 import {CurrentUser} from '@app/shared/graphql/queries/CurrentUser';
 
 
-@Injectable()
+@Injectable({providedIn: 'root'})
 export class AuthService {
 
   private _url: string = environment.API_ENDPOINT;

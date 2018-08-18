@@ -1,8 +1,7 @@
 import { Injectable } from '@angular/core';
-import {Observable} from 'rxjs/Observable';
-import {ReplaySubject} from 'rxjs/ReplaySubject';
+import {Observable, ReplaySubject} from 'rxjs';
 
-@Injectable()
+@Injectable({providedIn: 'root'})
 export class HomeMenuService {
 
   nav$: Observable<any[]>;
@@ -58,13 +57,13 @@ export class HomeMenuService {
       return [...a, {
         type: 'toggle',
         label: d.name,
-        children: [home(d.name), ...d.assignments.reduce((b, e) => {
+        children: [home(d.id), ...d.assignments.reduce((b, e) => {
           return [...b, {
             type: 'link',
             label: e.name,
-            link: '/' + mode + '/' + d.name + '/' + e.name
+            link: '/' + mode + '/' + d.id + '/' + e.id
           }];
-        }, []), ...options(d.name)]
+        }, []), ...options(d.id)]
       }];
     }, []);
 

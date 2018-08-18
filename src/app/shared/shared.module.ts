@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import {FlexLayoutModule} from '@angular/flex-layout';
+import {ADD_FLEX_STYLES, FlexLayoutModule} from '@angular/flex-layout';
 import {FormsModule} from '@angular/forms';
 import {CardButtonModule} from '../card-button';
 import {ColorNameModule} from '../color-name';
@@ -19,6 +19,7 @@ import {WindowRef} from '@app/shared/window-ref';
   providers: [
     HomeMenuService,
     WindowRef,
+    {provide: ADD_FLEX_STYLES, useValue: true},
   ],
   exports: [
     SortByPipe,

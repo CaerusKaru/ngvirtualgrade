@@ -3,8 +3,8 @@ import {
 } from '@angular/core';
 import {SVGInterface} from '../shared/svg.interface';
 import {SvgService} from '../shared/svg.service';
-import {Subject} from 'rxjs/Subject';
-import {takeUntil} from 'rxjs/operators/takeUntil';
+import {Subject} from 'rxjs';
+import {takeUntil} from 'rxjs/operators';
 
 @Component({
   selector: 'svg:svg[svgText]',

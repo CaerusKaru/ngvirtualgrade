@@ -1,11 +1,10 @@
 import { Injectable } from '@angular/core';
 import {CanLoad, Route, Router} from '@angular/router';
-import { Observable } from 'rxjs/Observable';
-import {take} from 'rxjs/operators/take';
-import {map} from 'rxjs/operators/map';
+import { Observable } from 'rxjs';
+import {take, map} from 'rxjs/operators';
 import {AuthService} from '@app/shared/services';
 
-@Injectable()
+@Injectable({providedIn: 'root'})
 export class CanLoadCourses implements CanLoad {
 
   constructor (
@@ -30,7 +29,7 @@ export class CanLoadCourses implements CanLoad {
   }
 }
 
-@Injectable()
+@Injectable({providedIn: 'root'})
 export class CanLoadGrading implements CanLoad {
 
   constructor (
@@ -55,7 +54,7 @@ export class CanLoadGrading implements CanLoad {
   }
 }
 
-@Injectable()
+@Injectable({providedIn: 'root'})
 export class CanLoadAdmin implements CanLoad {
 
   constructor (
@@ -80,7 +79,7 @@ export class CanLoadAdmin implements CanLoad {
   }
 }
 
-@Injectable()
+@Injectable({providedIn: 'root'})
 export class CanLoadManage implements CanLoad {
 
   constructor (

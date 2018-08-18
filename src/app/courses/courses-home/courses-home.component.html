@@ -3,7 +3,7 @@
   <div fxLayout="column" fxLayoutGap="25px">
     <div *ngFor="let course of courses | async">
       <card-button [color]="course.name" [left]="true">
-        <div [routerLink]="course.name" fxFlex fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="40px">
+        <div [routerLink]="course.id" fxFlex fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="40px">
           <div fxLayout="column" fxLayoutGap="5px" fxLayoutAlign="center center">
             <div class="mat-caption">
               Name
@@ -40,7 +40,7 @@
   <div fxLayout="column" fxLayoutGap="25px">
     <div *ngFor="let course of inCourses | async">
       <card-button [color]="course.name" [left]="true">
-        <div [routerLink]="course.name" fxFlex fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="40px">
+        <div [routerLink]="course.id" fxFlex fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="40px">
           <div fxLayout="column" fxLayoutGap="5px" fxLayoutAlign="center center">
             <div class="mat-caption">
               Name

@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import {Apollo} from 'apollo-angular';
 import {AddAssignment} from '@app/shared/graphql/mutations/AddAssignment';
 
-@Injectable()
+@Injectable({providedIn: 'root'})
 export class AdminService {
 
   constructor(

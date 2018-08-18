@@ -14,14 +14,14 @@ $background: (
   hover:      rgba(black, 0.04), // TODO(kara): check style with Material Design UX
   card:       white,
   dialog:     white,
-  disabled-button: $black-12-opacity,
+  disabled-button: rgba(black, 0.12),
   raised-button: white,
-  focused-button: $black-6-opacity,
+  focused-button: $dark-focused,
   selected-button: map_get($mat-grey, 300),
   selected-disabled-button: map_get($mat-grey, 400),
   disabled-button-toggle: map_get($mat-grey, 200),
   unselected-chip: map_get($mat-grey, 300),
-  disabled-list-option: black,
+  disabled-list-option: map_get($mat-grey, 200),
 );
 
 $pdf-dark-background: (
@@ -31,14 +31,14 @@ $pdf-dark-background: (
   hover:      rgba(white, 0.04), // TODO(kara): check style with Material Design UX
   card:       map_get($mat-blue-grey, 800),
   dialog:     map_get($mat-grey, 800),
-  disabled-button: $white-12-opacity,
+  disabled-button: rgba(white, 0.12),
   raised-button: map-get($mat-blue-grey, 800),
-  focused-button: $white-6-opacity,
+  focused-button: $light-focused,
   selected-button: map_get($mat-grey, 900),
   selected-disabled-button: map_get($mat-blue-grey, 800),
   disabled-button-toggle: black,
   unselected-chip: map_get($mat-blue-grey, 700),
-  disabled-list-option: black,
+  disabled-list-option: map_get($mat-grey, 200),
 );
 
 @function md-app-theme($primary, $accent, $warn, $background, $foreground) {
@@ -69,9 +69,7 @@ $theme: md-app-theme($primary, $accent, $warn, $background, $mat-light-theme-for
 }
 
 .dark-theme {
-
-  $dark-theme: md-app-dark-theme($primary, $accent, $warn, $mat-dark-theme-background, $mat-dark-theme-foreground);
-
+  $dark-theme: mat-dark-theme($primary, $accent, $warn);
   @include angular-material-theme($dark-theme);
   @include nav-drawer-theme($dark-theme);
 }

@@ -7,6 +7,7 @@ import {ModuleMapLoaderModule} from '@nguniversal/module-map-ngfactory-loader';
 import {NoopAnimationsModule} from '@angular/platform-browser/animations';
 import {UniversalInterceptor} from '@app/shared/interceptors';
 import {GraphQLServerModule} from '@app/graphql.server.module';
+import {FlexLayoutServerModule} from '@angular/flex-layout/server';
 
 @NgModule({
   imports: [
@@ -16,6 +17,7 @@ import {GraphQLServerModule} from '@app/graphql.server.module';
     ModuleMapLoaderModule,
     ServerTransferStateModule,
     GraphQLServerModule,
+    FlexLayoutServerModule,
   ],
   providers: [{
     provide: HTTP_INTERCEPTORS,

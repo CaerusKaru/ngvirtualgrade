@@ -1,10 +1,10 @@
 <div fxFlex class="md-padding" fxLayout="column" fxLayoutGap="20px">
   <div fxLayout="row" fxLayoutAlign="start center">
     <a mat-icon-button routerLink="../" title="Back button"><mat-icon>arrow_back</mat-icon></a>
-    <h2 class="mat-heading">Assignment: {{id}}</h2>
+    <h2 class="mat-heading">Assignment: {{name}}</h2>
   </div>
   <div fxLayout="row">
-    <mat-card [colorName]="id" [borderBottom]="true">
+    <mat-card [colorName]="name" [borderBottom]="true">
       <div fxFlex fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="20px">
         <div fxLayout="column" fxLayoutGap="10px" fxLayoutAlign="center center">
           <span class="mat-caption">Publish Grades</span>

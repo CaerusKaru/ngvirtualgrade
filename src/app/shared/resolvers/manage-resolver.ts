@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
 import {ActivatedRouteSnapshot, Resolve} from '@angular/router';
-import {Observable} from 'rxjs/Observable';
+import {Observable} from 'rxjs';
 import {HomeMenuService} from '@app/home/home-menu.service';
 import {UserService} from '@app/shared/services';
 
-@Injectable()
+@Injectable({providedIn: 'root'})
 export class ManageResolver implements Resolve<boolean> {
 
   private _courses = this._userService.manage;

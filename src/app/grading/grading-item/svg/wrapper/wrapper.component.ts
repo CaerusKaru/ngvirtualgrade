@@ -5,8 +5,8 @@ import {
 import {LineComponent} from '../line/line.component';
 import {SvgService} from '../shared/svg.service';
 import {TextComponent} from '../text/text.component';
-import {takeUntil} from 'rxjs/operators/takeUntil';
-import {Subject} from 'rxjs/Subject';
+import {takeUntil} from 'rxjs/operators';
+import {Subject} from 'rxjs';
 
 @Component({
   selector: 'svg-wrapper',
@@ -221,11 +221,8 @@ export class WrapperComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   trace (evt) {
-    const x = (evt.clientX - this.absPosX) ||
-      (evt.originalEvent.touches[0].clientX - evt.originalEvent.touches[0].clientX - this.absPosX);
-    const y = (evt.clientY - this.absPosY) ||
-      (evt.originalEvent.touches[0].clientY - evt.originalEvent.touches[0].clientY - this.absPosY);
-
+    const x = evt.pageX;
+    const y = evt.pageY;
     const size = parseFloat(this.currentSize);
     const color = this.currentColor;
 

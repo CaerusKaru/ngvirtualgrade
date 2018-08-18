@@ -1,6 +1,6 @@
 @import 'theme';
 
-body, html, mat-sidenav-container {
+body, html, mat-sidenav-container, mat-drawer-container {
   margin: 0;
   width: 100%;
   height: 100%;
@@ -14,23 +14,13 @@ html, body, button, select, textarea {
   padding: 16px;
 }
 
-.mat-dialog-container {
-  max-width: none !important;
-  padding: 0 !important;
+mat-dialog-container.mat-dialog-container {
+  padding: 0;
 }
 
-.mat-tab-body-wrapper {
-  flex-grow: 1 !important;
-}
-
-.cdk-focus-trap-content {
-  width: 100%;
-  height: 100%;
-}
-
-.mat-dialog-content {
-  padding: 0 !important;
-  max-height: none !important;
+mat-dialog-content.mat-dialog-content {
+  padding: 0;
+  max-height: initial;
 }
 
 .mat-toolbar-layout {

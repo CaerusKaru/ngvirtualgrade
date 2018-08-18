@@ -1,8 +1,7 @@
 import {Component, ElementRef, OnDestroy, OnInit, ViewChild} from '@angular/core';
-import {Subject} from 'rxjs/Subject';
+import {Subject} from 'rxjs';
 import {ActivatedRoute} from '@angular/router';
-import {takeUntil} from 'rxjs/operators/takeUntil';
-import {map} from 'rxjs/operators/map';
+import {takeUntil, map} from 'rxjs/operators';
 import {MatDialog, MatDialogRef} from '@angular/material';
 import {UserService} from '@app/shared/services';
 import {Course} from '@app/shared/classes';
@@ -20,7 +19,6 @@ export class CoursesCourseComponent implements OnInit, OnDestroy {
   inactive = this._userService.courses.pipe(map(v => v.filter(a => !this._userService.isTerm(a.term))));
 
   private _course: string;
-  private _courseId: number;
   private _courses = [];
   private _inactive = [];
   private _destroy = new Subject<void>();
@@ -34,7 +32,6 @@ export class CoursesCourseComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this._route.params.pipe(takeUntil(this._destroy)).subscribe(params => {
       this._course = params['course'];
-      this._courseId = +params['courseId'];
     });
     this.courses.pipe(takeUntil(this._destroy)).subscribe(data => {
       this._courses = data;
@@ -51,10 +48,10 @@ export class CoursesCourseComponent implements OnInit, OnDestroy {
 
   get course(): Course {
     return this._courses.find(a => {
-        return a.name === this._course && (!this._courseId || this._courseId === a.id);
+        return this._course === a.id;
       }) ||
       this._inactive.find(a => {
-        return a.name === this._course && (!this._courseId || this._courseId === a.id);
+        return this._course === a.id;
       });
   }
 

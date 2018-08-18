@@ -7,8 +7,7 @@
         </button>
       </div>
       <span fxLayoutAlign="space-around center" fxFlexOffset="30px">
-        <a routerLink=""
-           (click)="activeLinkIndex = 0">
+        <a routerLink="">
           <img src="../assets/logo.png"
                alt="logo for virtual grade"
                height="13"
@@ -17,13 +16,14 @@
         </a>
       </span>
       <span fxFlex="30px"></span>
-      <div *ngFor="let link of navLinks; let i = index" fxLayoutAlign="center center">
+      <div *ngFor="let link of navLinks; index as i" fxLayoutAlign="center center">
         <a mat-tab-link
            *ngIf="isSideBySide && link.show"
            [routerLink]="link.route"
            routerLinkActive
            #rla="routerLinkActive"
-           [active]="rla.isActive">
+           [active]="rla.isActive"
+           [routerLinkActiveOptions]="i === 0 ? {exact: true} : {}">
           <span fxFill fxLayoutAlign="center center">{{link.label}}</span>
         </a>
       </div>
@@ -42,28 +42,28 @@
     </nav>
   </div>
   <mat-sidenav-container fxFlex>
-    <mat-sidenav #sidenav class="dark-theme mat-elevation-z16"
+    <mat-sidenav #sidenav class="mat-app-background dark-theme mat-elevation-z16"
                 [mode]="isSideBySide ? 'side' : 'over'" [opened]="isSideBySide">
-      <md-nav-drawer fxFlex class="mat-app-background drawer-size" *ngIf="nav$ | async as navs">
+      <mat-nav-drawer fxFlex class="mat-app-background drawer-size" *ngIf="nav$ | async as navs">
         <ng-container *ngFor="let nav of navs" [ngSwitch]="nav['type']">
-          <h2 mdNavDrawerHeader *ngSwitchCase="'header'">{{nav['label']}}</h2>
+          <h2 matNavDrawerHeader *ngSwitchCase="'header'">{{nav['label']}}</h2>
           <ng-container *ngFor="let child of nav['children']" [ngSwitch]="child['type']">
-            <ul mdNavDrawerToggle *ngSwitchCase="'toggle'" [label]="child['label']">
-              <li mdNavDrawerLink *ngFor="let link of child['children']" [link]="link['link']">{{link['label']}}</li>
+            <ul matNavDrawerToggle *ngSwitchCase="'toggle'" [label]="child['label']">
+              <li matNavDrawerLink *ngFor="let link of child['children']" [link]="link['link']">{{link['label']}}</li>
             </ul>
-            <a mdNavDrawerLink *ngSwitchCase="'link'" [link]="child['link']">{{child['label']}}</a>
+            <a matNavDrawerLink *ngSwitchCase="'link'" [link]="child['link']">{{child['label']}}</a>
           </ng-container>
-          <ul mdNavDrawerToggle *ngSwitchCase="'toggle'" [label]="nav['label']">
-            <li mdNavDrawerLink *ngFor="let link of nav['children']" [link]="link['link']">{{link['label']}}</li>
+          <ul matNavDrawerToggle *ngSwitchCase="'toggle'" [label]="nav['label']">
+            <li matNavDrawerLink *ngFor="let link of nav['children']" [link]="link['link']">{{link['label']}}</li>
           </ul>
           <ng-container *ngSwitchCase="'link'">
-            <a mdNavDrawerLink *ngFor="let link of nav['children']" [link]="link['link']">{{link['label']}}</a>
+            <a matNavDrawerLink *ngFor="let link of nav['children']" [link]="link['link']">{{link['label']}}</a>
           </ng-container>
         </ng-container>
         <ng-container *ngFor="let link of navLinks">
-          <a mdNavDrawerLink [link]="link.route" *ngIf="!isSideBySide && link.show">{{link.label}}</a>
+          <a matNavDrawerLink [link]="link.route" *ngIf="!isSideBySide && link.show">{{link.label}}</a>
         </ng-container>
-      </md-nav-drawer>
+      </mat-nav-drawer>
     </mat-sidenav>
     <div [@routeAnimation]="prepRouteState(routerOutlet)" class="router-animation-container">
       <div class="router-container">

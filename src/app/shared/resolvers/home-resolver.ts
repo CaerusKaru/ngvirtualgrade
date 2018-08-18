@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
 import {ActivatedRouteSnapshot, Resolve} from '@angular/router';
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
 import {AuthService} from '@app/shared/services';
 
-@Injectable()
+@Injectable({providedIn: 'root'})
 export class HomeResolver implements Resolve<boolean> {
 
   constructor(

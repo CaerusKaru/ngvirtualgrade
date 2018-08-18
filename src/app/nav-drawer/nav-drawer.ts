@@ -1,11 +1,21 @@
 import {
-  Component, Input, ViewEncapsulation, QueryList, OnDestroy, ContentChildren, AfterViewInit, ElementRef, Renderer2,
-  ChangeDetectionStrategy, ChangeDetectorRef, Directive
+  Component,
+  Input,
+  ViewEncapsulation,
+  QueryList,
+  OnDestroy,
+  ContentChildren,
+  AfterViewInit,
+  ElementRef,
+  Renderer2,
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Directive,
 } from '@angular/core';
 import {NavDrawerService} from './shared/nav-drawer.service';
 import {animate, style, transition, state, trigger} from '@angular/animations';
-import {Observable} from 'rxjs/Observable';
-import {map} from 'rxjs/operators/map';
+import {Observable} from 'rxjs';
+import {map} from 'rxjs/operators';
 
 let uniqueId = 0;
 
@@ -14,7 +24,7 @@ let uniqueId = 0;
     '[attr.id]': 'id',
     '[class.nav-link]': 'true'
   },
-  selector: 'li[mdNavDrawerLink], a[mdNavDrawerLink]',
+  selector: 'li[matNavDrawerLink], a[matNavDrawerLink]',
   templateUrl: './nav-drawer-link.html',
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush
@@ -37,7 +47,7 @@ export class NavDrawerLinkComponent implements AfterViewInit {
   host: {
     '[class.mat-nav-drawer-toggle]': 'true'
   },
-  selector: 'ul[mdNavDrawerToggle]',
+  selector: 'ul[matNavDrawerToggle]',
   templateUrl: './nav-drawer-toggle.html',
   animations: [
     trigger('toggleExpansion', [
@@ -80,7 +90,7 @@ export class NavDrawerToggleComponent implements AfterViewInit, OnDestroy {
 }
 
 @Directive({
-  selector: '[mdNavDrawerHeader]',
+  selector: '[matNavDrawerHeader]',
   host: {
     '[class.mat-nav-drawer-header]': 'true',
     '[class.md-subhead]': 'true'
@@ -94,7 +104,7 @@ export class NavDrawerHeaderDirective { }
     '[attr.hide-print]': 'true',
     'role': 'navigation'
   },
-  selector: 'md-nav-drawer',
+  selector: 'mat-nav-drawer',
   template: '<ng-content></ng-content>',
   styleUrls: ['./nav-drawer.scss'],
   encapsulation: ViewEncapsulation.None,

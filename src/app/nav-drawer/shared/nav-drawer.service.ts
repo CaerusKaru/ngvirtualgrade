@@ -1,11 +1,10 @@
 import {Injectable} from '@angular/core';
-import {BehaviorSubject} from 'rxjs/BehaviorSubject';
-import {Observable} from 'rxjs/Observable';
+import {BehaviorSubject, Observable} from 'rxjs';
 import {NavigationEnd, Router} from '@angular/router';
 import {Location} from '@angular/common';
-import {filter} from 'rxjs/operators/filter';
+import {filter} from 'rxjs/operators';
 
-@Injectable()
+@Injectable({providedIn: 'root'})
 export class NavDrawerService {
 
   openPage: Observable<number>;

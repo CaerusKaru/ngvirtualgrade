@@ -12,5 +12,5 @@
 <ul id="nav-drawer-{{label | nospace}}" class="mat-nav-drawer-toggle-list"
     [ngClass]="{'nav-drawer-toggle-open': isOpen | async}"
     [@toggleExpansion]="(isOpen | async) ? 'expanded' : 'collapsed'">
-  <ng-content select="[mdNavDrawerLink]"></ng-content>
+  <ng-content select="[matNavDrawerLink]"></ng-content>
 </ul>
